@@ -1,0 +1,375 @@
+Sampling (Pt. 1)
+========================================================
+author: Rebekah Robinson and Homer White, Georgetown College
+transition:  none
+transition-speed:  fast
+navigation: slide
+
+In Part 1:
+============
+id: Contents
+
+- [Population vs.Sample](#/popsamp)
+- [Using Chance to Sample](#probability)
+- [Simple Random Sampling](#/srs)
+- [Stratified Sampling](#/strat)
+- [Cluster Sampling](#/cluster)
+
+Load Packages
+================
+
+Always remember to make sure the necessary packages are loaded:
+
+```{r message=F}
+require(mosaic)
+require(tigerstats)
+```
+
+Population vs. Sample
+===================
+type:  section
+id:  popsamp
+
+
+[Back to Contents](#/Contents)
+
+Definitions
+===============
+type:  prompt
+
+  >The *population* is the set of all items of interest.
+  
+  >The *sample* is the subset of the population for which we have data.
+  
+Parameters
+===========
+type:  prompt
+
+  >A *parameter* is a number that you could compute if you knew the entire population.
+  
+Suppose the population is **all adults**.
+
+Examples of parameters:
+
+* The mean height $\mu$ of the population
+* The standard deviation $\sigma$ of the heights
+* The proportion $p$ of the population that plays tennis
+
+Statistics
+===========
+type:  prompt
+
+  >A *statistic* is a number that you can compute from your sample data.
+  
+Suppose that we have a sample from the population of all adults.  Examples of statistics:
+
+* The sample mean $\bar{x}$ of the heights
+* The sample standard deviation $s$ of the heights
+* The sample proportion $\hat{p}$ of the population that plays tennis
+    * Note:  $\hat{p}$ is the number $X$ in the sample who play tennis, divided by the sample size $n$.
+    
+Basic Ideas
+==============
+
+* The parameters are fixed, but we don't know them
+* The statistics depend on the sample
+* We use statistics to estimate parameters.  That is, we hope that:
+    * $\bar{x} \approx \mu$
+    * $s \approx \sigma$
+    * $\hat{p} \approx p$
+    
+Caveat
+===========
+
+  >For the approximations to be good, the sample should be *representative* of the population.
+  
+So we should employ methods of sampling for which the sample is likely to be representative of the population.
+
+Using Chance to Sample
+===================
+type:  section
+id:  probability
+
+[Back to Contents](#/Contents)
+
+How do we get a representative sample?
+
+Volunteer Sample
+=================
+
+Should we let potential subjects choose whether or not to be in the sample?
+
+  >This is called a *volunteer* sample.
+
+**Example**:  When conducting an opinion survey on food in the Cafe, you leave forms at the entrance for people to fill out.
+
+
+Problem!
+=============
+
+The volunteers might differ from the general population in some important way.
+
+  >In our example, the students who take the time to fill out the survey might have stronger opinions (one way or another) than those who don't bother.
+  
+Researcher Judgement Sample
+=========================
+
+Should the researchers decide who gets into the sample?
+
+Example:  *Quota* sampling in the 1948 U.S. presidential elections.
+
+Problem:
+======================
+
+When researchers use their own judgement to decide on the sample, they could (intentionally or unintentionally) choose an unrepresentative sample.
+
+In the 1948 quota sampling, pollsters ended up interviewing "approachable" folks, who turned out to be wealthier than average, thus biasing poll results toward the Republican candidate.
+
+But ...
+============
+
+* if you can't let subjects decide whether to be in the sample,
+* and you can't let researchers decide who should be in the sample ...
+
+... then what should decide who gets into the sample?
+
+Surprising Answer
+===================
+
+  *Let chance decide who gets into the sample!*
+  
+We should use some form of *random sampling*.  That is, we should use chance in a controlled, quantifiable way.
+
+Simple Random Sampling
+=========================
+type:  section
+id:  srs
+
+[Back to Contents](#/Contents)
+
+Simple Random Sampling
+=====================
+type:  prompt
+
+There are many types of random sampling.  The one we will think about the most is *simple random sampling.*
+
+Suppose you are planning to take a sample of size $n$ from a population. If you take the sample so that
+
+  >every set of $n$ subjects in the population has the same chance to be the sample selected
+  
+then you are doing *simple random sampling* (SRS).
+
+SRS is Like ...
+=========================
+
+Having a box full of tickets, one for each member of the population.
+
+*  You randomly pick out one ticket ...
+* and set it aside ...
+* then randomly pick out another ticket
+* and set it aside ...
+* ... and so on until you have drawn $n$ tickets.
+
+(You draw $n$ tickets at random from the box, **without** replacement.)
+
+SRS Works Amazingly Well ...
+==============================
+
+... especially when the sample size $n$ is large.
+
+Try this app:
+
+```{r eval=FALSE}
+require(manipulate)
+SimpleRandom()
+```
+
+
+Stratified Sampling
+===================
+type:  section
+id:  strat
+
+[Back to Contents](#/Contents)
+
+What if Sample Size is Small?
+======================
+
+Distribution of **sex** in `imagpop`:
+
+```{r}
+rowPerc(xtabs(~sex,
+          data=imagpop))
+```
+
+Take a Sample ...
+======================
+
+... of size $n=10$:
+
+```{r eval=FALSE}
+popsamp(imagpop,n=10)
+```
+
+Try several times:
+
+```{r eval=FALSE}
+mysample <- popsamp(imagpop,n=10)
+rowPerc(xtabs(~sex,data=mysample))
+```
+
+Are you always pleased with the results?
+
+Stratified Sampling
+=====================
+type:  prompt
+
+To get sample "right" (at least with respect to a few variables):
+
+* break the population into homogeneuous groups called *strata*
+* use SRS to sample a set number from each stratum
+
+Example
+===========
+
+A small, imaginary population:
+
+```{r eval=FALSE}
+data(FakeSchool)
+View(FakeSchool)
+```
+
+Say you only have time to sample 7 of these 28 students.  You plan to ask them questions about academic life, so you want the sample to exactly resemble the population with respect to the variable **Honors**.
+
+Stratified Sampling Procedure
+==============================
+
+You construct two strata:
+
+**First Stratum**:  All the Honors Students
+
+```{r eval=F}
+honors <- subset(FakeSchool,Honors=="Yes")
+honors
+```
+
+```{r echo=FALSE}
+honors <- subset(FakeSchool,Honors=="Yes")
+```
+
+Stratified Sampling Procedure
+==============================
+
+**Second Stratum**:  All the non-Honors Students
+
+```{r eval=F}
+nonhonors <- subset(FakeSchool,Honors=="No")
+nonhonors
+```
+
+```{r echo=FALSE}
+nonhonors <- subset(FakeSchool,Honors=="No")
+```
+
+Stratified Sampling Procedure
+==============================
+
+In the population, there are:
+
+* 12 Honors students
+* 16 non-Honors students
+
+So in the sample of size 7 you want:
+
+* 3 Honors students
+* 4 non-Honors students
+
+because
+
+$$\frac{3}{12}=\frac{4}{16}.$$
+
+Stratified Sampling Procedure
+==============================
+
+Sample the three Honors students by SRS:
+
+```{r}
+set.seed(1837)
+popsamp(honors,n=3)
+```
+
+
+Stratified Sampling Procedure
+==============================
+
+Sample the four non-Honors students by SRS:
+
+```{r}
+set.seed(17365)
+popsamp(nonhonors,n=4)
+```
+
+Combine the two samples to get your stratified sample!
+
+Advantage
+=================
+
+Stratified sampling is more accurate than SRS, with respect to the variables that determine the strata.
+
+(This advantage is most evident at small sample sizes.)
+
+Disadvantage
+===============
+
+You have to know the population distribution of the variables that determine the strata.
+
+Cluster Sampling
+==================
+type:  section
+id:  cluster
+
+[Back to Contents](#/Contents)
+
+Possible Problem with SRS
+===================
+
+To actually take a SRS, you would have to be able to identify every subject in the population, **before** you take the sample.
+
+
+Also, the Problem of Scattered Subjects
+=============================
+
+If you are on the server, run:
+
+```{r eval=FALSE}
+source("/mat111/Additional_R_Functions/SquareSamp.R")
+```
+
+Then take a simple random sample of 10 dots out of 2500 dots equally spaced on a rectangle:
+
+```{r eval=F}
+require(shape)
+SquareSamp()
+```
+
+Cluster Sampling
+======================
+
+One way to get around these problems:
+
+* Divide the populations into disjoint subsets (*clusters*) each of which is representative of the population.
+* Sample a few of the clusters by SRS.
+* Then contact each subjects in each one of the selected clusters.
+
+This is called *cluster sampling*.
+
+Advantages of Cluster Sampling
+=====================
+
+1. Easy to get to your selected subjects.
+2. You only have to be able to identify the clusters---not everyone in the population.
+
+Disadvantages
+===================
+
+Clusters are seldom exactly like the population, so cluster samples can be quite variable.

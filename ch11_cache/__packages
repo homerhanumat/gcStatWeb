@@ -1,0 +1,13 @@
+base
+car
+datasets
+graphics
+grDevices
+grid
+knitr
+lattice
+methods
+mosaic
+stats
+tigerstats
+utils
