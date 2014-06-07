@@ -1,51 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <?php include("includes/head.html"); ?>
-    <title>GC Stats</title>
-  </head>
+    <head>
+        <?php include("includes/head.html"); ?>
+        <title>GC Stats</title>
+    </head>
 
-  <body>
-    <?php include("includes/navbarmain.html"); ?>
+    <body>
+        <?php include("includes/navbarmain.html"); ?>
 
-    <div class="container">
+        <div class="container">
 
-      <div class="row row-offcanvas row-offcanvas-right">
+            <div class="row row-offcanvas row-offcanvas-right">
 
-        <div class="col-xs-12 col-sm-9">
-          <p class="pull-right visible-xs">
-            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
-          </p>
+                <div class="col-xs-12 col-sm-9">
+                    <p class="pull-right visible-xs">
+                        <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+                    </p>
 
-         <div class="jumbotron">
-          <img id="imgDisp" src="images/EmpRuleBetween95.png" style="float:  right; width: 35%;"
-              onmouseover="this.src='images/EmpRuleOutside95.png';"
-              onmouseout="this.src='images/EmpRuleBetween95.png';">
-            <h1> GC Statistics</h1>
-            <p>Resources for Statisticd at Georgetown College</p>
-          </div>
+                    <div class="jumbotron">
+                        <img id="imgDisp" src="images/EmpRuleBetween95.png" style="float:  right; width: 35%;"
+                            onmouseover="this.src='images/EmpRuleOutside95.png';"
+                            onmouseout="this.src='images/EmpRuleBetween95.png';">
+                        <h1> GC Statistics</h1>
+                        <p>Resources for Statistics at Georgetown College</p>
+                    </div>
           
 
-<?php include("includes/index_content.html"); ?>
+                    <?php include("includes/index_content.html"); ?>
 
-        </div><!--/col-xs-12 -->
+                </div><!--/col-xs-12 -->
 
-       <?php include("includes/sidebar.html"); ?>
+                <?php include("includes/sidebar.html"); ?>
 
-      </div><!-- /row -->
+            </div><!-- /row -->
 
-      <hr>
+            <hr>
 
-<?php include("includes/footer.html"); ?>
-
-
-
-</div><!--/.container-->
+            <?php include("includes/footer.html"); ?>
 
 
 
-<?php include("includes/script_loads.html"); ?>
+        </div><!--/.container-->
+
+
+
+        <?php include("includes/script_loads.html"); ?>
     
-  </body>
+    </body>
 </html>

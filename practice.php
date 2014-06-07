@@ -17,7 +17,7 @@
             <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
           </p>
           <div class="jumbotron">
-          <img id="imgDisp" src="images/EmpRuleBetween95.png" style="float:  right; width: 35%;"
+            <img id="imgDisp" src="images/EmpRuleBetween95.png" style="float:  right; width: 35%;"
               onmouseover="this.src='images/EmpRuleOutside95.png';"
               onmouseout="this.src='images/EmpRuleBetween95.png';">
             <h1> GC Statistics</h1>
@@ -25,25 +25,25 @@
           </div>
           
 
-<?php include("includes/practice_content.html"); ?>
+          <?php include("includes/practice_content.html"); ?>
 
         </div><!--/col-xs-12 -->
 
-       <?php include("includes/sidebar.html"); ?>
+        <?php include("includes/sidebar.html"); ?>
 
       </div><!-- /row -->
 
       <hr>
 
-<?php include("includes/footer.html"); ?>
+      <?php include("includes/footer.html"); ?>
 
 
 
-</div><!--/.container-->
+    </div><!--/.container-->
 
 
 
-<?php include("includes/script_loads.html"); ?>
+    <?php include("includes/script_loads.html"); ?>
     
   </body>
 </html>
