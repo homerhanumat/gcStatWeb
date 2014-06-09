@@ -4,6 +4,24 @@
     <head>
         <?php include("includes/head.html"); ?>
         <title>GC Stats</title>
+        
+        <script type="text/javascript">
+            
+            var current = 0;
+            var img = [
+                "images/EmpRuleBetween68.png",
+                "images/EmpRuleOutside68.png",
+                "images/EmpRuleBetween95.png",
+                "images/EmpRuleOutside95.png",
+                "images/EmpRuleBetween99.png",
+                "images/EmpRuleOutside99.png"
+                ];
+            
+            function changeImage(){
+                current = ((current +1) % 6);
+                document.getElementById("EmpRuleIcon").src=img[current];
+            };
+        </script>
     </head>
 
     <body>
@@ -19,9 +37,8 @@
                     </p>
 
                     <div class="jumbotron">
-                        <img id="imgDisp" src="images/EmpRuleBetween95.png" style="float:  right; width: 35%;"
-                            onmouseover="this.src='images/EmpRuleOutside95.png';"
-                            onmouseout="this.src='images/EmpRuleBetween95.png';">
+                        <img id="EmpRuleIcon" src="images/EmpRuleBetween68.png" style="float:  right; width: 35%;"
+                            onclick="changeImage();"/>
                         <h1> GC Statistics</h1>
                         <p>Resources for Statistics at Georgetown College</p>
                     </div>

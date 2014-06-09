@@ -38,3 +38,9 @@ background: black ! important;
 color: #ff9c00 ! important;
 border: 2px #ff9c00;
 }
+
+/* for the main icon, to invite reader to click */
+
+#EmpRuleIcon:hover {
+   cursor:  pointer;
+}
