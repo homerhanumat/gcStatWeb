@@ -1,0 +1,16 @@
+{
+    "contents" : "<!DOCTYPE html>\n<html lang=\"en\">\n\n    <head>\n        <?php include(\"includes/head.html\"); ?>\n        <title>Slides</title>\n    </head>\n\n    <body>\n        <?php include(\"includes/navbarmain.html\"); ?>\n\n        <div class=\"container\">\n\n            <div class=\"row row-offcanvas row-offcanvas-right\">\n\n                <div class=\"col-xs-12 col-sm-9\">\n                    <p class=\"pull-right visible-xs\">\n                        <button type=\"button\" class=\"btn btn-primary btn-xs\" data-toggle=\"offcanvas\">Toggle nav</button>\n                    </p>\n                    <div class=\"jumbotron\">\n                        <img id=\"imgDisp\" src=\"images/EmpRuleBetween95.png\" style=\"float:  right; width: 35%;\"\n                            onmouseover=\"this.src='images/EmpRuleOutside95.png';\"\n                            onmouseout=\"this.src='images/EmpRuleBetween95.png';\">\n                        <h1> GC Statistics</h1>\n                        <p>R Presentations</p>\n                    </div>\n          \n\n                    <?php include(\"includes/slides_content.html\"); ?>\n\n                </div><!--/col-xs-12 -->\n\n                <?php include(\"includes/sidebar.html\"); ?>\n\n            </div><!-- /row -->\n\n            <hr>\n\n            <?php include(\"includes/footer.html\"); ?>\n\n\n\n        </div><!--/.container-->\n\n\n\n        <?php include(\"includes/script_loads.html\"); ?>\n    \n    </body>\n</html>\n",
+    "created" : 1402073475649.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1393764407",
+    "id" : "49A7709B",
+    "lastKnownWriteTime" : 1402108895,
+    "path" : "/var/www/website/slides.php",
+    "project_path" : "slides.php",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "text"
+}

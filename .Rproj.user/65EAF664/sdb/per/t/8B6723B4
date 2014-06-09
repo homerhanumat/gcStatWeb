@@ -1,0 +1,16 @@
+{
+    "contents" : "<div class=\"col-xs-6 col-sm-3 sidebar-offcanvas\" id=\"sidebar\" role=\"navigation\">\n  <div class=\"list-group\">\n    <a href=\"notes.php\" class=\"list-group-item btn btn-gc\">HTML Notes</a>\n    <a href=\"docs/booksp14.pdf\" target=\"_blank\" class=\"list-group-item btn btn-gc\">PDF Notes</a>\n    <a href=\"slides.php\" class=\"list-group-item btn btn-gc\">Slides</a>\n    <a href=\"practice.php\" class=\"list-group-item btn btn-gc\">Practice</a>\n    <a href=\"http://www.youtube.com/user/GCstats\" target=\"_blank\" class=\"list-group-item btn btn-gc\">Videos</a>\n    <a href=\"http://groups.google.com/forum/#!forum/gcstats\" target=\"_blank\" class=\"list-group-item btn btn-gc\">Discussion Board</a>\n    <a href=\"http://statistics.rainandrhino.org\" target=\"_blank\" class=\"list-group-item btn btn-gc\">Blog</a>\n    <a href=\"more.php\" class=\"list-group-item btn btn-gc\">More</a>\n  </div><!-- /list-group -->\n</div><!--/ col-xs-6 sidebar -->",
+    "created" : 1402018845227.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2867248313",
+    "id" : "8B6723B4",
+    "lastKnownWriteTime" : 1402025895,
+    "path" : "/var/www/website/includes/sidebar.html",
+    "project_path" : "includes/sidebar.html",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "html"
+}
