@@ -18,9 +18,8 @@
                         <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
                     </p>
                     <div class="jumbotron">
-                        <img id="imgDisp" src="images/EmpRuleBetween95.png" style="float:  right; width: 35%;"
-                            onmouseover="this.src='images/EmpRuleOutside95.png';"
-                            onmouseout="this.src='images/EmpRuleBetween95.png';">
+                        <img id="EmpRuleIcon" src="images/EmpRuleBetween68.png" style="float:  right; width: 35%;"
+                            onclick="changeImage();"/>
                         <h1> GC Statistics</h1>
                         <p>R Presentations</p>
                     </div>
