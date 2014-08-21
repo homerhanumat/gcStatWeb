@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=9" >
+
+<title>Probability for Sampling</title>
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 12px;
+   margin: 8px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre {	
+   margin-top: 0;
+   max-width: 95%;
+   border: 1px solid #ccc;
+   white-space: pre-wrap;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code.r, code.cpp {
+   background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+
+</style>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: rgb(88, 72, 246)
+   }
+
+   pre .number {
+     color: rgb(0, 0, 205);
+   }
+
+   pre .comment {
+     color: rgb(76, 136, 107);
+   }
+
+   pre .keyword {
+     color: rgb(0, 0, 255);
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: rgb(3, 106, 7);
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+
+<!-- MathJax scripts -->
+<script type="text/javascript" src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+
+</head>
+
+<body>
+<h1>Probability for Sampling</h1>
+
+<h2>The Population and the Sample</h2>
+
+<h3>Parameters</h3>
+
+<p>We begin by recalling our imaginary population, consisting of 10,000 individuals:</p>
+
+<pre><code class="r">data(imagpop)
+View(imagpop)
+help(imagpop)
+</code></pre>
+
+<p>Let&#39;s examine the <em>population distribution</em> of the variable <strong>height</strong> (see Figure [Imagpop Height]):  the distribution appears to be roughly normal.</p>
+
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPwAAAD8CAIAAADcyV4wAAAACXBIWXMAAAsSAAALEgHS3X78AAAgAElEQVR4nO2deVxU1f//XzMMINuwDCQICAoqLrlBAoosbqCgqSBKpp+yXPqgZuWWlqb00TSzNOtjn9RMzI3MJRUdVDTZQXIBwRIwBVkGBJFtgJn7++N+4zcBgwNzmTvLef7hY+6Ze97nNeNrDueee+77cCiKAoGgS3DZFkAgqBpieoLOQUxP0DmI6Qk6BzE9QefQHtOXlJRwOBwOh1NVVcW2li7S3NxMf4QHDx60FIaEhHA4nM8++0xerYaGBg6Hw+PxOg6u4Gm6gPaYXmfhcDiDBw8ePHiwMkE8PDw4HE5KSgpTqtQZ8rvXeAwNDbOysthWoUloZ0//4MEDDofj4uLy5ZdfOjg4ODk57dq1KyUlZeTIkaampv7+/vn5+fSZly9f9vb2NjMzs7S0HD9+fGZmJl1eWVkZERFhZWXl6ekZGxvL4XA8PDwAZGVlcTgcV1fXL7/8snfv3r179167dm1TUxNdq7a2duXKlf379zc1NR05cuSPP/5I3/vruJbiPHz4cPr06dbW1tbW1nPmzCksLESbcYs85S0IhcJhw4bx+fzQ0NBnz54B8PDwuHnzJgBvb+9jx44B+O2338aOHWtmZmZjYzN16lRt+1FR2kJxcTH9iSorK//880/6tYGBwYABA1peu7i4mJiYAJgxYwZFUY8ePTIyMtLT0/P39/f09ATg5OQklUqlUqmPjw8AOzu74cOHm5mZAXB3d6co6u7duwC4XK6lpeVrr71ma2sLYOnSpRRFSaXS8ePHA3BwcJgyZUqPHj0AfPXVVx3XkqXlZ+Dm5jbsb+jWt27d+vz5czs7Ox6PN3Xq1MDAQAB9+vSpqampr68HoKenR2uQp5w+DYC5ufmoUaMMDAwAfPDBBxRFnT9/3tnZGcDGjRsLCgpKSkpMTEw4HM6rr77q6+sLoFevXrW1tar9/+xGtNz0OTk5FEXR/3MRERFSqfTq1asAXFxcKIq6du1aYGDg5s2bKYqqrKykO0uRSHT9+nUAvXv3rqqqkkqlS5cubWV6AImJiRRFPXjwQE9Pz9DQ8Pnz53Qte3v7yspKiqKuXLkCwMLCQiKRdFBL9iN00Pdv3bp1165dABYsWCASiUQiUUBAAIDjx4/Lmr4D5S2mv379OkVR3377LYCxY8fSTbu7uwNITk6mKEooFNJf0V9//UVR1IoVK0JDQ//8809V/U92O9o5vKGxt7d3c3MD4OjoCGDcuHEcDod+3dzcDMDPz2/79u01NTXjxo1zdHSkC5ubm3///XcAr776qrm5OYfDWbRoUavI1tbWo0ePBuDi4jJkyBCxWPznn3/euXMHwLRp0ywsLOjm7O3tq6qq6EGIvFrtKpd1WHBwMF1I/3IOHDhgY2NjY2MTHx8PIDc3V7biC5VzudyxY8cCGDZsGIC6urq2rY8cOdLJySkvL8/Jyenll1/mcrnbtm1zdXVV5DvXCLT5QrbV9Fzb2brExEQ/Pz8+n//GG29ERkYuWbKkvLwcQGNjIwA9PT15FSUSCUVRHA4Hf/9+AFBtlu5xuVz65A5qKQ6t6t133w0JCWkp7N27d9tzOlBOT4m2aGsXgUBw//79EydOnDlzRigU7ty585tvvrl586aSE0Tqgzb39C/k1KlTEolk0aJFO3fuHDVqVEVFBV1O/3349ddfa2pqABw4cKBVxcrKyvPnzwNIT0/Pzs42NDTs37//0KFD6Vr01eG1a9ceP35sbm7u5OTUQS3F1Q4cOBBATU3NhAkTJkyYkJeXd/HiRVphCy9U3jH0T/H06dORkZGGhoY///yzSCQKDAwUi8XXrl3rVCi1hq1xFeO0HdM7OTnRb82dOxfADz/8QFGU7Fs7duwAYGpqGhISQl9cAigqKmpsbOzXrx8AR0fHkSNH0l2j7JjewMCgR48eY8aMMTY2BrBq1SqKoqRSKT3OdnR0DA4ONjIywj8vZNutJUvLmL7t8Gbr1q0ikcjS0hJAWFgYXdi3b9/q6mrZMX0HymVPoygqOTm55S2Kovz8/ACMHz/+5s2bly9fBtCjR48pU6a8+uqrBgYGXC43MzOzu/7nVI5O9/RLliyZO3cuh8PJycn58MMP6QG3UCjU19cXCoWBgYFVVVVNTU1HjhxpVdHR0XHXrl2FhYWWlpZr167dsmULAA6Hc+bMmRUrVhgYGMTHx7u5uR08eHD58uUd11Ica2vrxMTEwMDAy5cvp6WlzZs377fffqPnZ1p4oXJ5rFy50s7OLiUlpaioaPz48UePHn355ZcTEhLi4uIGDx4cExMzYsSITqlVa9j+1akjRUVFp06dunz5Mn1IXzIGBgZSf/fZ9OSP4nStVhfoQDmhBW2+kO0y9fX1s2fPbmxs/PDDD11dXel1L+Hh4WzrejGaq1ylsP2rU1OuXbvm5+dnaWlpYmIyfPjw77//XiqVUmrf01PylRNa4FDkGVmCjqHTF7IE3YSYnqBzENMTdA5ieoLOQUxP0DmI6Qk6BzE9QecgpifoHMT0BJ2DmJ6gcxDTE3QOYnqCzkFMT9A5iOkJOgcxPUHnIKYn6BzE9ASdg5ieoHMQ0xN0Do0xfVxc3HfffcdUtA0bNty7d4+paGFhYUyFampqioiIYCpaUlLSzp07mYr22WefZWRkMBVt1qxZbD2frTGmr6urazfbaNeor69nMFpLPkDlkUqllZWVTEXTkS+ts2iM6QkEpiCmJ+gcxPQEnUMz0vqVlZUJhUKRSERvnqM8d+7cMTAwaNlhSkmePHnyv//9j5FQzc3NhYWFTEXLyckpKChgKlpmZmZdXV2rbSC6DP2l0XmV5TF9+vSXXnqJkeZk0YwMZ4cOHbp+/bqnpyedq1p5RCKRubk5ve+S8hQVFdnb2zMSitlo9KWnQCBgJFp5ebmpqSm9l5byvPBjxsfHe3l5zZ8/n5HmZNGMnh7AmDFjFixYwLYKgup4/vx5N0UmY3qCzqExPT2hXYqKikpKSloV8vl8ej8SQrsQ02s27733nl1MjNE/C4UjRjB1ja6VENNrNlKpdAPQ6kI11dycHTUaAhnTE3QO0tNrBmKxOCsrq6ampqampra2tqqqytjYmOyr0zWI6TWDCRMmJCQktCrctm2bjY0NK3o0GmJ6DUAoFCYkJKxfv97X19fY2NjExMTCwiIlJWXVqlXZ2dnrgS8AZu5U6wbE9BrAxo0bnZ2d+Xz+fwIDe8qUewK/AvuAM8DXAGOL+rUdYnp1JyEhISUl5auvvqqtrV0PTPrnuw7A/4CVwCwghvheMcjsjbqzZcsWGxubhQsXyjvBE/gdGAmsBOpVqUxjIaZXa5KSkmJjY1etWmVsbNzBaYbAN8AjYJvKlGkyZHijjty5c2fhwoV8Pv/27dv6+vqxsbFCoTA3N3e//CpeQASwHXhTdTI1FWJ6daSkpOTVtLQQYDiwEdgYHw8g8EW1tgFngPUq0KfhkOGN+rIVMAWWKXy+A/ABcAR49uxZN8rSfIjp1ZRyIAZ4B7DqTK21gCOQl5enEc8GsQUxvZryG2AAvN/JWkZAFFBdXX3kyJFukaUVENOrI9XV1beB+UDPF5/bmtcBU1PTjz76qKGhgXllWgExvTpy48aNZmBRl+pyAVdX14cPH+7atYthWdoCMb06Eh8fbwOM7Gp1CwuLyZMnf/PNNxKJhElZ2gIxvdpRUFCQlZU1XLkgkZGRjx8/PnfuHDOatAtierXj2LFjAIYqF2Ty5MlOTk7ff/89I5K0DOZNT1FUZGTkuHHjgoODy8rK5JU3NTXNnTvXy8vLx8enoKCAcRmay+HDh93c3Do1U9kWLpf7xhtvxMbG/vXXX8zI0iKYN318fLxIJLp69WpoaKhsnuhW5efOndPX109JSVmyZMm2bWTNyP9x586de/fujRs3TvlQb7/9NofDOXjwoPKhtAzmTZ+QkODt7Q3Ay8srKSlJXjmfz6+urpZIJFVVVXw+n3EZGsrRo0d5PJ6fn5/yoRwcHIKCgvbt20cuZ1vB/Nqb8vLyIUOGAHByciovL5dX7u/v/9FHH/Xv318kEuXk5MhGoChq1apVsgmu/vjjjwkTJjAuVd2gKOrIkSMTJkwwZyidwcKFC6dPn37p0qUpU6YwElCVFBcXX758OTExsaWEz+dv37694/SXisC86S0tLelx5F9//WVlZSWvfMeOHZMmTdq4cWNycvIbb7wRFxfXciaHw1m+fHlzc3NLyalTp8zMzBiXqm4kJiY+evQoKiqKqYDBwcH29vbff/+9JprexsYmJCRkxowZLSU8Hk95x6M7TO/r67tv3z4AGRkZPj4+8sorKiocHR25XK5AIBCJRK2C9O7dW/bQxsZG9jegrRw5csTY2HjGjBnJycnKxJHdzmTOnDm7du3KyclxdXXV19dnQqaK4PF4NjY2ffv2ZT4y4xEDAgLOnDkTHBzM4/H279+fnZ09b968zMzMVuUURc2fP/+nn35qbm7+5ptvGJehcTQ1NcXExEydOlX5v2k1v/0W/vff2HpAAgQPGjTm9dejo6OVlqkNMG96Lpe7e/fulkNra2s6xVyrcgCxsbGMt66JFBUVicXi+Pj48vLycePG5efnFxcXKxOQD8TJHAYC9wEGt4vSdMhDJCxTVVXl5+AwHrgK9ADSFy++CdwCXmWuiYXALMBR5p6JjkNMzzISiWQ48BXQE3gNoO+gbgUYXA4/FRAADx8+ZC6kZkOWIagFZ4HnAGP7x/4TQ2A28OTJEwY369RoiOnVgh8BR4CB27ByCAekUunPP//cbS1oEsT07NMAxAFzu/M/YwjA5/OPHz/ebS1oEsT07FMINAPzurkVe3v7+Pj4J0+edHM7GgAxPfs8AkYAg7q5FUdHR6lU+ssvv3RzOxoAMT3L5OTkVAKvd39DZmZmw4YNIyMcENOzzi+//MIB5qqkrdmzZycmJpIV9sT0bCKVSmNiYl7qUtaDLjBnzhwAMTExKmlNfSE3p9jkxo0bhYWFr6ikreLi4oyMDFdX17179zo5OdGFPj4+dnZ2KmlfjSCmZ5PDhw+bmJj0qq3t7oYqgYakpMqkpOFADHA/PPwl4B7wYMuWDz/8sLtbVzfI8IY16uvrT5w4ERwcrIKOhwL6AIuArwAuwAEWAVMA3cz+R0zPGufOnauurp41a5YqG+0F+AA6PoNDTM8a0dHR9vb2jDwO2ylmA3eBbBW3qk4Q07NDeXn5xYsX58yZw+Wq+r9gFsDT7c6emJ4dfv7556ampoiIblpY2RE2gC+gy9OWZPZGpSQmJtKrX3744YeePXvm5+ffvn1b9TJmA4uBR6pvWD0gplcpy3x8ZgMA7gH9gfzw8Ao2ZNBrmLOAl9honXXI8EalmANrgNlADfAWsAaQu1Nmd+IC2AC5bDStDhDTs0AKAMCTPQEcwBPIefGJ2gkxPQukAsZK5yVWEk/gMaCbu5WwlrUYwBdffBEQEODp6Zmfn8+4DHUmBXAH2E285AlQQGFhIasq2IG1rMW///77r7/+euXKlXXr1n366aeMy1BbxMDvgBfbMjwBDvD48WO2hbAA87M3stmJZfNEtyo3MzMLDw/ncrlTp06Vzf5Hk5OTI5uc6OHDh7a2toxLZYVbgJjVAT0NH+it3j19c3NzYWHhzZs3W0qMjY0HDhyofGS5pl++fHlYWNiYMWP09PQ6FVHBrMWlpaV5eXkTJ07kcDjbt28XCAQtZ1IUdfTo0cbGxpaSrKwsLy/WO0dmoK9ivVlWAQBuwI1HjyiKYiQrKuOUlZWlpaXJ9n0GBgabNm3qxqzFlpaWy5YtKy0tnTlzZlhYmK+vL4+n0J8FBbMWm5mZNTQ0xMbGZmRkvP322xkZGS1ncjiczZs3y8Y8dOiQ1iRwTQUcgV5sywDgBlyqq8vPz3dxcWFbSzv06tUrPDx8/vz5jEeWO6bftGnT7du3k5KSXF1dP/nkEwcHh0WLFgmFwqampo4j+vr6pqWlob2sxbLlo0ePNjU15fF4VlZWUqmUoY+jAaSowdiGhh4opKSksKxD5bzgQtbKysrR0dHFxaWxsTEpKemTTz7p06fPmTNnOqgSEBBgY2MTHBx88uTJlStXZmdnjxw5sm355MmTm5ubvb29586du2fPHiY/kxrTCBSojemdAUNDw9TUVLaFqBq5I5bPP//8/PnzGRkZY8aMCQkJ2bBhQ58+fQBcu3YtIiLi1VflJhhVPGtxq0NdoBqAGkzd0HAAe3t7Yvr/T0ZGxvLlyydOnNiSLr22ttbExOSVV1759ttvVSVP26gGDAB3tmW04OjomJSUVF9fb2RkxLYW1dHO8Ka5ubm5uTklJWXatGlGRkb0YVVVFf0EsYmJieyOKIROUQ0MBdTHX46Ojk1NTbdu3WJbiEppp6fv0aMHAIlEQr9oISwsTEWitBSJRPJcbcY2NPQ2RykpKfQtFB2hHdPTk4OTJk0SCoUq16PNZGdnS9TmKpbGxMTE2dlZ14b1cmdviOMZh54cVKueHoCXl5euzVq209N7eHhs3rx5w4YNbd+SvYVE6Cypqan6gLrdB/L09Dx27FhJSYnWLPR4Ie2Yfu/evX369Nm7d6/q1Wg3KSkpfEDd7vjT6ztSU1M7mIbWMtoZ3nh4eAgEAg8PDwsLi6FDhw4ePDglJeXOnTvDhg1TvT6tobKyMicnh8+2jLaMGDFC125RyR3Tb968eciQIdXV1Tt27IiOjt61a9e7776rSmVaRnp6OkVRamh6Q0PD4cOH69SwXq7pd+3alZKSIhAIvv3225iYmFOnTp04cUKVyrSM1NRULper7LbI3YOXl1d6erpEImFbiIqQe0dWIpFYWFikp6f37Nmzd+/eJSUlsmt9CZ0lNTV14MCBvGw1yixWBBw9evTWrVuPHj2qqamZMmWKubk5gP/85z/9+vVjW103Itf0c+bMCQoKampqWr9+fUFBQURExMSJE1WpTMtIS0sLDg5+qE6mLwFmZGW9l5VVALgDIULh68BXQP5bb+mo6ffs2XPq1CkAM2fOzM/PnzVr1uLFi1UoTKvIz88XiUSenp4PZR4lUwd6AJaAJfAScAewBHq8uJLGI9f0PB6vJaFuv379PvjgA1VJ0kLoy0Rvb2+1zSA5GkhiW4PKkGv6K1eufPzxx0+fPpUtzM3V2QRBSpGammpqako/LameeANnAB3ZUFyu6RcsWBAREfH6668r+JQgoRXZ2dn37t2jX8fGxjo6OqrzdpZeAAWksS1DNcg1dFNT08aNG3VqmTWzbNy4cczJkyZAM1AAjAMqw8PZFiWXVwB9IBkwZFuJCpA7T//+++/v3r1bd+Zuu4P5wCLAA2gGFgGL2NbTAUbAUCCZbRmqQW5Pf/r06Vu3bm3ZssXW1rYl6QIZ03cB+v6+Wq0obhdvIBpQ9b4obCDX9Pv27VOlDi0mFbAHHNiW8UK8gD1A2YtP1Hjkmt7NzQ2ARCIpKyuT7ewJnSUVGMW2BkWgH53ShTR/csf0RUVFAQEBfD5/0KBBN2/eHDt2bEFBgSIRFU/gCuDZs2f0E2vaSjmQpwljGwB9gZ66sT2JXNO/+eabQ4YMqaioMDc3Hz58uJeX18KFCm0goGACV7rw448/rqhgZTMOFZEOUBpiegCeOm76hISEqKgo+tlwHo+3Zs2a5GSFLu5lE7UmJSV1UJ6env78+XNHR0clP4M6kwroAR5sy1AQb0AE1NTUsC2ke5E7pu/Xr19CQkJISAh9mJqa2rdvX0UiKpjAtbm5ed26dT/99JOvr2+rCBRFBQUFyf4FqKiomDdvnsIfSo1IBQYBpmzLUBD6FtX9+/fZFgIABQUFhw8fls0IJhAILl682I0JXHfv3h0aGurv7//06dPQ0NAbN24cPnxYkYgKJnDds2dPeHj4Sy+1s9UXh8O5dOmSbImGJnCl73HOZFuG4rwCcIGcHLXYmKdPnz6bNm1SaQJXPz+/+/fvh4SErF69esqUKXfu3Jk0aZIiERVM4JqZmRkTExMUFPT48eMpU6Yo/UHUkQLgqeYM6AGYALZqY/ruo6N1NQKB4I033uhsxICAgDNnzgQHB/N4vP3792dnZ8+bNy8zM7NVubW1NX2+m5vbhQsXuqZezaG3E9Ag0wPoDWTdvy+VSlW/lbnKaN/0GRkZn332WWZm5pMnT+zt7d3d3deuXUsnH34hiidwpdHiu7w3AT4wmG0ZncIRSKmpyc3NHTRoENtauot2fs1Xr1719/fv37//4cOHs7KyoqOjXVxcfH19r1+/rnp9Gs1NYKSmbeBI3zRRcKZOQ2mnp1+3bt22bdsiIyPpQ1dX19GjR/fq1evDDz+UnYIkdIxEIskG3mNbRmexAszNzZOTk9966y22tXQX7XRDt27dmjp1aqvCadOm0aMUgoI8e/asUdMG9AA4wMCBA7W7p2/H9GKxmM9vnaDF3NxcLBarRJKWQD90pm6ZKxXBzc0tJyenslJrn6Nq/0L27t27LXsx0Dx//lwlerSHp0+f9gLs2JbRBQYOHEhRVHp6uoKT1BpHO6Y3NzdvO7yhy7tfj/bw9OnTcWxr6BoDBgzg8XjJyck6ZPqqqirV69AyysvLa2trR7Ato2v06NFj0KBBWjxpoVnzaRrDlStXoJkDepqJEydev369urqabSHdAjF9t3Du3DlDQ0NNWVzZlrCwMLFY/Ouvv7ItpFsgpmceqVR68eLFnj17au6X6+np6eDgQKe40z409/9FfcnIyCgvL+/ZsyfbQroOh8OZNm1abGxsXV0d21qYh5ieeS5cuKCnp6fpu9nMmDGjrq4uLi6ObSHMQ7KXMU9sbOyoUaMMDAzYFtIV7gBHV63asWMHRVH6+vrvvPPOnj17GhoaLl26ZGxszLY6ZiA9PcOUlZVlZGRMnjyZbSFd5Cnw+d27cZcvX75yZU5Tk7i4OPbyZduEBG0a5xDTM4xQKJRKpZprellmAE+B39iWwTjE9AwTGxtra2vr7u7OthAGCARMAO2bwSGmZxKJRHLx4sWgoCDtyI1lDEwipid0TFpa2tOnT7VjbEMzAygCnr74RE2CmJ5JYmNjeTyeNq3TmgoYAE/YlsEsZMqSAU6ePPn111/r6+unpaWZmprS2xbdvn2bbV0MYAH4Alq2xywxPQPcv39/3fXrQ4FewH+ADy9fhiakKVaQGcBl4I8//mhJYKHpkOENY1wCKED7MvhMBziANqVpYd70CmYtFovFb7755rhx40aOHEkngdJ0YgEHYCjbMhinF2AJnD9/nm0hjMG86RXMWiwUCk1NTa9evfr999+/++67jMtQMVLgMjAJ0Iapyjb0Am7fvv3okZakNGZ+TC+bnfigzF7Brcpnz569dOlSAAKBoO2s9oULF2pra1sO09LSBgwYwLhUBrkHVADBbMvoJpyAHC53//79mzZtUlmjtbW19+/fl93qz8TEhJEMkMz39OXl5U5OTmgva7Fs+YgRIwYMGJCenh4aGvrxxx/LRqAoqqysrFKGuro6Nc/FcB0wBMazLaObMAJ8fX0PHToklUpV1qhYLK6rq5O1gUgkoihK+cjM9/QKZi2mKOqjjz66cePGgQMHhg0bJhuBw+G0yqHZo0cPdc5aLBaL44DZgBY/OT9//vw333wzLi4uMDBQNS1aWVn5+/urNGtxl1Ewa3FMTExeXt7Vq1dbOV4TuX37dj2wmG0Z3cqkSZNsbGwOHDjAthAGYN70AQEBNjY2wcHBJ0+eXLlyZXZ2Np35tVW5UChMSUnx8PAYPnx4uxlHNIi0tDRXYDTbMroVAwOD119//fTp07JDVg2F+eGNglmLtWbLzrS0tOLi4qVsy1ABb7311pdffnnkyJHly5ezrUUpyB1ZZfnuu+8MDQ0nqPd1tpIUAVFRUUZGRnZ2dp9++umTJ08A9OrVS0PdT0yvFJWVlUePHh02bJiRVtxfk8djIGr3bgtAD9gCDNm2bSCwDNBQ05NlCEpx+PDh+vr6UaM0YndkpRgGuANrAGMgGXAHDNmW1GWI6bsORVH//e9/PT097ew0MU9rV+ADocBPgEY/MEtM33USExNzcnIWL9buucrWLACeAafZlqEMxPRd57vvvrOyspozZw7bQlSKH+AKaPR0PTF9F6msrDx58mRERITs4hBdgAPMA+KBBraVdBli+i5y6NCh+vp6XRvb0CwAegB5bMvoMmTKsnOUlJTs3r27urr6wIEDDg4OP/30E4CUlBTNTVDcBRyAT4H3gWPHjmni6I6YvnPcvn27euvWJIACviws7LNtGwAd3Gr0XWAzsGTJEh8fHwcHDXs0kgxvOs2fwO/AV0AY4A64A2YvrqRtcAE3QCKRLFmyhG0tnYaYvnPk5uZeBmZr+5pKRegBREVFnT9/Pjo6mm0tnYOYvhM8f/5827ZtfGAv20rUhOXLl48dO3bZsmWFhYVsa+kExPSdYMWKFaWlpeGABdtK1AQul7tv377GxsZ33nmHbS2dgJheUc6ePXvgwIGZM2c6s61ETbgFTORwIgcM6FVff+7cuSEcTgCHoxFDfGJ6hcjJyXnrrbfc3d1bPceo48QBcUAu4APkApMBkUjEtqgXQ6YsO+LatWvNzc0PHz5cvXo1h8NZvnz53bt32RaldvCAS8BcYA3geueOVCrlctW6MyWml0tFRcXygABf4ABgBCwEiv/1r2uAH9vC1BBj4BdgLbD9wYPJkyfHxMTw+Xy2RcmFmF4uFEXZAIeBXsBVoDcAQMKyKPWFA6wBLo8cGR8fP3bs2PPnz6vtTSu1/jPELrdv304ALADh344nvBBnZ+cTJ048ePBgzJgx8fHxbMtpH2L6digpKdm5c2dYWJg+cA3oy7YeTUEMJCcnf/PNN0OGDBGJROPHj3dycho/fry6JX9lfnhDUdTSpUtzcnKMjIx++OGHl156qd1yGxubdk9jkfr6+tOnT0dHRwuFQolE4uXlZZWS4sy2Kg2iDvAuLj5ZXAzgOfA+sO/RI+Vreg4AAAreSURBVM6jRxcGDmQkHR9TsJbAVd5pqqSuri49PX3//v3vvfeera0tn89/7bXXrl275uTkNHr0aAMDAy3ZN5UNzIDvgbNANbB3795PPvkkMTGxtLSUbV0AiwlcjY2N2z2ty4hEomvXrrUqpCiqtrb22bNnABoaGioqKkpKSm7evPnkyROxWCwWi+nciHp6eiYSyRIgHPCpr+fk5yM//w9gvfKydJupwDbgI4Fg06ZNdPJXAwMDgUAgEAgGDRpka2trbGxsampqYmJiYWGhp6fXo0cPumK35utl3vTl5eVDhgxBewlcZcvlnQaAoqjw8PCqqqqWkuLi4rCwsHabmzNnTkVFBYB79+7R+Vg6hs6QzOVyuVyuvr6+np6enp4el8ttbGw8Ymx85J8y6uvrBf/cJru5uVkikeww/EcqgIaGhlQej8f7x5dZV1fXz8ioVULmurq6VgE7aOWLNq2ksNdK/zatNCjcStPz56amptK/KS8vLy0tzc7O7iAbq7W19b///e+TJ0/KrmaztLQ8fvy48js3spbAVd5pADgcTkxMjGzJoUOH5CVwPXbsGP2iqqoqL+8fT/OYmJjQe9VbWloCMDQ01JqN3rWGmpqa2tra2trayspK2XKBQHD16tXVq1d3RwJX5k3v6+tLp+xrm8BVtlzeaV3GwsJCO7Ys1ilMTU1NTU1V3Cjzpg8ICDhz5kxwcDCPx9u/f392dva8efMyMzNblVtZWckeMi6DQJAHh5Es990NPbxZsGAB20IIquPAgQM8Hk8z8tMTCGoOMT1B5yCmJ+gcxPQEnUNjlhYLhcKysrJWM/pdprS01MrKSl9fn5Fojx8/dnR0ZCQUgMLCQqYW5dbX19fW1jK1vb1IJDIzM2u5aaokL/zSEhMTx4/vlv0aNcP0QUFBWVlZubm5wcHMbNV67ty50aNHu7i4MBJt9+7dGzduZCRUU1PT2bNn169nZgFEYWHhH3/8ERoayki0uLi4l19+eeDAgYxE271794YNGzq4vRoSEjJp0iRG2moNpSGcPn16586dTEVbuXJleno6U9H8/f2ZCtXQ0BAYGMhUtLi4uKioKKaibdiw4fr160xFCwgIkEqlTEXrFGRMT9A5iOkJOgcxPUHn0BjTm5qaMviAvbm5OYMrLhncc4rL5fbs2ZOpaCYmJubm5kxF4/P5JiYmTEVjcaMuzVh7QyAwiMb09AQCUxDTE3QOYnqCzkFMT9A5dMj0YrHYwsJi+PDhw4cP//zzz1sddiHgF198ERAQ4OnpmZ+fT1FUZGTkuHHjgoODy8rKlAmlpLDPP/98+N+YmZkpKaxVNCW1NTU1zZ0718vLy8fHp6CgQEltXYeV+8CscO/evfnz58s77CyZmZl+fn4SieT06dNvvvnmlStXZs2aRVHU/v3716xZo0woJYW1cP78+Y8//lgZYW2jKantl19++de//kVRVHR09OLFi5nS1ll0qKf/888/c3Nzp0+fHh4e/vjx41aHnY124cKF8PBwLpc7derUzz//XDarT1JSkjKhlBRG09jY+OWXX65Zs0YZYW2jKamNz+dXV1dLJJKqqio+n8+Iti6gQ6a3sbFZuXLl6dOnZ86cuXTp0laHnY1WWlqakZExceLEoKCgx48fl5eXOzk5ob00Pp0NpaQwmq+//nrBggUmJibKCGsbTUlt/v7+xcXF/fv3X7du3bvvvsuItq6gsr8p6kNdXV2fPn3kHSrIunXrFi5c2NTUlJyc7O7uvmHDBnoRaHZ29pgxY5QJpaQwiqKkUunLL7/c2NhIUZQywtpGU1LbZ599tmHDBolEkpCQMGHCBOW1dQ0d6um3bdv27bffAkhJSRkyZEirw85GGz16tKmpKY/Hs7Kykkqlvr6+aWlp6FIan1ahlBQGIDMzc+DAgfQjMsoIaxtNSW0VFRXW1tZcLlcgEIhEIuW1dRGV/bxYp6KiYvr06WPHjp04ceKDBw9aHXY2mkQiWbZsmZeXl4eHR2JiIn04ZcqUadOmiUQiZUIpKYyiqPXr1//444+ywbsmrG00JbWVlZUFBQV5enq6u7snJCQor61rkLU3BJ1Dh4Y3BAINMT1B5yCmJ+gcxPQEnYOYnqBzENMTdA5ieoLOQUxP0DmI6Qk6BzE9QecgpifoHMT0ipKbm+vm5qbImRkZGR4eHp2Nw+Px2m4bunXr1kuXLnUcUBmpbTl+/PjevXu7VldTIKZnnj59+mzevFn5OOXl5cePH584cSJTARVhxowZe/bsqa2tVU1zrEBM3wkoivr000979uzp7Ox89epVuvDGjRsjRowwMTEJCgoqKioCUFBQsGHDBvrdgwcPOjs7Ozs7//jjj87OzvLiTJo0SSKRuLi4yLrt4MGD8+fP53K5LQFzc3N9fHx27Nhhb2/fp0+fFg0nTpzo16+fQCB45513xGKx4lKbm5vfeecdS0tLa2vrqKgoAAYGBjNnzmzZklo7UdkiZk0nJyeHw+Fs2bKlrq4uKirKx8eHoqjy8nKBQHD27NmnT59GRkbSierT09PpB6Du3LljbW2dmppaVFTk4+Pj5OQkLw5FUXp6ek1NTbIt+vj4/P7777IBc3JyTExMtm7dWltbu3r1am9vb4qi7t+/LxAIkpKS8vLy3N3d9+3bp7jUEydODBgwoKCgIDMz09DQkF4if/Xq1alTp6rsi1U9xPSKkpOTw+fzaV9mZ2cPHjyYoqiDBw+GhobSJ9TX1xsbGzc3N7d4dN26datWraLfPXPmTIvp28ah2pi+ubnZwMCgurqa+qfpW+revXt3wIABFEVFRUUtW7aMrnXr1q3r168rLvXEiRN9+/ZNTU2VSqUikUgsFlMU9ddff1lZWXXfN8k6mrH9jppga2vL4/EAcLn/Nyx8/PixUChsGbcYGBjI5m8pKip65ZVX6Ne9e/fuIE5bKioqzM3NzczM5Gmg/wVQWFjYr18/+vWwYcMA5ObmKih15syZ1dXVixYtKi0tjYyM/OCDDwDY29vX1NQ0NDQwtb2UukHG9J2g7QZJdnZ2EydOfPjw4cOHD/Py8uLi4mxtbWXfffToEf1aNmFGBxstdUFDz549CwsL6dfJycnR0dGKS83Pzx83btytW7dSU1N//fXX/fv303U5HG1+pI6YXimCg4Nv3Lhx4cKF8vLytWvXrlixQtZtYWFhP/zwQ0ZGRnFx8RdffPHCaDU1NS2vBQLBs2fPnj9//sJaoaGh0dHRqamp+fn5K1askJdLo12pZ8+ejYiIKC0tlUgkYrHYyMgIQFFRkbGxMf1aKyGmVwpbW9vDhw+vXr3aycnp5s2bhw4dkn3X3d09Kipq2rRp/v7+ERERpqamHYQKDQ3t3bt3y+yNnp7eqFGj8vLyXqhh6NChO3fujIiIGDFixODBgyMjIxWXunjxYjs7OxcXFw8PD29v7/nz5wPIy8sbM2aMgt+AJqLNf8VYJzc3t7S01M/PD4BQKNy6dWt8fLzi1Xfs2MHlct9///1uE9g+GzdudHR0fPvtt1Xcrupg+0pam0lKSrKzsystLa2rqwsJCdm+fXunqotEomHDhkkkkm6S1y5isXjw4ME1NTWqbFTFkOFNN+Lt7b18+fIRI0b069fPzs5O3sBDHtbW1uHh4XFxcd0kr11OnToVGRnJ4N5SaggZ3hB0DtLTE3QOYnqCzkFMT9A5iOkJOgcxPUHnIKYn6BzE9ASdg5ieoHP8P7MtGBZtiQZhAAAAAElFTkSuQmCC" alt="Imagpop Height."/> </p>
+
+<p>From the population data, we can compute a wide variety of numbers.  Numbers that are computed using the entire population are called <em>parameters</em>.  </p>
+
+<p>Parameter</p>
+
+<p>:   A <em>parameter</em> is a number associated with a population.</p>
+
+<p>Here are a few parameters for <code>imagpop</code>:</p>
+
+<pre><code class="r">favstats(~height,data=imagpop)
+</code></pre>
+
+<pre><code>##   min   Q1 median   Q3  max  mean    sd     n missing
+##  53.8 64.7   67.5 70.3 80.2 67.53 3.907 10000       0
+</code></pre>
+
+<p>When we apply <code>favstats()</code> to a population, everything it returns is a parameter.  We have such things as:</p>
+
+<ul>
+<li>the population mean, written \( \mu \) or just &ldquo;mu&rdquo;.  Its numerical value is 67.5301.</li>
+<li>the population median, usually just written as \( m \).  Its numerical value is 67.5.</li>
+<li>the population standard deviation, written \( \sigma \), or just &ldquo;sigma&rdquo;.  Its numerical value is 3.907.</li>
+</ul>
+
+<p>Let&#39;s look at another variable from <code>imagpop</code>, namely the categorical variable <strong>sex</strong>:</p>
+
+<pre><code class="r">xtabs(~sex,data=imagpop)
+</code></pre>
+
+<pre><code>## sex
+## female   male 
+##   4968   5032
+</code></pre>
+
+<p>We see that, of the 10,000 members of the population, 5032&mdash;or 5032%&mdash;are male.  The 50.32% figure is the <em>population percentage</em> of males; we also say that the <em>population proportion</em> of males is 0.5032.  Both of these quantities are parameters, since they are numbers associated with the population.</p>
+
+<p>If you are lucky enough to have information on all the entire population, as we do with <code>imagpop</code>, then you can see a lot of parameters at once by calling the <code>summary()</code> function:</p>
+
+<pre><code class="r">summary(imagpop)
+</code></pre>
+
+<p>We show below only the results for the first four variables in <code>imagpop</code>:</p>
+
+<pre><code>##      sex        math          income          cappun    
+##  female:4968   no :9537   Min.   :   200   favor :2976  
+##  male  :5032   yes: 463   1st Qu.: 19300   oppose:7024  
+##                           Median : 33600                
+##                           Mean   : 40317                
+##                           3rd Qu.: 54100                
+##                           Max.   :262200
+</code></pre>
+
+<h3>Statistics</h3>
+
+<p>We have learned that a <em>parameter</em> is a number associated with a population.  Usually we would like very much to know the numerical value of one or more parameters, but for practical reasons we are unable to examine every member of the population in order to compute these parameters.  Usually the best we can do is to take a random sample from the population, and compute numbers based on that sample.  Such numbers are called <em>statistics</em>.</p>
+
+<p>Statistic</p>
+
+<p>:   A <em>statistic</em> is a number that we can compute from sample data.</p>
+
+<p>Usually, we are interested in computing statistics that might serve to <em>estimate</em> some parameter.</p>
+
+<p>Let&#39;s do an example.  Suppose that we only have time to take a sample of 10 members from <code>imagpop</code>.  The function <code>popsamp()</code> will take a simple random sample from any given data frame, of any given size:</p>
+
+<pre><code class="r">popsamp(n=10,pop=imagpop)
+</code></pre>
+
+<pre><code>##         sex math income cappun height idealheight diff kkardashtemp
+## 7210 female   no  39700 oppose   65.6          67  1.4            2
+## 8757 female   no  81000  favor   64.3          66  1.7            4
+## 7609   male   no  35100  favor   70.9          74  3.1           78
+## 8859   male   no  35900 oppose   70.4          73  2.6           80
+## 4563   male   no  16100 oppose   73.5          76  2.5           80
+## 1663 female   no  66600 oppose   69.0          71  2.0           10
+## 3250   male   no  37900 oppose   63.1          65  1.9           99
+## 5089   male   no  77300 oppose   68.4          71  2.6           93
+## 7272   male   no  62600  favor   70.4          73  2.6           96
+## 9889 female   no  59300 oppose   59.0          61  2.0            3
+</code></pre>
+
+<p>If you run the function several times, you will most likely get a different sample each time.</p>
+
+<p>Now let&#39;s compute some statistics from a sample:  this time, let&#39;s sample n = 100 members from the population by simple random sampling.  We&#39;ll use the summary function to compute a lot of statistics at once (but we&#39;ll show the output just for the first few variables:</p>
+
+<pre><code class="r">summary(popsamp(n=100,pop=imagpop))
+</code></pre>
+
+<pre><code>##      sex      math        income          cappun  
+##  female:49   no :91   Min.   :   400   favor :25  
+##  male  :51   yes: 9   1st Qu.: 14625   oppose:75  
+##                       Median : 28350              
+##                       Mean   : 36676              
+##                       3rd Qu.: 48325              
+##                       Max.   :207000
+</code></pre>
+
+<p>If you try it yourself a few times, you will see that that the statistics vary, from sample to sample.  This makes, sense, because the sample itself is random.  In fact, a statistic is always a <em>random variable</em>!</p>
+
+<p>You can practice more with the idea of a statistic as a random variable by playing again with the app <code>SimpleRandom()</code>,  introduced in Chapter 5:</p>
+
+<pre><code class="r">require(manipulate)
+SimpleRandom()
+</code></pre>
+
+<p>For any variable you selected, you see that the statistics hop around from sample to sample, but on the whole each statistics more or less resembles the parameter in the table one row above it.  In fact, that&#39;s why we compute statistics:</p>
+
+<blockquote>
+<p><strong>What Statistics Are For</strong>:  We use statistics to estimate parameters.</p>
+</blockquote>
+
+<p>Used in this way, a statistic is called a <em>point estimate</em> for the parameter it is used to estimate.</p>
+
+<p>Point Estimator</p>
+
+<p>:   A <em>point estiamtor</em> for a population parameter is a statistic that is used to estimate the parameter.</p>
+
+<p>Even though we know it is highly unlikely to be exactly equal to the parameter, a well-chosen point estimator constitutes our single &ldquo;best guess&rdquo; as to the value of the parameter in question.</p>
+
+<p>To summarize:</p>
+
+<ul>
+<li>A parameter is a number associated with a population.
+
+<ul>
+<li>We regard it as fixed (at least at some fixed time.)</li>
+<li>However, it is usually unknown.</li>
+</ul></li>
+<li>A statistic is a number we can compute from a sample.
+
+<ul>
+<li>We can know its value, because we can compute it from our sample.</li>
+<li>But it varies from sample to sample.</li>
+</ul></li>
+<li>We use statistics to estimate parameters.</li>
+</ul>
+
+<h2>From Questions to Parameters</h2>
+
+<p>Often&mdash;not always, but quite often&mdash;a Research Question can be construed as a question about the value of one or more population parameters.  If you can learn how to turn Research Questions into questions about the value of parameters, then you gain access to an array of powerful statistical techniques.</p>
+
+<p>We learn how to turn Research Questions into questions about parameters by trying out lots of examples.  To start, we&#39;ll keep these example focused on <code>imagpop</code>.</p>
+
+<p>Consider the following</p>
+
+<blockquote>
+<p><strong>Research Question</strong>:  We would like to know the center and spread of height in the population.</p>
+</blockquote>
+
+<p>From the statement of the Research Question, we see that we are interested in e are interested in:</p>
+
+<ul>
+<li>\( \mu \) = mean height of all people in <code>imagpop</code>, and</li>
+<li>\( \sigma \) = the standard deviation of all people in <code>imagpop</code>.</li>
+</ul>
+
+<p>One could also construe this Research Question as a question about population median, and population IQR.  As a rule, though, we will go with mean and SD as a first preference.</p>
+
+<p>We next consider a sequence of Research Questions that connect to a standard set of parameters.  These parameters crop up so frequently that each will be accorded its own separate sub-section in this Chapter.</p>
+
+<h3>One Mean</h3>
+
+<blockquote>
+<p><strong>Research Question</strong>:  We would like to know the mean rating that people in <code>imagpop</code> give to the celebrity Kim Kardashian.</p>
+</blockquote>
+
+<p>In this example, the parameter of interest is pretty obvious.  We are interested in knowing:</p>
+
+<blockquote>
+<p>\( \mu \) = mean Kim Kardashian temperature rating for <code>imagpop</code>.</p>
+</blockquote>
+
+<h3>One Proportion</h3>
+
+<blockquote>
+<p><strong>Research Question</strong>:  We would like to know the proportion of people in the population who majored in math.</p>
+</blockquote>
+
+<p>Again the parameter of interest is fairly obvious.  We are interested in knowing:</p>
+
+<blockquote>
+<p>\( p \) = the proportion of all persons in <code>imagpop</code> who majored in math.</p>
+</blockquote>
+
+<h3>Difference of Two Means</h3>
+
+<blockquote>
+<p><strong>Research Question</strong>:  We wonder how much taller guys are, on average, than gals.</p>
+</blockquote>
+
+<p>This time, we break <code>imagpop</code> into two separate populations:  all of the females, and all of the males.  The parameters we are interested in are:</p>
+
+<blockquote>
+<p>\( \mu_1 \) = mean height of all males in <code>imagpop</code></p>
+</blockquote>
+
+<p>and</p>
+
+<blockquote>
+<p>\( \mu_2 \) = mean height of all females in <code>imagpop</code>.</p>
+</blockquote>
+
+<p>Wanting to know how much taller the guys are, on average, is the same thing as wanting to know the <em>difference of means</em> \( \mu_1 - \mu_2 \).  This becomes our parameter of interest.</p>
+
+<p>Here is another example.  Suppose we are interested in the following</p>
+
+<blockquote>
+<p><strong>Research Question</strong>:  Do math majors make more money, in average, than non-math majors do?</p>
+</blockquote>
+
+<p>Again, we break <code>imagpop</code> into two populations:  all of the math majors, and all of the non-math majors.  The parameters we are interested in are:</p>
+
+<blockquote>
+<p>\( \mu_1 \) = mean annual income for all math majors in <code>imagpop</code></p>
+</blockquote>
+
+<p>and</p>
+
+<blockquote>
+<p>\( \mu_2 \) = mean annual income for all non-math majors in <code>imagpop</code>.</p>
+</blockquote>
+
+<p>Wanting to know whether math majors make more money is the same as wanting to know whether the difference of means, \( \mu_1 - \mu_2 \), is positive.</p>
+
+<p>Watch out, though, for the following type of question:</p>
+
+<blockquote>
+<p><strong>Research Question</strong>:  It is known that the mean height for the population of Australia is 67 inches.  Do people in <code>imagpop</code> have the same height, on average?</p>
+</blockquote>
+
+<p>You might think that this is another question about the difference of two means.  However, we <em>already know</em> the mean height of all Australians, so really we are interested in just one population mean:</p>
+
+<blockquote>
+<p>\( \mu \) = mean height of all people in <code>imagpop</code>.</p>
+</blockquote>
+
+<p>We just want to know whether or not \( \mu = 67 \).</p>
+
+<p>In order to be in a &ldquo;difference of two means&rdquo; situation, we should be dealing with two populations, and we should not know the mean of either population.  Also, our plan should be to take two independent samples, one from each population, and to estimate each of the means from these samples.</p>
+
+<p>(<strong>Note</strong>:  &ldquo;Independent&rdquo; means that the samples don&#39;t have anything to do with each other:  knowing who is in one sample tells you nothing about who is in the other sample.)</p>
+
+<h3>Difference of Two Proportions</h3>
+
+<p>Suppose we are interested in the following</p>
+
+<blockquote>
+<p><strong>Research Question</strong>:  Who is more likely to favor capital punishment:  a guy or a gal?</p>
+</blockquote>
+
+<p>This one is tricky for many students; the key is to interpret &ldquo;likelihood&rdquo; as probability.  Probabilities are between 0 and 1, so they are proportions.  Hence the question is really asking:  </p>
+
+<blockquote>
+<p>Which is bigger:  the proportion of all males who favor capital punishment, or the proportion of all females who favor capital capital punishment?</p>
+</blockquote>
+
+<p>When you ask the question this way, you see that it is a question about two populations:</p>
+
+<ul>
+<li>the population of all males, and</li>
+<li>the population of all females.</li>
+</ul>
+
+<p>Within each population, some proportion of people favor capital punishment, and we want to know which of the two proportions is larger.  So are parameters of interest are:</p>
+
+<blockquote>
+<p>\( p_1 \) = the proportion of all males in <code>imagpop</code> who favor capital punishment;</p>
+</blockquote>
+
+<p>and</p>
+
+<blockquote>
+<p>\( p_2 \) = the proportion of all females in <code>imagpop</code> who favor capital punishment.</p>
+</blockquote>
+
+<p>We are interested in the difference of these two proportions:  \( p_1-p_2 \).</p>
+
+<h3>Mean of Differences</h3>
+
+<p>For our next research question, we will move back to the familiar <code>mat111survey</code> data.  The population from which this sample was drawn is, of course, the population of all GC students.</p>
+
+<blockquote>
+<p><strong>Research Quetion</strong>:  Do people at Georgetown want to be taller than they actually are?</p>
+</blockquote>
+
+<p>This is another tricky one.  Many people say:  &ldquo;there are two populations means at issue here:  the mean actual height of the population, and the mean ideal height of the population.  We want to know if the second mean is larger than the first.  Hence we are interested in the difference of two means.&rdquo;</p>
+
+<p>This isn&#39;t quite right.  Recall that in order to be dealing with the difference of two means, we need to be in the situation of taking two independent samples from two populations.  But this time we have one sample, from one population:  it&#39;s just that we did a repeated-measure study by asking each individual two questions&mdash;actual height and ideal height.</p>
+
+<p>Remember that in a repeated-measures study, you focus on the <em>difference</em> between the two measurements.  Hence we are actually interested in the following parameter:</p>
+
+<blockquote>
+<p>\( \mu_d \) = the mean of the difference between ideal height and actual height, for all students at Georgetown College.</p>
+</blockquote>
+
+<p>For another example, let&#39;s look back at the labels-and-perception experiment:</p>
+
+<pre><code class="r">data(labels)
+View(labels)
+help(labels)
+</code></pre>
+
+<p>In connection with the <code>labels</code> data, we are probably interested in the following</p>
+
+<blockquote>
+<p><strong>Research Question</strong>:  On average, which label results in the higher rating for the peanut butter:  Jiff or Great Value?</p>
+</blockquote>
+
+<p>This was a repeated measures design, and we are interested in the difference between the two ratings.  So we are interested in:</p>
+
+<blockquote>
+<p>\( \mu_d \) = mean difference in ratings (Jiff rating - GC rating) for all Georgetown College students.</p>
+</blockquote>
+
+<p>Notice that we were careful to make the parameter refer to the entire population from which the sample of 30 students was drawn.  <strong>A parameter is a numerical feature of a population!</strong></p>
+
+<p>In general, research questions associated with matched-pair and repeated-measure studies are likely to turn into questions about a mean of differences.</p>
+
+<blockquote>
+<p>Practice:  For each of the following Research Questions, define the parameter(s) of interest, and then restate the Research Question in terms of that (or those) parameters.</p>
+
+<ol>
+<li><p>(For the <code>m111survey</code> data.)  Research Question:  UK students are known to have a mean GPA of 3.0.  Is the mean GPA of all Georgetown College students higher than the mean at UK?</p></li>
+<li><p>(For the <code>m111survey</code> data.)  Research Question: Who drives faster on average:  Georgetown College male,s or GC females?</p></li>
+<li><p>(For the <code>m111survey</code> data.)  Research Question:  Do a majority of GC males believe in love at first sight?</p></li>
+<li><p>(For the <code>m111survey</code> data.)  Research Question:  Who is more likely to believe in love at first sight:  A GC male or a GC female?</p></li>
+<li><p>(For the <code>m111survey</code> data.)  Research Question:  Who wants to increase their height more, on average:  GC males or GC females?  (Think carefully about this one!)</p></li>
+</ol>
+</blockquote>
+
+<h3>The &ldquo;Basic Five&rdquo; Parameters</h3>
+
+<p>At the elementary level there are five types of Research Question that come up so frequently that the parameters associated with them are called the Basic Five:</p>
+
+<ol>
+<li>One Mean (\( \mu \))</li>
+<li>One Proportion  (\( p \))</li>
+<li>Difference of Two Means (\( \mu_1-\mu_2 \))</li>
+<li>Difference of Two Proportions (\( p_1-p_2 \))</li>
+<li>Mean of Differences  (\( \mu_d \))</li>
+</ol>
+
+<p>We have already seen one or more examples of each of the Basic Five, and we&#39;ll see many more examples in the future.</p>
+
+<h2>Parameters in Experiments</h2>
+
+<p>Most of the examples of Research Questions that we considered in the previous section were based on observational studies, in which the data was considered to be a sample from some larger population.  Because of the issues involved in obtaining consent for inclusion in an experiment, we may or may not be able to consider the subjects in an experiment as a random sample from some larger population, and even when we can, we often speak about that population a bit differently than we do for observational studies.</p>
+
+<p>Let&#39;s consider a couple of examples.</p>
+
+<h3>Anchoring in m111survey</h3>
+
+<p>To begin with, look at <code>m111surveyfa12</code>:</p>
+
+<pre><code class="r">data(m111surveyfa12)
+View(m111surveyfa12)
+help(m111surveyfa12)
+</code></pre>
+
+<p>Most of the Research Questions associated with this data frame may be considered as arising from an observational study.  For example, the Research Question:  &ldquo;who drives faster, on average a male or female?&rdquo; is based on an observational study, since the explanatory variable here is <strong>sex</strong>, and the values of <strong>sex</strong> cannot be assigned to subjects by researchers.</p>
+
+<p>On the other hand, consider the question about the population of Canada.  When subjects filled out their survey forms, some of the subjects were looking at forms where the question about Canada was stated as follows:</p>
+
+<blockquote>
+<p>&ldquo;The population of Australia is about 23 million.  What do you think is the population of Canada?  (Give your answer in millions.)&rdquo;</p>
+</blockquote>
+
+<p>The rest of the subjects were looking at forms where the question about Canada was stated as follows:</p>
+
+<blockquote>
+<p>&ldquo;The population of the United States is about 312 million.  What do you think is the population of Canada?  (Give your answer in millions.)&rdquo;</p>
+</blockquote>
+
+<p>The country whose population is given is called an <em>anchor</em>.  Behavioral psychologists tell us that anchors can affect the way we think about that question, even when the anchor has no logical bearing on the question itself.</p>
+
+<p>If everybody processes information in a completely rational way, then one&#39;s answer about Canada would be the same, no matter whether one is told first about Australia or about the United States.  The &ldquo;Canada&rdquo; question was not asked because we were interested in how well Georgetown College students know geography trivia: we were actually interested in the question of whether Georgetown College students process information rationally!  In other words, the Research Question was:</p>
+
+<blockquote>
+<p><strong>Research Question</strong>:  Who gives a higher estimate, on average, for the population of Canada:  a person who was first told the population of the United States, or a person who was first told the population of Australia?</p>
+</blockquote>
+
+<p>In this question, the explanatory variable is <strong>anchor</strong> (the type of form) and the response variable is <strong>canada</strong>.  Since researchers were able to assign forms to subjects (for the most part they attempted to do so randomly), they were performing an experiment.</p>
+
+<p>Here is how we translate the Research Question into a question about parameters.  The parameters of interest are:</p>
+
+<blockquote>
+<p>\( \mu_1 \) = the mean estimate of the population of Canada given by all GC students, if all of them could have been given a form in which they are first told the population of Australia.</p>
+
+<p>\( \mu_2 \) = the mean estimate of the population of Canada given by all GC students, if all of them could have been given a form in which they are first told the population of the United States.</p>
+</blockquote>
+
+<p>The Research Question turns into a question about whether the difference of means, \( \mu_1 - \mu_2 \), is zero or not. A difference of zero would indicate that, on average, the anchor made no difference in the response.</p>
+
+<p>We have met several examples before of the difference of two means.  The previous examples, though, were based on observational studies, and in that case the there were two populations, and the plan was to take two independent simple random samples separately from the two populations.</p>
+
+<p>In this experiment, there is just one population:  all Georgetown College students.  We simply imagine that the population is treated in two different ways:</p>
+
+<ul>
+<li>everyone in the population answers the Canada question after learning about Australia.   The mean of their answers is \( \mu_1 \).</li>
+<li>everyone in the population answers the Canada question after learning about the United States.  The mean of their answers is \( \mu_2 \).</li>
+</ul>
+
+<p>By taking one sample from the population&mdash;the MAT 111 students who took the survey&mdash;and breaking them into two treatment groups (students with the Australia form and students with the U.S. form) we obtained two samples:  one from each imaginary population.  The samples aren&#39;t really independent (if George is given an Australia form then you know for sure that he will not be picked to get a U.S. form), but that&#39;s how it is with experiments.</p>
+
+<h3>Knife or Gun (Again)</h3>
+
+<p>Let&#39;s look at another example.  Recall the Knife or Gun study:</p>
+
+<pre><code class="r">data(knifeorgunblock)
+View(knifeorgunblock)
+help(knifeorgunblock)
+</code></pre>
+
+<p>Remember that we were interested in the</p>
+
+<blockquote>
+<p><strong>Research Question</strong>:  What makes a person yell louder:  being killed with a knife or being killed with a gun?</p>
+</blockquote>
+
+<p>For this experiment, we know in advance that the results probably don&#39;t apply to some larger population, because anyone who would agree to be part of an experiment in which they get killed is liable to be extremely different from the general population&mdash;perhaps in ways associated with how they respond when being attacked with knives and guns!  This fact affects how we define the parameters of interest.  In this case, the parameters are defined as follows:</p>
+
+<blockquote>
+<p>\( \mu_1 \) = the mean volume of yells for all 20 subjects, if they could have all been killed with a knife.</p>
+
+<p>\( \mu_2 \) = the mean volume of yells for all 20 subjects, if they could have all been killed with a gun.</p>
+</blockquote>
+
+<p>This time the so-called population is just the set of subjects themselves, not some larger group out of which the subjects are a sample.  Just as in the previous example, though, we do imagine that this set of subjects is treated in two different ways, so we still have two &ldquo;imaginary&rdquo; populations.</p>
+
+<p>You should define your parameters in this more restrictive way whenever the subjects in your experiments cannot be considered as representative of some larger population.</p>
+
+<h3>More Anchoring</h3>
+
+<p>In both of the examples above, the experiment had two treatment groups and the response variable was numerical.  This resulted in a <em>difference of two means</em> situation.  If your experiment has two groups and the response variable is categorical with two values (e.g., &ldquo;yes&rdquo; or &ldquo;no&rdquo;), then you will end up being interested in the difference of two proportions.</p>
+
+<p>As an example, consider the attitudes experiment:</p>
+
+<pre><code class="r">data(attitudes)
+View(attitudes)
+help(attitudes)
+</code></pre>
+
+<p>The question about spending habits involved an experiment:  some of the subjects were looking at a form in $20 was lost simply by the money falling out of a purse or wallet somehow.  Other subjects faced a scenario in which they had lost $20 by purchasing a ticket and then losing that ticket.  Either way, the subject is down by $20, so if everyone makes financial decisions on a purely rational basis, then one&#39;s decision about whether to attend the rock concert anyway should be unaffected by what form one is looking at:  a person who would elect to attend the concert after having lost money would also elect to attend after having lost a ticket, and vice versa.</p>
+
+<p>Obviously we are interested in the same sort of behavioral psychology question as in the earlier anchor experiment on guessing populations:</p>
+
+<blockquote>
+<p><strong>Research Question</strong>:  Who is more likely to elect to attend the rock concert:  a person who has lost $20 in cash, or a person who has lost a $20 ticket?</p>
+</blockquote>
+
+<p>The response variable is the categorical variable <strong>conc.dec</strong>, which has two values (&ldquo;buy&rdquo; and &ldquo;not.buy&rdquo;), so the parameters of interest must be proportions:</p>
+
+<blockquote>
+<p>\( p_1 \) = the proportion of all GC students who would elect to attend the rock concert, if all of them could be given a survey form describing a scenario where they have lost $20 in cash.</p>
+
+<p>\( p_2 \) = the proportion of all GC students who would elect to attend the rock concert, if all of them could be given a survey form describing a scenario where they have lost a $20 ticket.</p>
+</blockquote>
+
+<p>We are interested in the difference of two proportions \( p_1-p_2 \).  If this difference is 0, then the the way loses one&#39;s money has no effect on the likelihood of whether one will buy a ticket anyway.</p>
+
+<blockquote>
+<p>Practice.  Consider the <strong>attitudes</strong> dataset, and the Research Question:  <em>On average, does the suggested race of the defendant affect the length of sentence that would be recommended by a Georgetown College student?</em>  Define appropriate parameters and translate the Research Question into a question about these parameters.  Which one of the Basic Five is represented here?</p>
+</blockquote>
+
+<h2>EV and SD of Estimators</h2>
+
+<p>As we said earlier, people like to use a statistic &ndash; a random variable that is computed from a sample &ndash; to estimate a parameter.  Let&#39;s talk about the statistics that are used to estimate the Basic Five parameters.</p>
+
+<h3>Estimating One Mean</h3>
+
+<p>To estimate one mean \( \mu \), we take a simple random sample and compute the <em>sample mean</em>, which is written \( \bar{x} \).  As we know from previous chapters,</p>
+
+<blockquote>
+<p>\[ \bar{x} =\frac{\sum x_i}{n}, \]</p>
+</blockquote>
+
+<p>which is to say that it is the sum of the values in the sample, divided by the sample size.</p>
+
+<p>This makes good sense.  After all, the population mean \( \mu \) is the sum of all of the values in the population, divided by the number of individuals in the population, and a random sample is (hopefully) a fair representation of the population.  So it seems we should estimate the mean of the population by calculating the mean of the sample.</p>
+
+<p>You might wonder how good a job \( \bar{x} \) does, as an estimator of \( \mu \).  Statisticians have studied this question, and the short answer is:  &ldquo;it does a very good job indeed!&rdquo;  A slightly more detailed answer starts by pointing out that \( \bar{x} \) is a random variable&mdash;it is, after all, a number that depends on chance&mdash;so it has an expected value (EV for short) and a standard deviation (SD).</p>
+
+<p>Recall from previous chapters that the EV of a random variable is what you expect to get, on average, in many &ldquo;tries&rdquo; of the random variable.  Statisticians have proven that</p>
+
+<p>\[ EV(\bar{x})=\mu. \]</p>
+
+<p>Recall also that the SD of a random variable is about how much the random variable is liable to differ from its EV.  Statisticians have proven that the SD of \( \bar{x} \) is:</p>
+
+<p>\[ SD(\bar{x}) =\frac{\sigma}{\sqrt{n}}, \]</p>
+
+<p>where \( \sigma \) is the SD of the population, and \( n \) is the size of the sample.   </p>
+
+<p>Always keep in mind how EV and SD work together to describe how a random variable is liable to turn out.  Now that we know the formulas for EV and SD of \( \bar{x} \), we can say:</p>
+
+<blockquote>
+<p>When you take a simple random sample of size \( n \) from a population, the sample mean \( \bar{x} \) is liable to be about \( \mu \), give or take \( \frac{\sigma}{\sqrt{n}} \) or so.</p>
+</blockquote>
+
+<h3>Estimating the Difference of Two Means</h3>
+
+<p>When you want to estimate the difference \( \mu_1-\mu_2 \) between the means of two populations, you could take a simple random sample from each population and compute:</p>
+
+<ul>
+<li>\( \bar{x}_1 \), the mean of the sample from the first population, as well as</li>
+<li>\( \bar{x}_2 \), the mean of the sample from the second population.</li>
+</ul>
+
+<p>You could then subtract these two sample means.  The difference, \( \bar{x}_1-\bar{x}_2 \), would be an estimator for \( \mu_1-\mu_2 \).</p>
+
+<p>Statisticians have shown that the EV of \( \bar{x}_1-\bar{x}_2 \) is:</p>
+
+<p>\[ EV(\bar{x}_1-\bar{x}_2)=\mu_1-\mu_2. \]</p>
+
+<p>The SD of \( \bar{x}_1-\bar{x}_2 \) is:</p>
+
+<p>\[ SD(\bar{x}_1-\bar{x}_2)=\sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}}. \]</p>
+
+<p>This is a fairly complicated-looking quantity.  Let&#39;s work with a numerical example:</p>
+
+<blockquote>
+<p><strong>Example:</strong>  Suppose that the population of all GC males has a mean height of 71 inches, with a standard deviation of 3 inches.  Suppose also that the population of all GC females has a mean height of 68 inches, with a standard deviation of 2.5 inches.  You plan to take a simple random sample of 25 males and an independent simple random sample of 36 females.  You plan to estimate \( \mu_1-\mu_2 \), the mean GC male height minus the mean GC female height, by \( \bar{x}_1-\bar{x}_2 \), the difference of your sample means.</p>
+
+<p>(1).  About what do you expect \( \bar{x}_1-\bar{x}_2 \) to work out to be?</p>
+
+<p>(2).  Give or take about how much?</p>
+</blockquote>
+
+<p>As for the first question, we expect \( \bar{x}_1-\bar{x}_2 \) to work out to about its EV, which is:</p>
+
+<p>\[ \mu_1-\mu_2 = 71-68 = 3 \]</p>
+
+<p>inches.</p>
+
+<p>For the second question we need to compute the SD, and we might as well have R do the work for us.  From the given information, we seen that:</p>
+
+<ul>
+<li>\( \sigma_1=3 \)</li>
+<li>\( \sigma_2=2.5 \)</li>
+<li>\( n_1=25 \)</li>
+<li>\( n_2=36 \)</li>
+</ul>
+
+<p>We then plug these values into the formula for \( SD(\bar{x}_1-\bar{x}_2) \), using R as a calculator to do the arithmetic for us:</p>
+
+<pre><code class="r">sqrt(3^2/25+2.5^2/36)
+</code></pre>
+
+<pre><code>## [1] 0.7305
+</code></pre>
+
+<p>So we expect \( \bar{x}_1-\bar{x}_2 \) to work out to about 3 inches, give or take 0.73 inches or so.</p>
+
+<h3>Estimating One Proportion</h3>
+
+<p>When you need to estimate a population proportion \( p \), you could take a simple random sample (let&#39;s abbreviate this as SRS, shall we?) and count the number \( X \) of individuals in the sample who possess the characteristic of interest.  You could then divide \( X \) by \( n \), the size of the sample, to get a proportion.  This is called &ndash; naturally enough &ndash; the <em>sample proportion</em>, and it is written symbolically as \( \hat{p} \). So the sample proportion is:</p>
+
+<p>\[ \hat{p}=\frac{X}{n}, \]</p>
+
+<p>and it is used to estimate the parameter \( p \).  Roughly, you can think of the sample proportion as:  &ldquo;the number of yesses, divided by the number of people you asked.&rdquo;  The population proportion can be thought of as:  &ldquo;the number of yesses in the population, divided by the population size.&rdquo;</p>
+
+<p>The EV of \( \hat{p} \) is just \( p \), the population proportion.  The SD of \( \hat{p} \) is:</p>
+
+<p>\[ SD(\hat{p})=\sqrt{\frac{p(1-p)}{n}}, \]</p>
+
+<p>where \( n \) is again the sample size.</p>
+
+<p>Here is an example of the use of these formulas.</p>
+
+<blockquote>
+<p><strong>Example:</strong>  40% of the individuals in a certain population think that marijuana use should be legal.  A social scientist, who does not know this fact, would like to estimate the percentage of folks who think marijuana should be legal.  She plans to take a SRS of 400 individuals, and compute the proportion of the sample who think marijuana should be legal.  Fill in the blanks:  &ldquo;Her estimate is liable to be around ______ %, give or take ______ % or so.&rdquo;</p>
+</blockquote>
+
+<p><strong>Answer</strong>:  The EV of \( \hat{p} \) is \( p \), which in this case is 0.40.  Hence the first blank should be filled in with 40 (percent).  The second blank should contain the SD of \( \hat{p} \), multiplied by 100 to make it a percentage.  Again we can just use R as a calculator:</p>
+
+<pre><code class="r">sqrt(.4*(1-.4)/400)*100
+</code></pre>
+
+<pre><code>## [1] 2.449
+</code></pre>
+
+<p>So we should fill in the second blank with 2.45 (percent).</p>
+
+<h3>Estimating the Difference of Two Proportions</h3>
+
+<p>When you need to estimate the difference between two population proportions \( p_1 \) and \( p_2 \), you can:</p>
+
+<ul>
+<li>take a SRS of size \( n_1 \) from the first population;</li>
+<li>compute the sample proportion \( \hat{p}_1 \), the number of yesses in this sample divided by \( n_1 \);</li>
+<li>take an independent SRS of size \( n_2 \) from the second population;</li>
+<li>compute the sample proportion \( \hat{p}_2 \), the number of yesses in this sample divided by \( n_2 \);</li>
+<li>subtract:  \( \hat{p}_1 - \hat{p}_2 \).  This difference is your estimator for \( p_1-p_2 \).</li>
+</ul>
+
+<p>The EV of \( \hat{p}_1 - \hat{p}_2 \) is:</p>
+
+<p>\[ EV(\hat{p}_1-\hat{p}_2)=p_1-p_2. \]</p>
+
+<p>The SD of \( \hat{p}_1 - \hat{p}_2 \) is:</p>
+
+<p>\[ SD(\hat{p}_1 - \hat{p}_2) = \sqrt{\frac{p_1(1-p_1)}{n_1}+\frac{p_2(1-p_2)}{n_2}}. \]</p>
+
+<h3>Estimating the Mean of Differences</h3>
+
+<p>You estimate \( \mu_d \) for a population by taking a SRS of size \( n \), say, and computing the \( \bar{d} \), the sample mean of the differences.  The EV of \( \bar{d} \) is \( \mu_d \), and the SD of \( \bar{d} \) is:</p>
+
+<p>\[ SD(\bar{d})=\frac{\sigma_d}{\sqrt{n}}, \]</p>
+
+<p>where \( \sigma_d \) is the standard deviation of all of the differences in the entire population.</p>
+
+<h3>Properties of EV and SD of Estiamtors</h3>
+
+<h4>Unbiased Estimators</h4>
+
+<p>You have probably observed that, for each of the Basic Five, the EV of the estimator is exactly the parameter you are trying to estimate!  When the EV of an estimator equals the target parameter, then the estimator is said to be <em>unbiased.</em>  The estimators for the Basic Five are unbiased, but not all estimators are unbiased.</p>
+
+<h4>Sample Size and SD</h4>
+
+<p>Probably you have also noticed that for the SD of each of the Basic Five estimators, there are samples sizes in the denominators:</p>
+
+<ul>
+<li>\( n \) for one mean, one proportion, and the mean of differences;</li>
+<li>\( n_1 \) and \( n_2 \) for the difference of two means, and for the difference of two proportions.</li>
+</ul>
+
+<p>Now when the denominator of a fraction gets bigger, the fraction gets smaller, for example:</p>
+
+<ul>
+<li>1/10 = 0.1,</li>
+<li>1/100 = 0.01,</li>
+<li>1/1000 = 0.001, and so on.</li>
+</ul>
+
+<p>This observation leads to the following important point:</p>
+
+<blockquote>
+<p><em>For means and proportions, the larger the sample size the smaller the SD of the estimator will be.</em></p>
+</blockquote>
+
+<p>In other words:</p>
+
+<blockquote>
+<p><em>The larger the sample size, the less chance variation there is liable to be.</em></p>
+</blockquote>
+
+<p>This makes sense intuitively, as well.  You might want to revisit the <code>SimpleRandom()</code> app, and this time vary the sample size.</p>
+
+<pre><code class="r">require(manipulate)
+SimpleRandom()
+</code></pre>
+
+<p>You will notice that at large sample sizes the estimators tend to approximate their target parameters quite closely.  This us due to the fact that at large sample sizes their SDs are small.</p>
+
+<p><strong>Important Note!!</strong>  The formulas for SD of the Basic Five Estimators are all based on taking a <em>simple random sample</em> from the population.  For other probability sampling methods &ndash; such as stratified sampling, cluster sampling, and systematic sampling &ndash; the formulas are different and more complicated.  Also, even for simple random sampling the formulas we have given are only approximately right.  See the GeekNotes for the full story!</p>
+
+<h2>Estimators:  Shape of the Distribution</h2>
+
+<p>For each of the Basic Five estimators, we can now say two things about its distribution:</p>
+
+<ul>
+<li>We can specify the center (it&#39;s the EV);</li>
+<li>We can specify the spread (it&#39;s the SD).</li>
+</ul>
+
+<p>When we describe a distribution, we also want to describe its <em>shape.</em>  What are the shapes of these estimators?  The following sequence of apps may help you to formulate a partial answer to this question.</p>
+
+<p>The first app deals with sampling from one population, in order to estimate one proportion.  For a fixed sample size, take samples one by one, and watch the density plot of the sample proportions take shape.</p>
+
+<pre><code class="r">require(manipulate)
+PropSampler(~cappun,data=imagpop)
+</code></pre>
+
+<p>Try the app first for a small sample size.  Ask yourself these questions:</p>
+
+<ul>
+<li>What is the shape, roughly:
+
+<ul>
+<li>Unimodal or bimodal?</li>
+<li>Symmetric or skewed?</li>
+</ul></li>
+</ul>
+
+<p>Try a much larger sample size, and ask yourself the same question.</p>
+
+<p>The second app deals with sampling from one population, in order to estimate one mean:</p>
+
+<pre><code class="r">MeanSampler(~income,data=imagpop)
+</code></pre>
+
+<p>Again for a fixed sample size take samples one by one, and watch the density plot of the sample take shape.  Try at least three samples sizes, including \( n=1 \) and \( n=30 \).  At each sample sizes, ask yourself the same questions about shape as before:</p>
+
+<ul>
+<li>What is the shape, roughly:
+
+<ul>
+<li>Unimodal or bimodal?</li>
+<li>Symmetric or skewed?</li>
+</ul></li>
+</ul>
+
+<p>The third app moves a bit more quickly.  For any numerical variable you choose, and for any sample size you choose, the computer will draw 1000 simple random samples, compute the mean of each sample, and make a histogram of the results.</p>
+
+<pre><code class="r">SampDistMean(imagpop)
+</code></pre>
+
+<p>Try the same sample size several times.  Then change the sample size, and try it a few more times.  Keep changing sample sizes.  Then do the whole thing over, for a new numerical variable.  Is there a pattern to what you have observed?</p>
+
+<p>The fourth app is similar, except that it deals with estimating the difference of two means:</p>
+
+<pre><code class="r">require(manipulate)
+SampDist2Means(imagpop)
+</code></pre>
+
+<p>Again, play with sample sizes and with the various combinations of variables, and think a bit about what you noticed.</p>
+
+<p>Finally, an app that that explores estimation of the difference between two proportions:</p>
+
+<pre><code class="r">require(manipulate)
+SampDist2Props(~sex+cappun,data=imagpop)
+</code></pre>
+
+<p>Try it as before, but also vary the combination of variables.  (For example, try <code>~sex+math</code>.)  Again, think about what you notice.</p>
+
+<blockquote>
+<p><strong>Before you go any further, make sure you have thought carefully about any patterns you might have observed.</strong></p>
+</blockquote>
+
+<p>One of the things that you may have noticed is that no matter how the underlying population is distributed, the distribution of each of the Basic Five estimators looks more and more &ldquo;bell-shaped&rdquo; as the sample size increases.  This phenomena comes from the famous:</p>
+
+<blockquote>
+<p><strong>Central Limit Theorem</strong>:  For any population with a finite mean \( \mu \) and finite standard deviation \( \sigma \), the distribution of the sample mean \( \bar{x} \) gets closer and closer to</p>
+</blockquote>
+
+<p>\[ norm(\mu,\frac{\sigma}{\sqrt{n}}) \]</p>
+
+<blockquote>
+<p>as the sample size \( n \) gets larger and larger.</p>
+</blockquote>
+
+<p>Although the Central Limit Theorem applies directly to the sample mean only, it can be used to show that each of the other Basic Five Estimators looks normally distributed, at &ldquo;large enough&rdquo; sample sizes.  A sample proportion, for example is like a mean, because it involves dividing by the sample size \( n \).  Hence \( \hat{p} \) is normal-looking, if \( n \) is big enough.  The difference of two sample means will also look normal, because the difference of two independent normal random variables is also normal.  The same idea helps us to see that the difference of two sample proportions will also be normal, when both samples sizes are large.</p>
+
+<p>How large does \( n \) have to be to be &ldquo;large enough&rdquo;?  For most populations you encounter:</p>
+
+<ul>
+<li>\( n \ge 30 \) is big enough for \( \bar{x} \) to look normal;</li>
+<li>\( n_1 \ge 30 \) and \( n_2 \ge 30 \) is enough for \( \bar{x}_1 - \bar{x}_2 \) to look normal;</li>
+<li>\( n \ge 30 \) is big enough for \( \bar{d} \) to look normal;</li>
+<li>we saw back in Chapter 7 that when \( np \ge 10 \) and \( n(1-p) \ge 10 \) then \( \hat{p} \) looks normal;</li>
+<li>for \( \hat{p}_1-\hat{p}_2 \) to look normal then we only need:
+
+<ul>
+<li>\( np_1 \ge 10 \),</li>
+<li>\( n(1-p_1) \ge 10 \),</li>
+<li>\( np_2 \ge 10 \), and</li>
+<li>\( n(1-p_2) \ge 10 \).</li>
+</ul></li>
+</ul>
+
+<p>The more skewed the population is, the larger the sample size needs to be before the distribution of \( \bar{x} \) looks normal&mdash;you may have noticed this when you were playing with the apps.  Nevertheless, we don&#39;t often run across a population that is so skewy that the sample size \( n=30 \) is still &ldquo;too small&rdquo;.  Also, if the underlying population is pretty close to bell-shaped, then the distribution of \( \bar{x} \) will be approximately normal, even when the sample size \( n \) is quite small.  (You may have noticed that in the apps, too!)</p>
+
+<h2>Probability for Estimators</h2>
+
+<p>Imagine that you are a very powerful being:  you can find out everything about the present world that you would like to know, all in a flash.  But you are not all-knowing:  you cannot know the future.  Hence you are not God&mdash;-maybe you are more like Zeus or Athena, or one of the other deities from Mount Olympus.</p>
+
+<p>Since you can find out anything you want about the present world, you can know everything about a population.  In particular you can know any population parameter that you like.</p>
+
+<p>Now imagine that you are looking down from Mount Olympus, watching a poor statistician&mdash;a mere mortal&mdash;about to take a random sample from some population about which you know everything.  Since you can&#39;t know the future, you don&#39;t know what his or her sample will contain, so you don&#39;t know what the values of any of the estimators will be.  But since you know the population, you know the <em>distribution</em> of the estimators:  you known mean, the SD and the shape of each estimator.</p>
+
+<p>Armed with this knowledge, you can answer all sorts of <em>probability</em> questions about an estimator:  that is, you can determine how likely it is that the estimator will fall within any given range.  Let&#39;s try a few examples of this.</p>
+
+<blockquote>
+<p><strong>Example (1):</strong>  A statistician is about to take a SRS of size \( n=25 \) from <code>imagpop</code> and compute \( \bar{x} \), the sample mean of the heights of the 25 selected individuals.   What is the probability that the sample mean will exceed 68.3 inches?  In other words, what is:</p>
+</blockquote>
+
+<p>\[ P(\bar{x} > 68.3)? \]</p>
+
+<p><strong>Solution:</strong> First of all, we use our god-like powers to find the mean \( \mu \) and the standard deviation \( \sigma \) of the heights in the population:</p>
+
+<pre><code class="r">favstats(~height,data=imagpop)[6:7]
+</code></pre>
+
+<pre><code>##   mean    sd
+##  67.53 3.907
+</code></pre>
+
+<p>Now the distribution of \( \bar{x} \) is probably very close to normal.  That&#39;s because the underlying population of heights is already pretty bell-shaped.  We know this because we can use our god-like powers to draw a density plot of the entire population:</p>
+
+<pre><code class="r">densityplot(~height,data=imagpop,
+            xlab=&quot;Height (inches)&quot;,
+            main=&quot;Imagpop Heights&quot;,
+            plot.points=FALSE)
+</code></pre>
+
+<p><img src="data:image/png;base64,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" alt="Imagpop Heights.  Height in this population is roughly normall distibuted."/> </p>
+
+<p>The results appear in Figure [Imagpop Heights].  Indeed, the distribution of <strong>height</strong> is quite bell-shaped.  Therefore, even though the intended sample size (\( n=25 \)) is a bit lower than the suggested &ldquo;safe&rdquo; level of 30, \( \bar{x} \) should be quite normal, with mean 67.53 inches and SD equal to</p>
+
+<p>\[ \frac{\sigma}{\sqrt{n}}= \frac{3.907}{\sqrt{25}} \approx 0.78. \]</p>
+
+<p>In symbols, we might say:</p>
+
+<p>\[ \bar{x} \sim norm(67.53,0.78). \]</p>
+
+<p>So in order to find the probability we can just ask R to tell us the area under the appropriate normal curve after 68.3:</p>
+
+<pre><code class="r">pnormGC(68.3,region=&quot;above&quot;,
+        mean=67.53,sd=0.78)
+</code></pre>
+
+<pre><code>## [1] 0.1618
+</code></pre>
+
+<p>So there is about a 16.2% chance that \( \bar{x} \) will exceed 68.3 inches.</p>
+
+<blockquote>
+<p><strong>Example (2):</strong>  A statistician plans to take a SRS of 30 males from the population of all males in <code>imagpop</code>, and an independent SRS of 40 females from the population of all women in <code>imagpop</code>.  She will then compute \( \bar{x}_1-\bar{x}_2 \), the sample mean height of the males minus the sample mean height of the females.  Approximately what is the chance that the difference of sample means will be between 4 and 6 inches?</p>
+</blockquote>
+
+<p><strong>Solution</strong>:  This time the samples sizes are \( n_1=30 \) and \( n_2=40 \).  Both sample sizes are fairly large, so we can use the Central Limit Theorem to conclude that \( \bar{x}_1-\bar{x}_2 \) is approximately normal.</p>
+
+<p>Next, we need to compute the EV and SD of \( \bar{x}_1-\bar{x}_2 \).  For this we will need means and standard deviations of of the heights for:</p>
+
+<ul>
+<li>all males in <code>imagpop</code>, and</li>
+<li>all females in <code>imagpop</code>.</li>
+</ul>
+
+<p>Hence we ask for:</p>
+
+<pre><code class="r">favstats(height~sex,data=imagpop)[6:7]
+</code></pre>
+
+<pre><code>##         mean    sd
+## female 65.00 2.962
+## male   70.03 3.013
+</code></pre>
+
+<p>So the EV of \( \bar{x}_1-\bar{x}_2 \) is</p>
+
+<p>\[ 70.03-65=5.03 \]</p>
+
+<p>inches, and the SD of \( \bar{x}_1-\bar{x}_2 \) is</p>
+
+<pre><code class="r">sqrt(3.013^2^2/30+2.962^2/40)
+</code></pre>
+
+<pre><code>## [1] 1.722
+</code></pre>
+
+<p>So \( \bar{x}_1-\bar{x}_2 \) is approximately
+\[ norm(5.03,1.72). \]</p>
+
+<p>Now we can get the desired probability:</p>
+
+<pre><code class="r">pnormGC(c(4,6),region=&quot;between&quot;
+        ,mean=5.03,sd=1.72)
+</code></pre>
+
+<pre><code>## [1] 0.439
+</code></pre>
+
+<p>So there is about a 43.9% chance that \( \bar{x}_1-\bar{x}_2 \) will turn out to be between 4 and 6 inches.  That is, there is about a 43.9% chance that the sample guys will be, on average, between 4 and 6 inches taller than the gals, on average.</p>
+
+<blockquote>
+<p><strong>Example (3):</strong>  A certain population roughly normal population has a mean height of 65 inches, with a standard deviation of 3 inches.</p>
+
+<p>(1). You plan to select one individual at random from the population.  Fill in the blanks, and explain:  <em>There is about a 68% chance that the selected individual will be between ____ and ___ inches tall.</em></p>
+
+<p>(2).  You plan to select 16 individuals from the population by simple random sampling.  Fill in the blanks, and explain:  <em>There is about 95% chance that the mean height of the selected individuals will be between ____ and ____.</em></p>
+</blockquote>
+
+<p><strong>Answer to 1:</strong>  The number 68 should remind you of the &ldquo;68&rdquo; part of the 68-95 Rule for Random Variables:</p>
+
+<blockquote>
+<p><em>When the distribution of a random variable is bell-shaped, there is about a 68% chance that the random variable will land within one SD of its EV.</em></p>
+</blockquote>
+
+<p>The EV of the height of a single randomly-selected person is just \( \mu \), the population mean, so the EV of this random adult is 65 inches.  The SD for the height of the person is the SD for the population, and that&#39;s 3.  (You could also think of the height of one random person as the sample mean for a sample of size 1.  Then the SD of this sample mean is \( \sigma/\sqrt(1) = 3/1 = 3 \).)</p>
+
+<p>Therefore, by the 68-95 Rule for Random Variables, there is about a 68% chance that this randomly selected person is between \( 65-3=62 \) and \( 65+3=68 \) inches.  So we fill in the blanks with 62 and 68.</p>
+
+<p><strong>Answer to 2:</strong>  When you sample \( n=16 \) individuals, the EV and SD of \( \bar{x} \) are:</p>
+
+<p>\[ EV(\bar{x})=\mu=65, \\
+SD(\bar{x})=3/\sqrt{16}=0.75. \]</p>
+
+<p>By the &ldquo;95&rdquo; part of the 68-95 Rule, the approximately normal random variable \( \bar{x} \) has about a 95% chance of landing within two SDs of its EV, so we should fill in the blanks with \( 65-2(0.75)=63.5 \) and \( 65+2(0.75)=66.5 \).</p>
+
+<blockquote>
+<p><strong>Example (4):</strong>  Suppose that forty-five percent of all registered voters approve of the job that the President of the U.S. is doing.  Approximately what is the probability that, in a random sample of 1600 voters, between 43% and 47% will approve of the job that the President is doing?</p>
+</blockquote>
+
+<p><strong>Solution 1:</strong>  We could turn this into a problem from Chapter 8.  The <em>number</em> \( X \) of voters in the sample who approve is a binomial random variable, with the number of trials \( n \) is set at 1600 and with a probability of success on each trial equal to 0.45.  Also:</p>
+
+<ul>
+<li>43% of 1600 = 0.43 x 1600 = 688;</li>
+<li>47% of 1600 = 0.47 x 1600 = 752.</li>
+</ul>
+
+<p>So we are really asking for:  \( P(688 \le X \le 752). \)  We can get this with R:</p>
+
+<pre><code class="r">pbinomGC(c(688,752),region=&quot;between&quot;,
+         size=1600,prob=0.45)
+</code></pre>
+
+<pre><code>## [1] 0.8976
+</code></pre>
+
+<p>So there is about an 89.7% chance that the sample proportion \( \hat{p} \) will be between 0.43 and 0.47.</p>
+
+<p><strong>Solution 2:</strong>  This time we will use the normal approximation for \( \hat{p} \).  It is certainly safe to do so, because for us:</p>
+
+<ul>
+<li>\( np=1600(0.45)=720 \ge 10 \), and</li>
+<li>\( n(1-p)=100(1-0.45)=880 \ge 10. \)</li>
+</ul>
+
+<p>Now the EV for \( \hat{p} \) is \( p \), which is 0.45.  As for the SD of \( \hat{p} \), it is:</p>
+
+<pre><code class="r">sqrt(0.45*(1-0.45)/1600)
+</code></pre>
+
+<pre><code>## [1] 0.01244
+</code></pre>
+
+<p>By the normal approximation, the answer wee seek is:</p>
+
+<pre><code class="r">pnormGC(c(0.43,0.47),region=&quot;between&quot;,
+        mean=0.45,sd=0.01243)
+</code></pre>
+
+<pre><code>## [1] 0.8924
+</code></pre>
+
+<blockquote>
+<p><strong>Example (5):</strong>  50% of all OSU students favor stricter gun laws, and 40% of all UK students favor stricter gun laws.  A statistician plans to take a SRS of 400 OSU students and an independent SRS of 900 UK students, and to ask the sample students if they favor stricter gun laws.  Fill in the blanks, and explain:  there is about a 95% chance that the difference in sample proportions (OSU minus UK) will be between _____ and _____.</p>
+</blockquote>
+
+<p><strong>Solution:</strong>  First we find the EV and the SD of \( \hat{p}_1-\hat{p}_2 \).  The EV is just</p>
+
+<p>\[ p_1-p_2=0.50-0.40=0.10, \]
+and the SD is:</p>
+
+<pre><code class="r">sqrt(0.50*(1-0.50)/400+0.40*(1-0.40)/900)
+</code></pre>
+
+<pre><code>## [1] 0.02986
+</code></pre>
+
+<p>Next, we note that the distribution of \( \hat{p}_1-\hat{p}_2 \) is approximately normal.  This is because:</p>
+
+<ul>
+<li>\( n_1p_1 = (400)(0.50) = 200 \ge 10; \)</li>
+<li>\( n_1(1-p_1) = (400)(0.50) = 200 \ge 10; \)</li>
+<li>\( n_2p_2 = (900)(0.40) = 360 \ge 10; \)</li>
+<li>\( n_2(1-p_2) = (900)(0.60) = 540 \ge 10. \)</li>
+</ul>
+
+<p>By the 68-95 Rule, there is about a 95% chance that the approximately-normal \( \hat{p}_1-\hat{p}_2 \) will land within 2 SDs of its EV.  So we fill in the blanks as follows:</p>
+
+<ul>
+<li>The blank for the lower bound is:</li>
+</ul>
+
+<pre><code class="r">0.10-2*0.02986
+</code></pre>
+
+<pre><code>## [1] 0.04028
+</code></pre>
+
+<p>or about 4.03%.</p>
+
+<ul>
+<li>The blank for the upper bound is:</li>
+</ul>
+
+<pre><code class="r">0.10+2*0.02986
+</code></pre>
+
+<pre><code>## [1] 0.1597
+</code></pre>
+
+<p>or about 15.97%.</p>
+
+<h2>Inference With Estimators</h2>
+
+<h3>We Are Not Deities</h3>
+
+<p>So far in this chapter, we have been imagining that we are deities who somehow can know everything about a population.  This knowledge, together with a little statistical theory, allowed us to answer questions concerning the chances for a sample from the population to take on certain given values.</p>
+
+<p>But now let&#39;s turn it around, and take the point of view of a statistician, a mere mortal.  such a person does NOT know everything about the population.  However, she has taken a sample from the population, and she can compute any number that is based on her sample.  She would like to use statistics from her sample to estimate parameters in the population.</p>
+
+<p>This statisticians has two primary questions:</p>
+
+<blockquote>
+<ol>
+<li> Based on my sample, what&#39;s the best single guess at the population parameter?</li>
+<li> By how much is my best guess liable to differ from the actual value of the population parameter?</li>
+</ol>
+</blockquote>
+
+<p>In the case of the Basic Five, the answer to Question 1 should be fairly clear:  your best guess at a Basic Five parameter is the <em>estimator</em> for that parameter:  e.g., your best guess at a population mean \( \mu \) is the sample mean \( \bar{x} \), and so on for the other four members of the Basic Five.</p>
+
+<p>How about Question #2?  This is a bit tougher.  The statistician has the same access to statistical theory that a deity has:  she knows that the estimator is liable to differ from the parameter by an SD or so.  However, the formulas for the SDs all involve population parameters, so she cannot compute the numerical value of the SD.</p>
+
+<p>For example, the SD of \( \bar{x} \) is \( \frac{\sigma}{\sqrt{n}} \).  The statistician knows \( n \), the sample size, but she does NOT know \( \sigma \), the SD of the population.  Hence it would seem that she cannot say anything about <em>how much</em> her estimate \( \bar{x} \) is liable to differ from the the target parameter \( \mu \).</p>
+
+<p>There is a way around this, however.  Since the statistician has the sample she can compute the <em>sample standard deviation</em> \( s \).  Since \( s \) is an estimate of \( \sigma \), it stands to reason that the quantity</p>
+
+<p>\[ \frac{s}{\sqrt{n}} \]</p>
+
+<p>could serve as an estimate of</p>
+
+<p>\[ \frac{\sigma}{\sqrt{n}}. \]</p>
+
+<p>The quantity \( \frac{s}{\sqrt{n}} \) is known as the <em>standard error</em> of \( \bar{x} \), and it is often written \( SE(\bar{x}) \) for short.</p>
+
+<h3>Practice With Estimator and SE</h3>
+
+<p>The SD for every Basic Five estimator has a corresponding SE.  A mere mortal who knows only the sample can use the SE to estimate the SD of the estimator of the parameter of interest:</p>
+
+<ul>
+<li>One Mean:  \( SE(\bar{x}) = \frac{s}{\sqrt{n}} \), where \( s \) is the SD of the sample;</li>
+<li>Difference of Two Means:  \( SE(\bar{x}_1-\bar{x}_2) = \sqrt{\frac{s_1^2}{n_1}+\frac{s_2^2}{n_2}} \), where \( s_1 \) and \( s_2 \) are the SDs of the first and second sample, respectively;</li>
+<li>One Proportion:  \( SE(\hat{p})= \sqrt{\frac{\hat{p}(1-\hat{p})}{n}} \), where \( \hat{p} \) is the sample proportion.</li>
+<li>Difference of Two Proportions:  \( SE(\hat{p}_1-\hat{p}_2)=\sqrt{\frac{\hat{p}_1(1-\hat{p}_1)}{n_1}+\frac{\hat{p}_2(1-\hat{p}_2)}{n_2}} \), where \( \hat{p}_1 \) and \( \hat{p}_2 \) are the two sample proportions.</li>
+<li>Mean of Differences:  \( SE(\bar{d})=\frac{s_d}{\sqrt{n}} \), where \( s_d \) is the standard deviation of the differences in the sample.</li>
+</ul>
+
+<p>We will use the estimator and its SE together to say what we think the parameter is, and by how much we think our estimate might be off.</p>
+
+<blockquote>
+<p><strong>Example (1):</strong>  Using the <code>mat111survey</code> data, estimate the mean height of the population of all GC students.  Also, give a figure that indicates the amount by which your estimate might differ from the population mean.</p>
+</blockquote>
+
+<p><strong>Solution:</strong>  We are interested in one population mean:</p>
+
+<blockquote>
+<p>\( \mu \) = mean height of all GC students.</p>
+</blockquote>
+
+<p>We therefore want \( \bar{x} \) and \( SE(\bar{x}) \).  For \( SE(\bar{x}) \), we will need the SD of the sample, and we will need \( n \), the sample size.  So we really need three things, and we can get them quickly with <strong>favstats</strong>:</p>
+
+<pre><code class="r">favstats(~height,data=m111survey)[6:8]
+</code></pre>
+
+<pre><code>##   mean    sd  n
+##  67.99 5.296 71
+</code></pre>
+
+<p>So:</p>
+
+<ul>
+<li>\( \bar{x} = 67.987 \),</li>
+<li>\( s = 5.296 \),</li>
+<li>\( n = 71 \).</li>
+</ul>
+
+<p>Now we can get \( SE(\bar{x}) \) by applying the formula:</p>
+
+<pre><code class="r">5.296/sqrt(71)
+</code></pre>
+
+<pre><code>## [1] 0.6285
+</code></pre>
+
+<p>At last, we can answer the question that was originally asked:  <em>The mean height of all GC students is about 67.99 inches, give or take 0.63 inches or so.</em></p>
+
+<blockquote>
+<p><strong>Example (2)</strong>:  In a random sample of 2500 adults in the year 1995, 70% said they favored the death penalty.  An independent random sample of 1600 adults in the year 2013 had 55% percent of them favoring the death penalty.  Fill in the blanks, and explain:  The difference in the proportions of adults who favor the death penalty (Year 1995 minus Year 2013) is about ____<strong><em>, give or take _</em></strong>___ or so.</p>
+</blockquote>
+
+<p><strong>Solution</strong>:  It&#39;s easier to answer this sort of question using summary data than with raw data (like we had in the previous example).  We just need to plug into the formulas for the estimator and the SE of the estimator.  The parameter of interest is a difference of two proportions, so we just plug into the formulas.</p>
+
+<p>The estimator \( \hat{p}_1 \) and \( \hat{p}_2 \) is:</p>
+
+<pre><code class="r">0.70-0.55
+</code></pre>
+
+<pre><code>## [1] 0.15
+</code></pre>
+
+<p>That&#39;s 15%.  Now for the SE of \( \hat{p}_1-\hat{p}_2 \):</p>
+
+<pre><code class="r">sqrt(0.70*(1-0.70)/2500)+0.55*(1-0.55)/1600
+</code></pre>
+
+<pre><code>## [1] 0.00932
+</code></pre>
+
+<p>This is about 0.93%.</p>
+
+<p>Now we can fill in the blanks: <em>The difference in the percentage of adults who favor the death penalty (Year 1995 minus Year 2013) is about 15%, give or 0.93% or so.</em></p>
+
+<h3>The Reverse 68-95 Rule</h3>
+
+<p>Say that you are about to flip a fair coin.  You don&#39;t know how it will land, but you do know that there is a 50% chance that it will land Heads.  Next, imagine that a friend has flipped a coin, and he is hiding it in his fist.  You don&#39;t know whether it&#39;s Heads or Tails, but you feel 50% <em>confident</em> that it is Heads.  Why?  Because <em>before</em> it was flipped there was a 50% chance that it would land heads.</p>
+
+<p>This idea about confidence carries over to more complicated random processes, including processes involving the random collection of data.</p>
+
+<p>For example, say that you are about to take a large simple random sample from a population.  Statistical theory, together with the 68-95 Rule, says that there is about a 68% chance that the sample mean \( \bar{x} \) will land within one SE of the mean \( \mu \) of the population.  Therefore, if you have already taken a sample, you are justified in feeling 68% <em>confident</em> that \( \bar{x} \) <em>actually did</em> land within one SE of \( \mu \).  Another way of saying the same thing is that you feel 68% confident that \( \mu \) lies within one SE of the \( \bar{x} \) that you got.</p>
+
+<p>We encapsulate this idea in the</p>
+
+<blockquote>
+<p><strong>Reverse 68-95 Rule</strong>:  If an estimator for a population parameter has a roughly bell-shaped probability distribution, then:</p>
+
+<ul>
+<li><p>we can be about 68%-confident that the parameter is within one standard error of the estimator;</p></li>
+<li><p>we can be about 95%-confident that the parameter is within two standard errors of the estimator;</p></li>
+<li><p>we can be about 99.7%-confident that the parameter is within three standard errors of the estimator;</p></li>
+</ul>
+</blockquote>
+
+<p>Here is an example:</p>
+
+<blockquote>
+<p><strong>Example:</strong>  You sample 36 people at random from a population, and find that their mean height is 68 inches, and that the SD of their heights is 3 inches.  Fill in the blanks:  you can be about 95%-confident that the population mean \( \mu \) is between _____ and _____.</p>
+</blockquote>
+
+<p>For you, the value of \( \bar{x} \) is 68, and the SE of \( \bar{x} \) is:</p>
+
+<p>\[ 3/\sqrt{36} = 3/6 = 0.5 \]</p>
+
+<p>inches.  Hence two SEs is 1 inch.</p>
+
+<p>Hence you can feel 95% confident that \( \mu \), the mean height of all people in the population, is within 1 inch of 68, that is, between 67 and 69 inches.</p>
+
+<p>People say that the interval of real numbers from 67 to 69 inches is a <em>95%-confidence interval for \( \mu \).</em>  We will explore the idea of confidence intervals in much more detail in upcoming chapters.</p>
+
+<h2>Summary of Formulas</h2>
+
+<ul>
+<li>For one mean \( \mu \):
+
+<ul>
+<li>Estimator is \( \bar{x} \)</li>
+<li>EV is \( \mu \)</li>
+<li>SD is \( \frac{\sigma}{\sqrt{n}} \)</li>
+<li>SE is \( \frac{s}{\sqrt{n}} \)</li>
+</ul></li>
+<li>For the difference of two means \( \mu_1-\mu_2 \):
+
+<ul>
+<li>Estimator is \( \bar{x}_1-\bar{x}_2 \)</li>
+<li>EV is \( \mu_1-\mu_2 \)</li>
+<li>SD is \( \sqrt{\frac{\sigma_1^2}{n_1}+\frac{\sigma_2^2}{n_2}} \)</li>
+<li>SE is \( \sqrt{\frac{s_1^2}{n_1}+\frac{s_2^2}{n_2}} \)</li>
+</ul></li>
+</ul>
+
+<h2>Thoughts on R</h2>
+
+<p>In this chapter:</p>
+
+<ul>
+<li>You have really seen how useful it can be to use R as a calculator.</li>
+<li>You have also got a lot more practice with <code>pnormGC()</code> and a bit more practice with <code>pbinomGC()</code>.  It&#39;s important to become very familiar with these functions.</li>
+</ul>
+
+<p>You have also seen some examples in which we use <code>favstats()</code>, but only need to see a few columns of the output.  Fro example, to see only columns 6 and 7 (the columns that give the mean and the SD), you simply type:</p>
+
+<pre><code class="r">favstats(Formula,data=MyData)[6:7]
+</code></pre>
+
+</body>
+
+</html>
+
