@@ -95,15 +95,15 @@ help(attitudes)</code></pre>
 </blockquote>
 <p>Let’s quickly explore this question. We can take a numerical approach:</p>
 <pre class="r"><code>favstats(sentence~major,data=attitudes)</code></pre>
-<pre><code>##       .group min    Q1 median    Q3 max  mean    sd   n missing
-## 1 humanities   5 11.25     20 38.75  50 25.26 15.97  38       0
-## 2   math.sci   5 20.00     30 50.00  50 30.49 15.65  77       0
-## 3   pre.prof   3 14.00     25 32.50  50 25.02 15.05 107       1
-## 4 social.sci   4 15.00     25 40.00  50 25.49 14.67  45       0</code></pre>
+<pre><code>##       .group min    Q1 median    Q3 max     mean       sd   n missing
+## 1 humanities   5 11.25     20 38.75  50 25.26316 15.96565  38       0
+## 2   math.sci   5 20.00     30 50.00  50 30.49351 15.64964  77       0
+## 3   pre.prof   3 14.00     25 32.50  50 25.02336 15.05342 107       1
+## 4 social.sci   4 15.00     25 40.00  50 25.48889 14.66694  45       0</code></pre>
 <p>Comparing the means of the four major groups, it seems that math and science majors recommend sentences that are, on average, about five years longer than sentences recommended by the other three major groups.</p>
 <p>We can also take a graphical approach. Figure [Sentence by Major] also indicates that math and science majors are harder on crime. (Note, for instance, that their median is about five years above the medians for the other three groups.)</p>
 <div class="figure">
-<img src="ch6_files/figure-html/majorsent.png" alt="Sentence by Major. The survey respondents are broken into four groups, accordng to the type of majors they intend to pursue." /><p class="caption">Sentence by Major. The survey respondents are broken into four groups, accordng to the type of majors they intend to pursue.</p>
+<img src="ch6_files/figure-html/majorsent-1.png" alt="Sentence by Major. The survey respondents are broken into four groups, accordng to the type of majors they intend to pursue." /><p class="caption">Sentence by Major. The survey respondents are broken into four groups, accordng to the type of majors they intend to pursue.</p>
 </div>
 <p>The data for this research question – the variables <strong>major</strong> and <strong>sentence</strong> – were gathered by means of an <em>observational study</em>:</p>
 <p>Observational Study</p>
@@ -273,15 +273,16 @@ help(imagpop)</code></pre>
 <p>Do the treatment groups differ much with respect to <strong>sex</strong> (i.e., is <strong>treat.grp</strong> related to <strong>sex</strong>)? Let’s see:</p>
 <pre class="r"><code>SexGrp &lt;- xtabs(~treat.grp+sex,data=Assignment)
 rowPerc(SexGrp)</code></pre>
-<pre><code>##         female male Total
-## placebo     51   49   100
-## aspirin     56   44   100</code></pre>
+<pre><code>##          sex
+## treat.grp female male Total
+##   placebo     51   49   100
+##   aspirin     56   44   100</code></pre>
 <p>The distribution of <strong>sex</strong> in the two treatment groups appears to be quite similar.</p>
 <p>Do the groups differ much with respect to income? (Is <strong>treat.grp</strong> related to <strong>income</strong>?) Let’s see:</p>
 <pre class="r"><code>favstats(income~treat.grp,data=Assignment)</code></pre>
-<pre><code>##    .group  min    Q1 median    Q3    max  mean    sd   n missing
-## 1 placebo 1200 18325  33600 50000 154700 39215 26995 100       0
-## 2 aspirin 1500 16675  33550 55650 165700 39486 29352 100       0</code></pre>
+<pre><code>##    .group  min    Q1 median    Q3    max  mean       sd   n missing
+## 1 placebo 1200 18325  33600 50000 154700 39215 26995.24 100       0
+## 2 aspirin 1500 16675  33550 55650 165700 39486 29352.24 100       0</code></pre>
 <p>The means and medians of the two groups appear to be quite similar.</p>
 <p>For further practice, pick another variable in the <code>Assignment</code> data frame, and see if the treatment groups differ much with respect to that variable.</p>
 <p>The randomization procedure is not perfect: if you repeat the procedure many times:</p>
@@ -357,7 +358,7 @@ help(saltmarsh)</code></pre>
 <p>Sure enough: the six treatments groups (the salt levels) are distributed identically with respect to <strong>block</strong>.</p>
 <p>In order to address the Research Question, we note that the explanatory and response variables are both numerical, so a scatterplot could be an appropriate graphical tool. Figure [Biomass and Salinity] shows the scatterplot, and indeed it does appear that there is a negative relationship between salinity-level and biomass.</p>
 <div class="figure">
-<img src="ch6_files/figure-html/saltmarshplot.png" alt="Biomass and Salinity. The higher the concentration of salt, the lower the biomass in the plot." /><p class="caption">Biomass and Salinity. The higher the concentration of salt, the lower the biomass in the plot.</p>
+<img src="ch6_files/figure-html/saltmarshplot-1.png" alt="Biomass and Salinity. The higher the concentration of salt, the lower the biomass in the plot." /><p class="caption">Biomass and Salinity. The higher the concentration of salt, the lower the biomass in the plot.</p>
 </div>
 </div>
 </div>
@@ -382,11 +383,11 @@ help(labels)</code></pre>
 <pre class="r"><code>diff &lt;- labels$jiffrating - labels$greatvaluerating</code></pre>
 <p>We can look at the difference in a variety of ways. Numerically:</p>
 <pre class="r"><code>favstats(~diff)</code></pre>
-<pre><code>##  min Q1 median Q3 max  mean   sd  n missing
-##   -5  1    2.5  4   8 2.367 2.81 30       0</code></pre>
+<pre><code>##  min Q1 median Q3 max     mean       sd  n missing
+##   -5  1    2.5  4   8 2.366667 2.809876 30       0</code></pre>
 <p>We see that the subjects rated the Jiff-labeled peanut butter an average of 2.37 points higher than they rated the peanut butter from the Great-Value-labeled jar. A graphical approach is shown in Figure [Ratings Difference].</p>
 <div class="figure">
-<img src="ch6_files/figure-html/jiffgvhist.png" alt="Ratings Difference. Most of the differences are positive, indicating that subjects usually rated the Jiff-labeled peanut butter more highly." /><p class="caption">Ratings Difference. Most of the differences are positive, indicating that subjects usually rated the Jiff-labeled peanut butter more highly.</p>
+<img src="ch6_files/figure-html/jiffgvhist-1.png" alt="Ratings Difference. Most of the differences are positive, indicating that subjects usually rated the Jiff-labeled peanut butter more highly." /><p class="caption">Ratings Difference. Most of the differences are positive, indicating that subjects usually rated the Jiff-labeled peanut butter more highly.</p>
 </div>
 <p>A repeated-measures design appears to be the gold-standard among experiments, since your treatment groups are – in some sense – the same group. But is it always feasible to perform a repeated-measures experiment?</p>
 <p>Consider, for example, the following (thankfully hypothetical) Knife-or-Gun study:</p>
@@ -437,12 +438,12 @@ RandomExp(SmallExp,sizes=c(8,8),
 <p>Even when the subjects are quite different from the population, and we are reduced to wondering whether the the treatments made a difference <em>for those subjects only</em>, statistical significance is still an issue. Consider once again the Knife or Gun experiment.</p>
 <p>Who did yell louder, in the experiment: the subjects who were killed by knife, or the subjects who were killed by gun? Let’s see:</p>
 <pre class="r"><code>favstats(volume~means,data=knifeorgunblock)</code></pre>
-<pre><code>##   .group  min    Q1 median    Q3  max  mean     sd  n missing
-## 1    gun 40.3 45.92  53.25 59.93 64.5 53.00  8.761 10       0
-## 2  knife 61.2 65.20  72.00 77.12 90.9 73.13 10.072 10       0</code></pre>
+<pre><code>##   .group  min     Q1 median     Q3  max  mean        sd  n missing
+## 1    gun 40.3 45.925  53.25 59.925 64.5 53.00  8.761152 10       0
+## 2  knife 61.2 65.200  72.00 77.125 90.9 73.13 10.071528 10       0</code></pre>
 <p>A nice graphical tool for small data sets is a strip plot, which we combine here with a violin plot (see Figure [Knife or Gun?]):</p>
 <div class="figure">
-<img src="ch6_files/figure-html/knifegunstripplot.png" alt="Knife or Gun? Apparently those slain by Knife yell louder!" /><p class="caption">Knife or Gun? Apparently those slain by Knife yell louder!</p>
+<img src="ch6_files/figure-html/knifegunstripplot-1.png" alt="Knife or Gun? Apparently those slain by Knife yell louder!" /><p class="caption">Knife or Gun? Apparently those slain by Knife yell louder!</p>
 </div>
 <p>Hmm, it appears the subjects who were slain by knife yelled louder: the volume-points, and their violin, is somewhat higher than the points and violin for those slain by a gun.</p>
 <p>But are the results statistically significant? By this question we do NOT mean:</p>
@@ -575,7 +576,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

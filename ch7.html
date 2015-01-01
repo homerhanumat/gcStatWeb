@@ -229,20 +229,20 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <li><p>a bar is centered on each possible value and its height is equal to the probability of that value.</p></li>
 </ul>
 <div class="figure">
-<img src="ch7_files/figure-html/twocointosspdf.png" alt="Two Coin Toss pdf: The probability distribution function, in histogram form, for a two coin toss." /><p class="caption">Two Coin Toss pdf: The probability distribution function, in histogram form, for a two coin toss.</p>
+<img src="ch7_files/figure-html/twocointosspdf-1.png" alt="Two Coin Toss pdf: The probability distribution function, in histogram form, for a two coin toss." /><p class="caption">Two Coin Toss pdf: The probability distribution function, in histogram form, for a two coin toss.</p>
 </div>
 <p>We can use the pdf and the histogram of the two coin toss example to calculate probabilities.</p>
 <p><strong>Example:</strong> <span class="math">\(\mbox{P}(X = 1)=0.5\)</span>. This is the probability of tossing <em>exactly</em> 1 head in two tosses of a fair coin. This corresponds to the area of the pink rectangle in the histogram shown below. See Figure[Exactly 1 Head].</p>
 <div class="figure">
-<img src="ch7_files/figure-html/twocointossx1.png" alt="Exactly 1 Head: The shaded region of the pdf represents the probability of tossing exactly 1 head in two tosses of a fair coin." /><p class="caption">Exactly 1 Head: The shaded region of the pdf represents the probability of tossing exactly 1 head in two tosses of a fair coin.</p>
+<img src="ch7_files/figure-html/twocointossx1-1.png" alt="Exactly 1 Head: The shaded region of the pdf represents the probability of tossing exactly 1 head in two tosses of a fair coin." /><p class="caption">Exactly 1 Head: The shaded region of the pdf represents the probability of tossing exactly 1 head in two tosses of a fair coin.</p>
 </div>
 <p><strong>Example:</strong> <span class="math">\(\mbox{P}(X\geq 1)=0.5+0.25=0.75\)</span>. This is the probability of tossing <em>at least</em> 1 head in two tosses of a fair coin. <em>At least</em> 1 head means that you toss 1 head <strong>OR</strong> 2 heads. In two tosses of a fair coin, the chance that you will toss 1 head is 0.5 and the chance that you will toss 2 heads is 0.25. So the likelihood that you will toss 1 <strong>OR</strong> 2 heads is 0.5 + 0.25 = 0.75. This corresponds to summing the area of the pink rectangles in the histogram shown below. See Figure[At Least 1 Head].</p>
 <div class="figure">
-<img src="ch7_files/figure-html/twocointossxatleast1.png" alt="At Least 1 Head: The shaded region of the pdf represents the probability of tossing at least 1 head in two tosses of a fair coin." /><p class="caption">At Least 1 Head: The shaded region of the pdf represents the probability of tossing at least 1 head in two tosses of a fair coin.</p>
+<img src="ch7_files/figure-html/twocointossxatleast1-1.png" alt="At Least 1 Head: The shaded region of the pdf represents the probability of tossing at least 1 head in two tosses of a fair coin." /><p class="caption">At Least 1 Head: The shaded region of the pdf represents the probability of tossing at least 1 head in two tosses of a fair coin.</p>
 </div>
 <p><strong>Example:</strong> <span class="math">\(\mbox{P}(X \leq 1)=0.25 +0.5=0.75\)</span>. This is the probability of tossing <em>at most</em> 1 head in two tosses of a fair coin. <em>At most</em> one head means that we toss 0 heads <strong>OR</strong> 1 head. In two tosses of a fair coin, the chance that you will toss 0 heads is 0.25 and the chance that you will toss 1 head is 0.5. So the likelihood that you will toss 0 <strong>OR</strong> 1 head is 0.25 + 0.5 = 0.75. This is called a <strong>cumulative probability</strong> - it’s the probability that a random variable is less than or equal to some value. This corresponds to summing the area of the pink rectangles in the histogram shown below. See Figure[At Most 1 Head].</p>
 <div class="figure">
-<img src="ch7_files/figure-html/twocointossxatmost1.png" alt="At Most 1 Head: The shaded region of the pdf represents the probability of tossing at most 1 head in two tosses of a fair coin." /><p class="caption">At Most 1 Head: The shaded region of the pdf represents the probability of tossing at most 1 head in two tosses of a fair coin.</p>
+<img src="ch7_files/figure-html/twocointossxatmost1-1.png" alt="At Most 1 Head: The shaded region of the pdf represents the probability of tossing at most 1 head in two tosses of a fair coin." /><p class="caption">At Most 1 Head: The shaded region of the pdf represents the probability of tossing at most 1 head in two tosses of a fair coin.</p>
 </div>
 </div>
 <div id="expectation-of-discrete-random-variables" class="section level2">
@@ -298,8 +298,8 @@ prob.x&lt;-c(0.25,0.5,0.25) #Corresponding probabilities.
 EV.X&lt;-sum(x*prob.x) #Expected value of X.  
 SD.X&lt;-sqrt(sum((x-EV.X)^2*prob.x)) #Standard deviation of X.  
 SD.X</code></pre>
-<pre><code>## [1] 0.7071</code></pre>
-<p>So, if we toss a fair coin two times, the number of heads that we would expect to toss is 1. On average, the number of heads will differ from 1 by 0.7071.</p>
+<pre><code>## [1] 0.7071068</code></pre>
+<p>So, if we toss a fair coin two times, the number of heads that we would expect to toss is 1. On average, the number of heads will differ from 1 by 0.7071068.</p>
 </div>
 <div id="using-ev-and-sd-to-evaluate-a-game" class="section level2">
 <h2>Using EV and SD to Evaluate a Game</h2>
@@ -369,14 +369,14 @@ prob.x1 = c(0.001, 0.005, 0.994)
 EV.X1 = sum(x1 * prob.x1)
 SD.X1=sqrt(sum((x1-EV.X1)^2*prob.x1))
 SD.X1</code></pre>
-<pre><code>## [1] 172.9</code></pre>
+<pre><code>## [1] 172.9162</code></pre>
 <pre class="r"><code>#SD Plan 2
 x2 = c(20, 10, 4)
 prob.x2 = c(0.30, 0.20, 0.50)
 EV.X2 = sum(x2 * prob.x2)
 SD.X2=sqrt(sum((x2-EV.X2)^2*prob.x2))
 SD.X2</code></pre>
-<pre><code>## [1] 6.928</code></pre>
+<pre><code>## [1] 6.928203</code></pre>
 <p>Now, we have a better idea of how <span class="math">\(X\)</span> and <span class="math">\(Y\)</span> are likely to turn out!</p>
 <ul>
 <li><p>The net gain for Plan 1, <span class="math">\(X\)</span>, has an expected value of $10 with a standard deviation of $172.92.</p></li>
@@ -442,7 +442,7 @@ SD.X2</code></pre>
 <p>Let’s compute <span class="math">\(\mbox{P}(X&gt; 2)\)</span> and view a graph of the probability. See Figure[Binomial Greater Than].</p>
 <pre class="r"><code>pbinomGC(2,region=&quot;above&quot;,size=5,prob=0.5,graph=TRUE)</code></pre>
 <div class="figure">
-<img src="ch7_files/figure-html/binomgreaterthan.png" alt="Binomial Greater Than: Shaded region represents the probability that more than 2 heads are tossed in 5 tosses of a fair coin." /><p class="caption">Binomial Greater Than: Shaded region represents the probability that more than 2 heads are tossed in 5 tosses of a fair coin.</p>
+<img src="ch7_files/figure-html/binomgreaterthan-1.png" alt="Binomial Greater Than: Shaded region represents the probability that more than 2 heads are tossed in 5 tosses of a fair coin." /><p class="caption">Binomial Greater Than: Shaded region represents the probability that more than 2 heads are tossed in 5 tosses of a fair coin.</p>
 </div>
 <pre><code>## [1] 0.5</code></pre>
 <p>To just find the probability without producing the graph:</p>
@@ -455,7 +455,7 @@ SD.X2</code></pre>
 <p>Now, suppose you want to know <span class="math">\(P(X\geq 2)\)</span>. Since the possible values for <span class="math">\(X\)</span> are {0,1,2, 3, 4, 5}, <span class="math">\(X\geq 2\)</span> is the same as <span class="math">\(X&gt; 1\)</span>. The following code will calculate <span class="math">\(P(X&gt;1)\)</span>. Look at the graph in Figure[Binomial Greater Than or Equal].</p>
 <pre class="r"><code>pbinomGC(1, region=&quot;above&quot;,size=5,prob=0.5, graph=TRUE)</code></pre>
 <div class="figure">
-<img src="ch7_files/figure-html/binomgreaterthanequal.png" alt="Binomial Greater Than or Equal: Shaded region represents the probability that at least 2 heads are tossed in 5 tosses of a fair coin." /><p class="caption">Binomial Greater Than or Equal: Shaded region represents the probability that at least 2 heads are tossed in 5 tosses of a fair coin.</p>
+<img src="ch7_files/figure-html/binomgreaterthanequal-1.png" alt="Binomial Greater Than or Equal: Shaded region represents the probability that at least 2 heads are tossed in 5 tosses of a fair coin." /><p class="caption">Binomial Greater Than or Equal: Shaded region represents the probability that at least 2 heads are tossed in 5 tosses of a fair coin.</p>
 </div>
 <pre><code>## [1] 0.8125</code></pre>
 <p>Thus, the probability of tossing at least 2 heads is <span class="math">\(\mbox{P}(X\geq 2)=\)</span> 0.8125</p>
@@ -465,7 +465,7 @@ SD.X2</code></pre>
 <p>Now, let’s look at finding the probability that there are at most than 3 heads in five tosses of a fair coin. See Figure[Binomial Less Than or Equal].</p>
 <pre class="r"><code>pbinomGC(3,region=&quot;below&quot;,size=5,prob=0.5,graph=TRUE)</code></pre>
 <div class="figure">
-<img src="ch7_files/figure-html/binomlessthanequal.png" alt="Binomial Less Than or Equal: Shaded region represents the probability that at most 3 heads are tossed in 5 tosses of a fair coin." /><p class="caption">Binomial Less Than or Equal: Shaded region represents the probability that at most 3 heads are tossed in 5 tosses of a fair coin.</p>
+<img src="ch7_files/figure-html/binomlessthanequal-1.png" alt="Binomial Less Than or Equal: Shaded region represents the probability that at most 3 heads are tossed in 5 tosses of a fair coin." /><p class="caption">Binomial Less Than or Equal: Shaded region represents the probability that at most 3 heads are tossed in 5 tosses of a fair coin.</p>
 </div>
 <pre><code>## [1] 0.8125</code></pre>
 <p>Thus, <span class="math">\(\mbox{P}(X\leq 3)=\)</span> 0.8125.</p>
@@ -475,7 +475,7 @@ SD.X2</code></pre>
 <p>Now, let’s look at finding the probability that there are less than 3 heads in five tosses of a fair coin. Note that for a binomial random variable, <span class="math">\(X&lt;3\)</span> is the same as <span class="math">\(X\leq 2\)</span>. See Figure[Binomial Less Than or Equal].</p>
 <pre class="r"><code>pbinomGC(2,region=&quot;below&quot;,size=5,prob=0.5,graph=TRUE)</code></pre>
 <div class="figure">
-<img src="ch7_files/figure-html/binomlessthan.png" alt="Binomial Less Than: Shaded region represents the probability that there are less than 3 heads are tossed in 5 tosses of a fair coin." /><p class="caption">Binomial Less Than: Shaded region represents the probability that there are less than 3 heads are tossed in 5 tosses of a fair coin.</p>
+<img src="ch7_files/figure-html/binomlessthan-1.png" alt="Binomial Less Than: Shaded region represents the probability that there are less than 3 heads are tossed in 5 tosses of a fair coin." /><p class="caption">Binomial Less Than: Shaded region represents the probability that there are less than 3 heads are tossed in 5 tosses of a fair coin.</p>
 </div>
 <pre><code>## [1] 0.5</code></pre>
 <p>Thus, <span class="math">\(\mbox{P}(X\leq 3)=\)</span> 0.8125.</p>
@@ -485,17 +485,17 @@ SD.X2</code></pre>
 <p>Say we are interested in finding the probability of tossing at least 2 but not more than 4 heads in five tosses of a fair coin, <span class="math">\(\mbox{P}(2\leq X\leq 4)\)</span>. Put another way, this is the probability of tossing 2, 3, or 4 heads in five tosses of a fair coin. See Figure [Binomial Between].</p>
 <pre class="r"><code>pbinomGC(c(2,4),region=&quot;between&quot;, size=5,prob=0.5,graph=TRUE)</code></pre>
 <div class="figure">
-<img src="ch7_files/figure-html/binomialbetween.png" alt="Binomial Between: Shaded region represents the probability that at least 2 but at most 4 heads are tossed in 5 tosses of a fair coin." /><p class="caption">Binomial Between: Shaded region represents the probability that at least 2 but at most 4 heads are tossed in 5 tosses of a fair coin.</p>
+<img src="ch7_files/figure-html/binomialbetween-1.png" alt="Binomial Between: Shaded region represents the probability that at least 2 but at most 4 heads are tossed in 5 tosses of a fair coin." /><p class="caption">Binomial Between: Shaded region represents the probability that at least 2 but at most 4 heads are tossed in 5 tosses of a fair coin.</p>
 </div>
-<pre><code>## [1] 0.7812</code></pre>
-<p>Thus, <span class="math">\(\mbox{P}(1\leq X\leq 4)=\)</span> 0.7812.</p>
+<pre><code>## [1] 0.78125</code></pre>
+<p>Thus, <span class="math">\(\mbox{P}(1\leq X\leq 4)=\)</span> 0.78125.</p>
 </div>
 <div id="mboxpx2" class="section level3">
 <h3><span class="math">\(\mbox{P}(X=2)\)</span></h3>
 <p>Finally, suppose we want to find the probability of tossing exactly 2 heads in five tosses of a fair coin. See Figure[Binomial Equal].</p>
 <pre class="r"><code>pbinomGC(c(2,2),region=&quot;between&quot;, size=5,prob=0.5,graph=TRUE)</code></pre>
 <div class="figure">
-<img src="ch7_files/figure-html/binomialequal.png" alt="Binomial Equal: Shaded region represents the probability that exactly 2 heads are tossed in 5 tosses of a fair coin." /><p class="caption">Binomial Equal: Shaded region represents the probability that exactly 2 heads are tossed in 5 tosses of a fair coin.</p>
+<img src="ch7_files/figure-html/binomialequal-1.png" alt="Binomial Equal: Shaded region represents the probability that exactly 2 heads are tossed in 5 tosses of a fair coin." /><p class="caption">Binomial Equal: Shaded region represents the probability that exactly 2 heads are tossed in 5 tosses of a fair coin.</p>
 </div>
 <pre><code>## [1] 0.3125</code></pre>
 <p>So, <span class="math">\(\mbox{P}(X=2)=\)</span> 0.3125.</p>
@@ -514,7 +514,7 @@ SD.X2</code></pre>
 <pre><code>## [1] 2.5</code></pre>
 <p>The standard deviation, <span class="math">\(SD(X) =\sqrt{5\cdot 0.5\cdot (1-0.5)}= 1.118034\)</span>. Using R,</p>
 <pre class="r"><code>sqrt(5*0.5*(1-0.5))</code></pre>
-<pre><code>## [1] 1.118</code></pre>
+<pre><code>## [1] 1.118034</code></pre>
 </div>
 </div>
 </div>
@@ -578,7 +578,7 @@ SD.X2</code></pre>
 </ul>
 </blockquote>
 <div class="figure">
-<img src="ch7_files/figure-html/normalcurve.png" alt="Normal Curve" /><p class="caption">Normal Curve</p>
+<img src="ch7_files/figure-html/normalcurve-1.png" alt="Normal Curve" /><p class="caption">Normal Curve</p>
 </div>
 <p>Here is an important special type of normal random variable:</p>
 <dl>
@@ -612,7 +612,7 @@ SD.X2</code></pre>
 <p>So, P(65.8 &lt; <span class="math">\(X\)</span> &lt; 78.2) <span class="math">\(\approx\)</span> 0.95. See Figure[68-95 Rule Between 65.8 and 78.2].</p>
 </blockquote>
 <div class="figure">
-<img src="ch7_files/figure-html/emprule2.png" alt="68-95 Rule Between 65.8 and 78.2: The shaded part of this graph is the percentage of college males that are between 65.8 inches and 78.2 inches tall." /><p class="caption">68-95 Rule Between 65.8 and 78.2: The shaded part of this graph is the percentage of college males that are between 65.8 inches and 78.2 inches tall.</p>
+<img src="ch7_files/figure-html/emprule2-1.png" alt="68-95 Rule Between 65.8 and 78.2: The shaded part of this graph is the percentage of college males that are between 65.8 inches and 78.2 inches tall." /><p class="caption">68-95 Rule Between 65.8 and 78.2: The shaded part of this graph is the percentage of college males that are between 65.8 inches and 78.2 inches tall.</p>
 </div>
 <ul>
 <li>About what percentage of males are less than 65.8 inches tall?<br />P(<span class="math">\(X\)</span> &lt; 65.8) <span class="math">\(\approx\)</span> _________</li>
@@ -624,7 +624,7 @@ SD.X2</code></pre>
 <p>So, P(<span class="math">\(X\)</span> &lt; 65.8) <span class="math">\(\approx\)</span> 2.5%. See Figure[68-95 Rule Below 65.8].</p>
 </blockquote>
 <div class="figure">
-<img src="ch7_files/figure-html/emprule2lefttail.png" alt="68-95 Rule Below 65.8: The shaded part of this graph is the percentage of college males that are shorter than 65.8 inches." /><p class="caption">68-95 Rule Below 65.8: The shaded part of this graph is the percentage of college males that are shorter than 65.8 inches.</p>
+<img src="ch7_files/figure-html/emprule2lefttail-1.png" alt="68-95 Rule Below 65.8: The shaded part of this graph is the percentage of college males that are shorter than 65.8 inches." /><p class="caption">68-95 Rule Below 65.8: The shaded part of this graph is the percentage of college males that are shorter than 65.8 inches.</p>
 </div>
 <ul>
 <li>About what percentage of males are more than 65.8 inches tall? P(<span class="math">\(X\)</span> &gt; 65.8) <span class="math">\(\approx\)</span> _____________</li>
@@ -636,7 +636,7 @@ SD.X2</code></pre>
 <p>So, P(<span class="math">\(X\)</span> &gt; 65.8) <span class="math">\(\approx\)</span> 97.5%. See Figure [68-95 Rule Above 65.8].</p>
 </blockquote>
 <div class="figure">
-<img src="ch7_files/figure-html/emprule2righttail.png" alt="68-95 Rule Above 65.8: The shaded part of this graph is the percentage of college males that are taller than 65.8 inches." /><p class="caption">68-95 Rule Above 65.8: The shaded part of this graph is the percentage of college males that are taller than 65.8 inches.</p>
+<img src="ch7_files/figure-html/emprule2righttail-1.png" alt="68-95 Rule Above 65.8: The shaded part of this graph is the percentage of college males that are taller than 65.8 inches." /><p class="caption">68-95 Rule Above 65.8: The shaded part of this graph is the percentage of college males that are taller than 65.8 inches.</p>
 </div>
 <p>We can see the 68-95 Rule in action using the following app. You may find this app useful for various problems throughout the semester. All you have to do is change the mean and standard deviation to match the problem you are working on.</p>
 <pre class="r"><code>require(manipulate)
@@ -645,26 +645,26 @@ EmpRuleGC(mean=72,sd=3.1, xlab=&quot;Heights (inches)&quot;)</code></pre>
 <p>P<span class="math">\((X&gt;70.9)\)</span> can be found using the following code. See Figure[Normal Greater Than].</p>
 <pre class="r"><code>pnormGC(70.9,region=&quot;above&quot;, mean=72,sd=3.1, graph=TRUE)</code></pre>
 <div class="figure">
-<img src="ch7_files/figure-html/normalgreater.png" alt="Normal Greater Than: The area of the shaded region is the percentage of males that are taller than 70.9 inches." /><p class="caption">Normal Greater Than: The area of the shaded region is the percentage of males that are taller than 70.9 inches.</p>
+<img src="ch7_files/figure-html/normalgreater-1.png" alt="Normal Greater Than: The area of the shaded region is the percentage of males that are taller than 70.9 inches." /><p class="caption">Normal Greater Than: The area of the shaded region is the percentage of males that are taller than 70.9 inches.</p>
 </div>
-<pre><code>## [1] 0.6386</code></pre>
-<p>Thus, P<span class="math">\((X&gt;70.9)=\)</span> 0.6386.</p>
+<pre><code>## [1] 0.6386448</code></pre>
+<p>Thus, P<span class="math">\((X&gt;70.9)=\)</span> 0.6386448.</p>
 <p>P<span class="math">\((X&lt; 69.4 \mbox{ or } X&gt;79.1)\)</span> can be found using the following code. See Figure[Normal Outside].</p>
 <pre class="r"><code>pnormGC(c(69.4,79.1),region=&quot;outside&quot;, mean=72,sd=3.1,graph=TRUE)</code></pre>
 <div class="figure">
-<img src="ch7_files/figure-html/normaloutside.png" alt="Normal Outside: The area of the shaded region is the percentage of males that are shorter than 69.4 inches or taller than 79.1 inches." /><p class="caption">Normal Outside: The area of the shaded region is the percentage of males that are shorter than 69.4 inches or taller than 79.1 inches.</p>
+<img src="ch7_files/figure-html/normaloutside-1.png" alt="Normal Outside: The area of the shaded region is the percentage of males that are shorter than 69.4 inches or taller than 79.1 inches." /><p class="caption">Normal Outside: The area of the shaded region is the percentage of males that are shorter than 69.4 inches or taller than 79.1 inches.</p>
 </div>
-<pre><code>## [1] 0.2118</code></pre>
+<pre><code>## [1] 0.2118174</code></pre>
 <p>Let’s switch this up a little. Suppose we want to know the height of a male that is taller than 80% of college men. Now we know the probability (or quantile) and we would like to know the <span class="math">\(x\)</span> that goes with it. Here, <span class="math">\(x\)</span> is called a <strong>percentile ranking</strong>. We are looking for <span class="math">\(P(X\leq x)=0.80\)</span>.</p>
 <p>This can be found using the <code>qnorm</code> function. This function requires three inputs - quantile, mean, and standard deviation. It returns the percentile ranking.</p>
 <pre class="r"><code>qnorm(0.80,mean=72,sd=3.1)</code></pre>
-<pre><code>## [1] 74.61</code></pre>
+<pre><code>## [1] 74.60903</code></pre>
 <p>So, <span class="math">\(x=74.6\)</span>. In other words, a male that is 74.6 inches tall is taller than about 80% of college men: P<span class="math">\((X&lt;\leq 74.6)=\)</span> 80%. We can use this number to look at the graph. See Figure[Quantile].</p>
 <pre class="r"><code>pnormGC(74.60903,mean=72,sd=3.1,region=&quot;below&quot;,graph=TRUE)</code></pre>
 <div class="figure">
-<img src="ch7_files/figure-html/quantile.png" alt="Quantile: This graph represents the 80th quantile." /><p class="caption">Quantile: This graph represents the 80th quantile.</p>
+<img src="ch7_files/figure-html/quantile-1.png" alt="Quantile: This graph represents the 80th quantile." /><p class="caption">Quantile: This graph represents the 80th quantile.</p>
 </div>
-<pre><code>## [1] 0.8</code></pre>
+<pre><code>## [1] 0.8000004</code></pre>
 </div>
 </div>
 <div id="approximating-binomial-probabilities" class="section level1">
@@ -711,7 +711,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

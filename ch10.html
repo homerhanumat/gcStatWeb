@@ -243,7 +243,7 @@ tExplore()</code></pre>
 </ul>
 <p>So to find the P-value for your test, we only have to find the area under a t-curve with 70 degrees of freedom (one less than our sample size of 71), past our t-value 2.3818. We can do this with the r-function <code>ptGC()</code>:</p>
 <pre class="r"><code>ptGC(2.3818,region=&quot;above&quot;,df=70)</code></pre>
-<pre><code>## [1] 0.009975</code></pre>
+<pre><code>## [1] 0.009975159</code></pre>
 <p>The shaded area is the P-value!</p>
 <p>If you would like to see a graph of the P-value along with the results of the t-test, then in the <code>ttestGC()</code> function, simply set the argument <code>graph</code> to <code>TRUE</code>:</p>
 <pre class="r"><code>ttestGC(~fastest,data=m111survey,mu=100,
@@ -300,9 +300,9 @@ tSampler(~income,data=imagpop)</code></pre>
 <p><strong>Note:</strong> When the alternative hypothesis involves “less than” then the P-value is the chance of getting results <em>less</em> than what we actually got, rather than greater than what we got. The P-value appears as a shaded area in Figure [One-Sided Less-Than P-Value].</p>
 <pre class="r"><code>ptGC(-1.73,region=&quot;below&quot;,df=70,graph=T)</code></pre>
 <div class="figure">
-<img src="ch10_files/figure-html/pvalueless.png" alt="One-Sided Less-Than P-Value." /><p class="caption">One-Sided Less-Than P-Value.</p>
+<img src="ch10_files/figure-html/pvalueless-1.png" alt="One-Sided Less-Than P-Value." /><p class="caption">One-Sided Less-Than P-Value.</p>
 </div>
-<pre><code>## [1] 0.04402</code></pre>
+<pre><code>## [1] 0.04401866</code></pre>
 <p><strong>Step Four:</strong> Decision</p>
 <p>Since the P-value was &lt; 0.05, we reject the Null Hypothesis.</p>
 <p><strong>Step Five:</strong> Conclusion</p>
@@ -462,9 +462,9 @@ tSampler(~income,data=imagpop)</code></pre>
 <p>Fortunately this is not an issue with which we will have to concern ourselves very much. We only need to pay attention to it if we plan to make pictures of the P-values, like the one in Figure [P-Value in Two-Sample Test]:</p>
 <pre class="r"><code>ptGC(-2.735,region=&quot;below&quot;,df=55.49,graph=T)</code></pre>
 <div class="figure">
-<img src="ch10_files/figure-html/twosamppvalue.png" alt="P-Value in Two-Sample Test" /><p class="caption">P-Value in Two-Sample Test</p>
+<img src="ch10_files/figure-html/twosamppvalue-1.png" alt="P-Value in Two-Sample Test" /><p class="caption">P-Value in Two-Sample Test</p>
 </div>
-<pre><code>## [1] 0.004179</code></pre>
+<pre><code>## [1] 0.004179397</code></pre>
 </div>
 </div>
 <div id="additional-examples" class="section level2">
@@ -481,9 +481,9 @@ View(attitudes)
 help(attitudes)</code></pre>
 <p>Let’s also remind ourselves of the relationship we found in the data:</p>
 <pre class="r"><code>favstats(sentence~def.race,data=attitudes)</code></pre>
-<pre><code>##   .group min Q1 median Q3 max  mean    sd   n missing
-## 1  black   3 15     25 40  50 27.77 14.95 120       1
-## 2  white   4 10     25 40  50 25.85 15.76 147       0</code></pre>
+<pre><code>##   .group min Q1 median Q3 max     mean       sd   n missing
+## 1  black   3 15     25 40  50 27.77500 14.94891 120       1
+## 2  white   4 10     25 40  50 25.84694 15.75602 147       0</code></pre>
 <p>The defendant whose name suggested he was Black got sentenced to about two years more, on average, than the defendant with the White-sounding name. This goes along with some suspicion we might have that there was some lingering racial prejudice among at least some of the (mostly White) survey participants.</p>
 <p>Let us now address our Research Question with a test of significance.</p>
 <p><strong>Step One</strong>: Define parameters and state hypotheses</p>
@@ -590,9 +590,9 @@ help(attitudes)</code></pre>
 <pre class="r"><code>ptGC(c(-1.02,1.02),region=&quot;outside&quot;,
      df=259.052,graph=TRUE)</code></pre>
 <div class="figure">
-<img src="ch10_files/figure-html/twosidedp.png" alt="Two-Sided P-Value" /><p class="caption">Two-Sided P-Value</p>
+<img src="ch10_files/figure-html/twosidedp-1.png" alt="Two-Sided P-Value" /><p class="caption">Two-Sided P-Value</p>
 </div>
-<pre><code>## [1] 0.3087</code></pre>
+<pre><code>## [1] 0.3086801</code></pre>
 <p>Due to the symmetry of the t-curve, a two-sided P-value will generally be twice the corresponding one-sided P-value.</p>
 <p>The reason we incorporate both “sides” of the shaded area into the P-value is that at the outset we were indifferent as to whether <span class="math">\(\mu_1=\mu_2\)</span> was positive or negative. The one-sided hypothesis is offered presumably by someone who already has some prior evidence suggesting that the test statistic should turn out a particular way—either positive or negative. Since the P-value measures strength of evidence against the Null, with smaller P-values providing more evidence against the Null, it makes sense that for the same test statistic a one-sided test should return a smaller P-value than a two-sided test. The one sided-test has the evidence from the current data <em>together with some prior evidence</em>, whereas the two-sided test has only the evidence from the current data.</p>
 <p>How do we interpret the P-value in a two-sided test? We simply talk about “distance from zero.” So for this study we say:</p>
@@ -618,8 +618,8 @@ help(labels)</code></pre>
 <p>Recall that subjects tended to rate the Jiff-labeled jar higher:</p>
 <pre class="r"><code>diff &lt;- labels$jiffrating-labels$greatvaluerating
 favstats(diff)</code></pre>
-<pre><code>##  min Q1 median Q3 max  mean   sd  n missing
-##   -5  1    2.5  4   8 2.367 2.81 30       0</code></pre>
+<pre><code>##  min Q1 median Q3 max     mean       sd  n missing
+##   -5  1    2.5  4   8 2.366667 2.809876 30       0</code></pre>
 <p>But does this data provide strong evidence that the GC population as a whole (not just this sample of 30 students) would rate Jiff higher? In order to address this question, we perform a test of significance:</p>
 </div>
 <div id="the-five-steps-2" class="section level2">
@@ -640,7 +640,7 @@ favstats(diff)</code></pre>
 <p><strong>Step Two</strong>: Safety Check and Test Statistic.</p>
 <p>Hopefully the 30 students in the study were like a random sample from the GC population. The sample size is right at the boundary-value of 30, so let’s go ahead and look at a graph of the sample of differences, checking for strong skewness or big outliers.</p>
 <div class="figure">
-<img src="ch10_files/figure-html/diffhistogramratings.png" alt="Rating Differences" /><p class="caption">Rating Differences</p>
+<img src="ch10_files/figure-html/diffhistogramratings-1.png" alt="Rating Differences" /><p class="caption">Rating Differences</p>
 </div>
 <p>A histogram of the differences is shown in Figure [Rating Differences]. There is a little skewness to the left, perhaps, but not nearly enough to worry about, especially considering our reasonably large sample size. We are safe.</p>
 <p>For the test statistic and other information in steps Two through Four, we run <code>ttestGC()</code>, using a special formula-style for matched pairs or repeated-measures data:</p>
@@ -832,7 +832,7 @@ favstats(diff)</code></pre>
 <p>[Note that the sample mean difference for the females was a good bit larger than the sample mean difference for the males.]</p>
 <p>We have only 15 students in each sample. Since these sample sizes are less than our “safe level” of 30, we really ought to examine them to see if they show signs of strong skewness or outliers.</p>
 <div class="figure">
-<img src="ch10_files/figure-html/diffsbysex.png" alt="Rating Differences for Males and for Females" /><p class="caption">Rating Differences for Males and for Females</p>
+<img src="ch10_files/figure-html/diffsbysex-1.png" alt="Rating Differences for Males and for Females" /><p class="caption">Rating Differences for Males and for Females</p>
 </div>
 <p>The results appear in Figure [Rating Differences for Males and Females]. There is some left skewness in the sample of males. We will go ahead and perform the test, but the P-value should be considered a bit dodgy.</p>
 <p>For the test, we need to add the differences to our data frame. We accomplish this step as follows:</p>
@@ -887,8 +887,9 @@ favstats(diff)</code></pre>
 <h1>One Population Proportion <span class="math">\(p\)</span></h1>
 <p>Recall the distribution of the variable <strong>sex</strong> in the <code>m111survey</code> data:</p>
 <pre class="r"><code>rowPerc(xtabs(~sex,data=m111survey))</code></pre>
-<pre><code>##  female   male  Total
-##   56.34  43.66 100.00</code></pre>
+<pre><code>##    
+## sex female  male Total
+##      56.34 43.66   100</code></pre>
 <p>56% of the sample—-more than half—were females. This suggests the following:</p>
 <blockquote>
 <p><strong>Research Question</strong>: <em>Does this data constitute strong evidence that a majority of the GC student body are female?</em></p>
@@ -913,10 +914,8 @@ favstats(diff)</code></pre>
 <p>Let’s go ahead and run the test. As with confidence intervals, when we are interested in a single proportion we can use <code>binomtestGC()</code>.</p>
 <pre class="r"><code>binomtestGC(~sex,data=m111survey,p=0.5,
             alternative=&quot;greater&quot;,success=&quot;female&quot;)</code></pre>
-<pre><code>## 
-## Exact Binomial Procedures for a Single Proportion p:
+<pre><code>## Exact Binomial Procedures for a Single Proportion p:
 ##  Variable under study is sex 
-## 
 ## 
 ## Descriptive Results:  40 successes in 71 trials
 ## 
@@ -1041,10 +1040,8 @@ favstats(diff)</code></pre>
 <p><strong>Step Three</strong>: P-value</p>
 <p>Let’s run the test. we have summary data, so we don’t have to specify what counts as a success; we only need to enter the number of successes and the number of trials:</p>
 <pre class="r"><code>binomtestGC(2006,n=7500,p=0.25,alternative=&quot;greater&quot;)</code></pre>
-<pre><code>## 
-## Exact Binomial Procedures for a Single Proportion p:
+<pre><code>## Exact Binomial Procedures for a Single Proportion p:
 ##  Results based on Summary Data
-## 
 ## 
 ## Descriptive Results:  2006 successes in 7500 trials
 ## 
@@ -1085,9 +1082,10 @@ favstats(diff)</code></pre>
 <p>Recall that in the <code>mat111survey</code>, participants were asked their sex, and were also asked whether they believed in love at first sight. The results were as follows:</p>
 <pre class="r"><code>SexLove &lt;- xtabs(~sex+love_first,data=m111survey)
 rowPerc(SexLove)</code></pre>
-<pre><code>##           no   yes Total
-## female 55.00 45.00   100
-## male   74.19 25.81   100</code></pre>
+<pre><code>##         love_first
+## sex          no    yes  Total
+##   female  55.00  45.00 100.00
+##   male    74.19  25.81 100.00</code></pre>
 <p>In the sample, the females were much more likely than the males to believe in love at first sight (45% vs. 25.81%), but these figures are based on fairly small samples. We wonder whether they provide strong evidence that in the GC population at large females are more likely than males to believe in love at first sight.</p>
 <p>Now this is a question about the relationship between two categorical variables, so we could address it with the chi-square test from Chapter 3:</p>
 <pre class="r"><code>chisqtestGC(SexLove)</code></pre>
@@ -1300,7 +1298,7 @@ Type12Errors()</code></pre>
 ## 20    46</code></pre>
 <p>Hmm, one of your friends (Friend Number Four) got 61 Heads in 100 flips. That seems like a lot. If your friend has no TK—so that the coin has the usual 50% chance of landings heads—then the chance of 61 or more heads is pretty small:</p>
 <pre class="r"><code>pbinomGC(60,region=&quot;above&quot;,size=100,prob=0.5)</code></pre>
-<pre><code>## [1] 0.0176</code></pre>
+<pre><code>## [1] 0.0176001</code></pre>
 <p>If you run a <code>binomtestGC()</code> on your friend’s results, you get the same information:</p>
 <p><strong>Step One</strong>: Define Parameter and State the Hypotheses</p>
 <p>Let</p>
@@ -1318,10 +1316,8 @@ Type12Errors()</code></pre>
 <p>We flipped the coin randomly so we are safe. The test statistic is 61, the number of Heads our friend got.</p>
 <p><strong>Step Three</strong>: P-value</p>
 <pre class="r"><code>binomtestGC(61,n=100,p=0.5,alternative=&quot;greater&quot;)</code></pre>
-<pre><code>## 
-## Exact Binomial Procedures for a Single Proportion p:
+<pre><code>## Exact Binomial Procedures for a Single Proportion p:
 ##  Results based on Summary Data
-## 
 ## 
 ## Descriptive Results:  61 successes in 100 trials
 ## 
@@ -1395,9 +1391,9 @@ help(attitudes)</code></pre>
 </blockquote>
 <p>When you think about the kinds of variables involved in this question (explanatory = <strong>sex</strong> is a factor, response = <strong>sentence</strong> is numerical) you see that <code>favstats()</code> will provide useful descriptive statistics:</p>
 <pre class="r"><code>favstats(sentence~sex,data=attitudes)</code></pre>
-<pre><code>##   .group min   Q1 median Q3 max  mean    sd   n missing
-## 1 female   3 15.0     25 40  50 27.31 15.47 164       1
-## 2   male   3 12.5     25 40  50 25.77 15.32 103       0</code></pre>
+<pre><code>##   .group min   Q1 median Q3 max     mean       sd   n missing
+## 1 female   3 15.0     25 40  50 27.30793 15.46790 164       1
+## 2   male   3 12.5     25 40  50 25.76699 15.31832 103       0</code></pre>
 <p>Hmm, nothing much seems to be going on here.</p>
 <p>Let’s try another</p>
 <blockquote>
@@ -1411,9 +1407,10 @@ SexRock</code></pre>
 ##   female 112      53
 ##   male    64      39</code></pre>
 <pre class="r"><code>rowPerc(SexRock)</code></pre>
-<pre><code>##          buy not.buy Total
-## female 67.88   32.12   100
-## male   62.14   37.86   100</code></pre>
+<pre><code>##         conc.decision
+## sex         buy not.buy  Total
+##   female  67.88   32.12 100.00
+##   male    62.14   37.86 100.00</code></pre>
 <p>Hmm, apparently there not much going on in the way of a relationship between sex and decision to attend a rock concert.</p>
 <p>Still another</p>
 <blockquote>
@@ -1421,13 +1418,13 @@ SexRock</code></pre>
 </blockquote>
 <p>Again we check:</p>
 <pre class="r"><code>favstats(sentence~conc.decision,data=attitudes)</code></pre>
-<pre><code>##    .group min Q1 median Q3 max  mean    sd   n missing
-## 1     buy   3 15     25 45  50 28.15 15.71 175       1
-## 2 not.buy   3 10     20 30  50 23.98 14.48  92       0</code></pre>
+<pre><code>##    .group min Q1 median Q3 max     mean       sd   n missing
+## 1     buy   3 15     25 45  50 28.15143 15.70951 175       1
+## 2 not.buy   3 10     20 30  50 23.97826 14.48453  92       0</code></pre>
 <p>Interesting: in the survey those who chose to attend (let’s call them “Big Spenders”) recommended sentences for the defendant that were, on average, five years longer than the sentences recommended by the Thrifty types—the ones who chose not to attend.</p>
 <p>Let’s check it out graphically: Figure [Sentences and Ticket Decision] shows the results. The plot thickens! The distributions are fairly similar in shape, but it appears that the Big Spender group had a substantially higher proportion of people who recommended the maximum sentence of 50 years: that pulled up their mean sentence.</p>
 <div class="figure">
-<img src="ch10_files/figure-html/setenceticket.png" alt="Sentence and Ticket Decision" /><p class="caption">Sentence and Ticket Decision</p>
+<img src="ch10_files/figure-html/setenceticket-1.png" alt="Sentence and Ticket Decision" /><p class="caption">Sentence and Ticket Decision</p>
 </div>
 <p>Let’s test to see if these results are statistically significant. We won’t write out all five steps, but instead let’s just peek at the test output. (We’ll choose a two-sided test, because we had no advance evidence that Big Spenders should be harder on crime that Thrifty people.)</p>
 <pre class="r"><code>ttestGC(sentence~conc.decision,data=attitudes,
@@ -1542,7 +1539,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

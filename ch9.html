@@ -59,12 +59,9 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 
 <div id="TOC">
 <ul>
-<li><a href="#introduction">Introduction</a><ul>
-<li><a href="#summary-of-formulas">Summary of Formulas</a></li>
-</ul></li>
-<li><a href="#conceptual-understanding-of-confidence-intervals">Conceptual Understanding of Confidence Intervals</a></li>
+<li><a href="#introduction">Introduction</a></li>
 <li><a href="#chapter-outline">Chapter Outline</a></li>
-<li><a href="#one-population-mean-mu">One Population Mean, <span class="math">\(\mu\)</span></a><ul>
+<li><a href="#one-population-mean-mu">One Population Mean <span class="math">\(\mu\)</span></a><ul>
 <li><a href="#the-four-steps">The Four Steps</a></li>
 <li><a href="#under-the-hood">Under the Hood</a></li>
 <li><a href="#additional-example-and-further-ideas">Additional Example, and Further Ideas</a></li>
@@ -103,13 +100,16 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>One of the main goals in statistics is <strong>inference</strong>. We are interested in using the knowledge we obtain from a <em>sample</em> to infer, or predict, something about the <em>population</em> at large. Numbers that describe a particular aspect of the sample are called <strong>statistics</strong> and numbers that describe an aspect of the population are called <strong>parameters</strong>. Since we typically do not know the value of a parameter, a statistic is our <em>single best guess</em> at it.</p>
-<p>In Chapter 8, you learned about the Big Five Parameters and the statistics that estimate them, the Big Five Estimators. Due to the randomness involved in selecting a sample, a statistic has variation associated with it. This means that if we take a large number of samples from the same population, the value of the statistic computed from each sample won’t always be the same value.</p>
-<p>The variation in the value of a statistic is what gives us a <em>distribution</em> for the statistic. Each of the Big Five Estimators have an associated distribution with a center, spread, and shape.</p>
-<p>The center of the distribution is what we call the <em>expected value, EV</em>, - the number that we expect the statistic to be. The spread of the distribution is what we call the <em>standard deviation, SD</em>, - how far off we think our statistic might be from the actual value of the parameter. You can think of the standard deviation as the “give or take”. We saw that, at large sample sizes, the shape of each of the distributions for the Big Five Estimators was approximately normal (bell-shaped).</p>
-<p>Let’s look again at the summary from Chapter 8.</p>
-<div id="summary-of-formulas" class="section level2">
-<h2>Summary of Formulas</h2>
+<p>Let’s begin by going over what we have learned recently.</p>
+<p>One of the primary goals in statistics is <em>inference</em> — the art of using the knowledge we obtain from a sample to infer something about the population from which the sample was collected. Numbers that describe a particular aspect of the sample are called <em>statistics</em> and numbers that describe an aspect of the population are called <em>parameters</em>. Typically we do not know the value of a parameter, but a well-chosen statistic may serve as our single best guess at it.</p>
+<p>In Chapter Eight you learned about the Basic Five Parameters and the statistics — the Basic Five Estimators — that are commonly used to estimate them. Due to the randomness involved in selecting a sample, a statistic has variation associated with it. This means that if we take a multiple samples from the same population, the value of the statistic computed from each sample won’t always be the same value.</p>
+<p>The variation in the value of a statistic is what gives us a <em>distribution</em> for the statistic. Each of the Big Five Estimators has an associated distribution with a center, spread, and shape:</p>
+<ul>
+<li><strong>Center.</strong> The center of the distribution is what we call the expected value, EV — the average value of the statistic that we would get if we could somehow repeat the sampling procedure many, many times. This figure also represents the number we think the statistic would turn out to be <em>around</em>, for any single sample.</li>
+<li><strong>Spread</strong>. The spread of the distribution is what we call the standard deviation of the estimator, its SD. Recall that the SD of an estimator represents how far off the actual value of the statistic might be from the value of the parameter, for a single sample. You can think of the SD as a “give or take” figure. In pratical applications we usually cannot compute the value of the SD of the estiamator since it often depends on features of the populations that we don’t know, so we estiamate it with a quantity that we called the <em>standard error</em>, or SE for short.</li>
+<li><strong>Shape.</strong> We saw that at large sample sizes, the shape of each of the distributions for the Basic Five Estimators was approximately normal (bell-shaped).</li>
+</ul>
+<p>For easy reference, here at the summary of Chapter Eight formulas regarding the Basic Five Parameters:</p>
 <ul>
 <li>For one mean <span class="math">\(\mu\)</span>:
 <ul>
@@ -147,113 +147,84 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <li>SE is <span class="math">\(\frac{s_d}{\sqrt{n}}\)</span></li>
 </ul></li>
 </ul>
-<p>A statistic is our <em>single best guess</em> at the value of a parameter. Since we know that the value of a statistic varies depending on the sample, this leads to the question, “How <strong>sure</strong> are we that the value of the statistic that we’ve calculated is actually close to the value of the parameter?”. Instead of reporting a single number for our estimate, even if it is our <em>best guess</em>, perhaps we would be better off giving a range of values such that we have some degree of confidence that it contains the true value of the parameter. Let’s explore this idea through an example.</p>
+<p>A statistic is our single best guess at the value of a parameter. But the fact of chance variation in sampling that we considered in Chapter Eight leads naturally to a new question:</p>
 <blockquote>
-<p><strong>Research Question</strong>: What is the average annual household income for the folks from <code>imagpop</code>?</p>
+<p>*How SURE are we that the value of the statistic that we’ve calculated is actually close to the value of the parameter?.</p>
 </blockquote>
-<p>This is a research question about one population mean, <span class="math">\(\mu\)</span>. Let’s estimate <span class="math">\(\mu\)</span> by drawing a SRS of size 50 from <code>imagpop</code>.</p>
-<pre class="r"><code>srs.income&lt;-popsamp(50,imagpop)
-mean(~income,data=srs.income)</code></pre>
-<pre><code>## [1] 46184</code></pre>
-<p>Since we took a SRS, we can be fairly sure that this estimate, <span class="math">\(\bar{x}=\)</span> $ 46184 is <em>close</em> to the true parameter value. However, if we re-run the code above, we will get a different value.</p>
-<pre class="r"><code>srs.income&lt;-popsamp(50,imagpop)
-mean(~income,data=srs.income)</code></pre>
-<pre><code>## [1] 40996</code></pre>
-<p>Because of this variation, we can also be reasonably certain that our statistic is <em>not exactly equal</em> to the true parameter value. However, this gives us a good idea of a range into which our parameter value likely falls. Look at the <span class="math">\(\bar{x}\)</span>’s from 15 different samples:</p>
-<pre><code>## Loading required package: parallel</code></pre>
-<pre><code>##    result
-## 1   50018
-## 2   36928
-## 3   48100
-## 4   44886
-## 5   39492
-## 6   33856
-## 7   43362
-## 8   47086
-## 9   41120
-## 10  39954
-## 11  44512
-## 12  41970
-## 13  47072
-## 14  40020
-## 15  38442</code></pre>
-<p>Based on these samples, it seems likely that the true average annual income (the parameter value) probably falls somewhere in between <span class="math">\(33856\)</span> and <span class="math">\(50018.\)</span></p>
-<p>[How <em>likely</em> is it that the parameter falls in this range, though? In other words, how <em>confident</em> are we that the true parameter value falls between <span class="math">\(33856\)</span> and <span class="math">\(50018\)</span>? When we start trying to think of this in terms of likelihood or probability, we need a more mathematical way to compute such an interval. The method we used above is very rudimentary. We’ll get to a better method of construction momentarily!]</p>
-<p>Reporting a range of reasonable values for the parameter is a better approach to giving an estimate of a population parameter than giving one single best guess. Reporting a single value as our estimate is like throwing all of our eggs into one basket - “This is our best guess and that’s it!”. We, as researchers, would be failing to recognize the chance variation that is an essential part of our process of estimation. People reading the results of such a study also need to be made aware of the “give or take” that is associated with any estimate.</p>
-<p><strong>Warning:</strong> Although confidence intervals take into account the error, or variability, associated with the estimation of a parameter, they do not account for all sources of error. For example, errors from an incorrect experiment design or sampling bias can creep into a statistical analysis and are not accounted for in a confidence interval. Refer to Chapters 5 &amp; 6 for these types of errors.</p>
-</div>
-</div>
-<div id="conceptual-understanding-of-confidence-intervals" class="section level1">
-<h1>Conceptual Understanding of Confidence Intervals</h1>
-<p>The “range of values” that we have been discussing is called a <strong>confidence interval</strong>. A confidence interval answers the question, “Given the data at hand, within what range of values does the parameter of interest <em>probably</em> lie?”</p>
-<blockquote>
-<p><em>Definition:</em> A <strong>confidence interval</strong> is an interval of values for the population parameter that could be considered reasonable, based on the data at hand.</p>
-</blockquote>
-<p>A confidence interval is calculated using the general equation <span class="math">\[\mbox{Sample Estimate }\pm\mbox{ Margin of Error}\]</span> where <span class="math">\[\mbox{Margin of Error }=\mbox{ Multiplier }*\mbox{ Standard Error.}\]</span></p>
-<p>The <em>sample estimate</em>, <em>multiplier</em>, and <em>standard error</em> depend on the parameter being estimated, but the <strong>interpretation of the confidence interval</strong> for any parameter is the same.</p>
+<p>Instead of reporting a single number for our estimate — even if it is our best guess — perhaps we would be better off giving a <em>range</em> of values such that we have some degree of confidence that this range contains the true value of the parameter. Reporting a range of reasonable values for the parameter is a better approach to giving an estimate of a population parameter than giving one single best guess. Reporting a single value as our estimate is like throwing all of our eggs into one basket — “This is our best guess and that’s it!”. We, as researchers, would be failing to recognize the chance variation that is an essential part of our process of estimation. People reading the results of such a study also need to be made aware of the “give or take” that is associated with any estimate.</p>
+<p>The range of values we seek is called by statisticians a <em>confidence interval</em>.</p>
+<dl>
+<dt>Confidence Interval</dt>
+<dd>A <em>confidence interval</em> is an interval of values for the population parameter that could be considered reasonable, based on the data at hand.
+</dd>
+</dl>
+<p>Confidence intervals in this course will be calculated using the following general equation:</p>
+<p><span class="math">\[\mbox{Sample Estimate }\pm\mbox{ Margin of Error}\]</span></p>
+<p>where</p>
+<p><span class="math">\[\mbox{Margin of Error }=\mbox{ Multiplier } \times \mbox{ Standard Error.}\]</span></p>
+<p>The sample estimate, multiplier, and standard error depend on the parameter being estimated, but the general form of the confidence interval for any parameter will be as above. Let’s take a look at the parts of the gneral formula:</p>
 <ul>
 <li><p>The <span class="math">\(\mbox{Sample Estimate}\)</span> is our single best guess at the value of the population parameter. It is the center of the confidence interval.</p></li>
-<li><p>The <span class="math">\(\mbox{Standard Error}\)</span> is the estimate of the standard deviation of the population parameter. It is affected by the sample size, <span class="math">\(n\)</span>. Recall from Chapter 8 that larger sample sizes yield smaller standard deviations. The same holds true for standard error, since the formulas for SE have the same structure as the formulas for SD. (Look at the formulas in the summary shown above.) <strong>Larger sample sizes produce smaller standard errors</strong>.</p></li>
-<li>The <span class="math">\(\mbox{Multiplier}\)</span> is determined by the desired <strong>confidence level</strong>. The <strong>confidence level</strong> gives the probability that the <em>method</em> of constructing confidence intervals will produce an interval that contains the parameter value. Commonly used <strong>confidence levels</strong> include
+<li><p>The <span class="math">\(\mbox{Standard Error}\)</span> is the estimate of the standard deviation of the population parameter. It is affected by the sample size, <span class="math">\(n\)</span>. Recall from Chapter Eight that larger sample sizes yield smaller standard deviations. The same holds true for standard error, since the formulas for SE have the same structure as the formulas for SD. (Look at the formulas in the summary shown above.) <strong>Larger sample sizes produce smaller standard errors</strong>.</p></li>
+<li>The <span class="math">\(\mbox{Multiplier}\)</span> is determined by the desired <em>confidence level</em>. The confidence level gives the probability that the our method of constructing confidence intervals will produce an interval that contains the parameter value. Commonly used confidence levels include:
 <ul>
 <li>90%</li>
-<li>95% (most common)</li>
-<li>98%</li>
+<li>95% (by far the most common)</li>
 <li>99%.</li>
 </ul></li>
 </ul>
-<p>The confidence level aids in the interpretation of a confidence interval. For example, suppose you want to construct a 95% confidence interval for the estimation of a population parameter.</p>
-<p>A correct interpretation of the confidence interval is: <strong>If the study were repeated many times, and on each occasion a 95% confidence interval were calculated, then about 95% of these intervals would contain the true parameter value and about 5% would not</strong>.</p>
-<p><strong>Warning:</strong> One incorrect statement that is often made about a 95% confidence interval is: “There is a 95% chance (probability) that the confidence interval contains the true parameter value.” The reason that this is an incorrect interpretation is quite subtle. Once a confidence interval is constructed, it either contains the parameter value or it does not. The probability associated with a confidence interval refers only to the <em>method</em> that is used to construct it, not the interval itself.</p>
-<p>Let’s put these ideas together. The <em>sample estimate</em> determines the center and the <em>margin of error</em> determines the width of the confidence interval. Since the <em>margin of error</em> is determined by the <em>multiplier</em> and the <em>standard error</em>, we can see the role that <strong>sample size</strong> and <strong>confidence level</strong> play in the width of the confidence interval.</p>
-<ul>
-<li><p>The larger the sample size, <span class="math">\(n\)</span>, the smaller the SE. So, <strong><em>larger</em> sample sizes produce more <em>narrow</em> confidence intervals</strong>.</p></li>
-<li><p>The higher level of confidence we have that an interval contains the true parameter value, the wider the interval is. So, <strong><em>larger</em> confidence levels produce <em>wider</em> confidence intervals</strong>.</p></li>
-</ul>
+<p>The confidence level aids in the interpretation of a confidence interval. For example, suppose you want to construct a 95% confidence interval for the estimation of a population parameter. A correct interpretation of the confidence interval would be: <em>If the study were repeated many times, and on each occasion a 95% confidence interval were calculated, then about 95% of these intervals would contain the true parameter value and about 5% would not</em>.</p>
+<p>(As you can see, the general formula for a confidence interval is just an extension of the “rough” confidence intervals produced at the end of Chapter Eight by the 68-95 Rule for Estimation.)</p>
 </div>
 <div id="chapter-outline" class="section level1">
 <h1>Chapter Outline</h1>
-<p>The next two chapters will follow the same format. We will go through each of the Big Five parameters, one by one, doing the following:</p>
+<p>The next two chapters will follow the same format. We will go through each of the Basic Five parameters, one by one, doing the following:</p>
 <ul>
 <li><p>State a Research Question that involves the parameter of interest.</p></li>
-<li><p>Write out a series of steps - using a “packaged” R-function to do most of the computations that we will need.</p></li>
-<li><p>Look “under the hood” of the test to see how the packaged R-function is computing certain values.</p></li>
+<li><p>Write out an analysis of the Research Question, using an R-function to do most of the computations that we will need.</p></li>
+<li><p>Look “under the hood” of the procedure to see how the R-function is computing certain values.</p></li>
 <li><p>Work a couple of examples involving the same parameter.</p></li>
 </ul>
-<p>As we work through the confidence interval construction for each of the Big Five parameters, we will continue to push the conceptual understanding of a confidence interval.</p>
+<p>As you work through the confidence interval construction for each of the Basic Five parameters, put most of your focus on the <em>conceptual understanding</em>, i.e, seeing how what the confidence interval can be used to shed light on the Research Question that you originally had in mind.</p>
 </div>
 <div id="one-population-mean-mu" class="section level1">
-<h1>One Population Mean, <span class="math">\(\mu\)</span></h1>
-<p>Let’s start looking at the confidence interval for the example from <code>imagpop</code> we looked at above. We will go through the Four Steps for this first example, using the “packaged” R function to compute the interval for us. Then, we will go through the construction of the confidence interval step by step in detail.</p>
+<h1>One Population Mean <span class="math">\(\mu\)</span></h1>
+<p>Let’s start looking at the confidence interval for the example from <code>imagpop</code> we looked at above. We will go through the Four Steps for this first example, using the an R-function to compute the interval for us. Then, we will go through the construction of the confidence interval step by step in detail.</p>
 <p>Let’s continue to consider the research question posed at the beginning of this chapter. The <code>imagpop</code> dataset is a nice one to use for purposes of demonstration because it represents an entire population, so we can have values for parameters and statistics.</p>
 <blockquote>
-<p><strong>Research Question</strong>: What is the average annual income for the folks from the <code>imagpop</code> population?</p>
+<p><strong>Research Question</strong>: Is the average annual income for the folks from the <code>imagpop</code> population more than 50,000 dollars?</p>
 </blockquote>
 <div id="the-four-steps" class="section level2">
 <h2>The Four Steps</h2>
-<p><strong>Step One:</strong> <em>Definition of Parameter(s)</em></p>
+<p>Whne you construct confidence intervals and use them to answer a given Research Question, it will be helpful to include four “steps” in your analysis. We’ll number the steps now, since we are just now getting familiar with the topic, but later on in practical writing about statistics, you will won’t number them. You’ll simply make sure that your analysis includes each one of them — you will weave them together to form a clear and coherent argument for your reader.</p>
+<p><strong>Step One:</strong> Definition of Parameter(s)</p>
+<blockquote>
 <p>Let <span class="math">\(\mu=\)</span> mean annual income for the <code>imagpop</code> population.</p>
-<p>For this example, we will go back to pretending that we are a very powerful being and we know the true value of <span class="math">\(\mu\)</span>. We are going to watch as a statistician, who does not know <span class="math">\(\mu\)</span>, constructs a 95% confidence interval to estimate <span class="math">\(\mu\)</span>.</p>
-<p>Our goal with this example is to understand how a confidence interval is constructed and how it produces a range of believable values for the population parameter.</p>
-<p>Let’s start by having our statistician draw a simple random sample of size 50 from this population and calculate the sample mean from it, as we did above.</p>
-<pre class="r"><code>mysample&lt;-popsamp(50,imagpop)
-xbar&lt;-mean(~income,data=mysample)
+</blockquote>
+<p>For this example, we will go back to pretending that we are a very powerful being and we know the true value of <span class="math">\(\mu\)</span>. We are going to watch as a statistician, who does not know <span class="math">\(\mu\)</span>, constructs a 95% confidence interval to estimate <span class="math">\(\mu\)</span>. Our goal with this example is to understand how a confidence interval is constructed and how it produces a range of believable values for the population parameter.</p>
+<p>Let’s start by having our statistician draw a simple random sample of size 50 from this population and calculate the sample mean from it, as we did above:</p>
+<pre class="r"><code>set.seed(138)
+mysample&lt;-popsamp(50,imagpop)
+xbar &lt;- mean(~income,data=mysample)
 xbar</code></pre>
-<pre><code>## [1] 42030</code></pre>
-<p>So, <span class="math">\(\bar{x}=\)</span> $42030 is the sample estimate of the population mean, <span class="math">\(\mu\)</span>.</p>
-<p>However, since we are a powerful all-knowing being, we know the population mean.</p>
-<pre class="r"><code>mu&lt;-mean(~income,data=imagpop)
-mu</code></pre>
-<pre><code>## [1] 40317</code></pre>
-<p>So the population mean is <span class="math">\(\mu=\)</span> $40317.</p>
-<p><em>Important Note</em>: In reality, if you actually knew the population parameter, there would be no point in drawing a sample to estimate it, much less computing a confidence interval for it. For this reason, the rest of the construction of the confidence interval will deal only with the sample. We are using the <code>imagpop</code> dataset for this example in order to compare the population parameter to the confidence interval.</p>
-<p><strong>Step Two:</strong> <em>Safety Check and Calculation of the Confidence Interval</em></p>
-<p>In Chapter 9, we learned that the sampling distribution of <span class="math">\(\bar{x}\)</span> looks normal if two conditions hold.</p>
+<pre><code>## [1] 40610</code></pre>
+<p>The sample data is contained in the variable <code>mysample</code>. The sample mean is 40,610.</p>
+<p><strong>Step Two:</strong> Safety Check and Calculation of the Confidence Interval</p>
+<p>In Chapter Eight, we learned that the sampling distribution of <span class="math">\(\bar{x}\)</span> looks normal if two conditions hold. Interestingly, these two conditions are also important — for reasons that we will learn soon — in determining whether confidence intervals have approximately the level of confidence that they advertise.</p>
 <ul>
-<li><p>Condition 1: <strong>The population is roughly normal in shape or the sample size, <span class="math">\(n\)</span>, is at least 30.</strong> Since our sample is size 50, it is big enough. (However, if <span class="math">\(n&lt;30\)</span>, it would be necessary to take a look at the distribution of the incomes from our sample. You could do this by plotting a histogram or a boxplot. Check for outliers or extreme skewness.)</p></li>
-<li><p>Condition 2: <strong>The sample is like a SRS from the population, at least in regard to the variables of interest.</strong> Since our sample was drawn using the <code>popsamp</code> function, we know that it was a simple random sample. This assures us that the sample is representative of the population at large and probably does not have any underlying bias.</p></li>
+<li>Condition 1: The population is roughly normal in shape or the sample size, <span class="math">\(n\)</span>, is large enough. Since our sample is size 50, it is probably big enough, but it is always a good idea to take a look anyway at a graph of your sample. Let’s make a quick density plot of it (see Figure [Imagpop Sample]:</li>
 </ul>
-<p>Since the safety check is passed, let’s go ahead and compute a 95% confidence interval using the R function <code>ttestGC</code>. (The rationale behind this function will be explained when we look <em>under the hood</em>.)</p>
+<pre class="r"><code>densityplot(~income,data=mysample,
+        xlab=&quot;Sample Incomes (dollars/year)&quot;)</code></pre>
+<div class="figure">
+<img src="ch9_files/figure-html/imagpopsample-1.png" alt="Density plot of the sample incomes. Since the random sample is probably a good cross-sectional representation of the population, we can use the plot to get some idea of the distribution of the population itself." /><p class="caption">Density plot of the sample incomes. Since the random sample is probably a good cross-sectional representation of the population, we can use the plot to get some idea of the distribution of the population itself.</p>
+</div>
+<p>The sample is rather right-skewed, and so the population is probably right-skewed as well, but we saw from Chapter Eight that at such a large sample size the distribution of <span class="math">\(\bar{x}\)</span> as a random variable would be approximately normal. (Interestingly, this is connected with the ability to produce reliable confidence intervals by the methods of this chapter.) So we have passed the first part of the Safety Check.</p>
+<p>The Safety Check has a second part:</p>
+<ul>
+<li>Condition 2: The sample is like a SRS from the population, at least in regard to the variables of interest. <em>This is the really important condition!</em> Since our sample was drawn using the <code>popsamp</code> function, we know that it was a simple random sample. This assures us that the sample is probably representative of the population at large.</li>
+</ul>
+<p>Now that the Safety Check is passed, we can go ahead and compute a 95% confidence interval using the R-function <code>ttestGC()</code>. The rationale behind this function will be explained when we “look under the hood.”</p>
 <pre class="r"><code>ttestGC(~income,data=mysample)</code></pre>
 <pre><code>## 
 ## 
@@ -263,192 +234,220 @@ mu</code></pre>
 ## Descriptive Results:
 ## 
 ##  variable  mean    sd  n
-##    income 42030 28689 50
+##    income 40610 31691 50
 ## 
 ## 
 ## Inferential Results:
 ## 
-## Estimate of mu:   42030 
-## SE(x.bar):    4057 
+## Estimate of mu:   40610 
+## SE(x.bar):    4482 
 ## 
 ## 95% Confidence Interval for mu:
 ## 
 ##           lower.bound         upper.bound          
-##           33876.542209        50183.457791</code></pre>
-<p>So, our 95% confidence interval for the estimation of the population mean, <span class="math">\(\mu\)</span>, is:</p>
-<p><span class="math">\[(\$33877,\$50183).\]</span></p>
-<p><strong>Step Three:</strong> <em>Interpretation of the Confidence Interval</em></p>
-<p>We are 95% confident that if the true population mean were known, the interval ($33877,$50183) would contain it. In other words, this interval gives the most believable values for <span class="math">\(\mu\)</span>.</p>
-<p>We are lucky in this case because we are a powerful being and we actually do know the value of <span class="math">\(\mu\)</span>. So, we can check to see if <span class="math">\(\mu\)</span> is, in fact, contained in the interval we computed. The population mean, <span class="math">\(\mu=\)</span> $40317, so it is contained in the 95% confidence interval that was computed in Step 2.</p>
-<p>Once the confidence interval is computed, it either contains <span class="math">\(\mu\)</span> or it does not. There is no probability associated with any <em>specific</em> interval. The probability is associated with the <strong>method</strong> that was used to create such an interval (which we will talk about shortly). For example, if we re-computed this 95% confidence interval for many different samples, say 20, we could expect that about 95% of those intervals would contain <span class="math">\(\mu\)</span> and about 5% would not. Let’s do this!</p>
-<pre><code>##    lower upper included
-## 1  32560 46916      Yes
-## 2  27952 42192      Yes
-## 3  35364 46812      Yes
-## 4  29621 44939      Yes
-## 5  31280 48580      Yes
-## 6  38426 55778      Yes
-## 7  27975 39473       No
-## 8  31776 48700      Yes
-## 9  35713 51959      Yes
-## 10 34833 51315      Yes
-## 11 29483 47961      Yes
-## 12 31691 45989      Yes
-## 13 35735 53581      Yes
-## 14 27303 44509      Yes
-## 15 30764 44580      Yes
-## 16 36233 51815      Yes
-## 17 29142 46102      Yes
-## 18 39002 54974      Yes
-## 19 36136 50456      Yes
-## 20 27583 45265      Yes</code></pre>
-<p>You should notice that <em>about</em> 95% of the 100 intervals contain <span class="math">\(\mu=\)</span> $40317. In other words, <em>about</em> <span class="math">\(0.95\cdot 20=\)</span> 19 intervals should contain <span class="math">\(\mu\)</span> and <em>about</em> <span class="math">\(0.05\cdot 20=\)</span> 1 does not.</p>
+##           31603.509177        49616.490823</code></pre>
+<p>From the output above we see that the 95% confidence interval for the population mean <span class="math">\(\mu\)</span> is:</p>
+<p><span class="math">\[(\$31603.51,\$49616.49).\]</span></p>
+<p><strong>Step Three:</strong> Interpretation of the Confidence Interval</p>
+<p>We are 95% confident that if the true population mean were known, the interval ($31603.51,$49616.49) would contain it. In other words, this interval gives the most believable values for <span class="math">\(\mu\)</span>.</p>
+<p>(Recall that in this case because we actually do know the value of <span class="math">\(\mu\)</span>, so we can check to see if <span class="math">\(\mu\)</span> is, in fact, contained in the interval we computed. The population mean is:</p>
+<pre class="r"><code>mean(~income,data=imagpop)</code></pre>
+<pre><code>## [1] 40316.72</code></pre>
+<p>The mean is indeed contained in the 95% confidence interval that was computed in Step Two.)</p>
+<p>It is important to keep in mind that once the confidence interval is computed, it either contains <span class="math">\(\mu\)</span> or it does not. There is no “probability” associated with any specific confidence interval. The probability is associated instead with the <em>method</em> that R used used to create such the interval. What this means is that if we re-computed this 95% confidence interval for many different samples, we could expect that about 95% of those intervals would contain <span class="math">\(\mu\)</span> and about 5% would not. Let’s do this now, for twenty samples:</p>
+<pre><code>##       lower    upper included
+## 1  32559.54 46916.46      Yes
+## 2  27952.18 42191.82      Yes
+## 3  35363.80 46812.20      Yes
+## 4  29621.25 44938.75      Yes
+## 5  31280.17 48579.83      Yes
+## 6  38426.30 55777.70      Yes
+## 7  27975.14 39472.86       No
+## 8  31776.47 48699.53      Yes
+## 9  35712.63 51959.37      Yes
+## 10 34833.14 51314.86      Yes
+## 11 29482.53 47961.47      Yes
+## 12 31691.08 45988.92      Yes
+## 13 35735.36 53580.64      Yes
+## 14 27302.87 44509.13      Yes
+## 15 30764.31 44579.69      Yes
+## 16 36232.91 51815.09      Yes
+## 17 29142.10 46101.90      Yes
+## 18 39001.92 54974.08      Yes
+## 19 36136.50 50455.50      Yes
+## 20 27582.89 45265.11      Yes</code></pre>
+<p>Observe that about 95% of the 100 intervals contain <span class="math">\(\mu=\)</span> $40316.72. In other words, about <span class="math">\(0.95\cdot 20=\)</span> 19 intervals should contain <span class="math">\(\mu\)</span> and about <span class="math">\(0.05\cdot 20=\)</span> 1 do not.</p>
 <p>The following app will help you to explore this idea visually:</p>
 <pre class="r"><code>require(manipulate)
 CIMean(~income,data=imagpop)</code></pre>
-<p>Experiment with changing the sample size and confidence level in the app. Take note of what happens to the yellow confidence interval.</p>
+<p>What you see is that in repeated sampling the 95%-confidence intervals contain the mean of the population about 95% of the time.</p>
+<p>As a side-light, you should experiment with changing the sample size and confidence level in the app. Take note of what happens to the yellow confidence interval.</p>
 <ul>
 <li>In general, what happens to the width of the yellow confidence interval as the sample size gets bigger?</li>
 <li>In general, what happens to the width of the yellow confidence interval as the confidence level increases?</li>
 </ul>
-<p><em>Warning</em>: Another common misinterpretation of the 95% confidence interval computed above would be to say that about 95% of the people in the <code>imagpop</code> population make an annual salary between $33877 and $50183. Don’t fall into this trap! The confidence interval only gives us an interval of believable values for the population mean. It does not give us any information about the range of individual’s incomes.</p>
-<p><strong>Step Four:</strong> <em>Write a Conclusion.</em></p>
-<p>The conclusion should be a non-technical statement about what the confidence interval tells us about the population parameter.</p>
-<p>We can be reasonably sure that the average annual income of the folks from the <code>imagpop</code> population is between $33877 and $50183.</p>
+<p><em>Warning</em>: A common misinterpretation of the 95% confidence interval computed above would be to say that about 95% of the people in the <code>imagpop</code> population make an annual salary between $31603.51 and $49616.49. Don’t fall into this trap! The confidence interval only gives us an interval of believable values for the population mean. It does not give us any information about the range of individual’s incomes.</p>
+<p><strong>Step Four:</strong> Write a Conclusion.</p>
+<p>The conclusion should be a non-technical statement about what the confidence interval tells us about the original Research Question.</p>
+<p>We can be reasonably sure that the average annual income of the folks from the <code>imagpop</code> population is between $31603.51 and $49616.49. Note, however, that the numbers in this interval are all less that 50,000. Hence it would not be reasonable, in the face of this data, to believe that the mean income of the <code>imagpop</code> population is more 50,000 dollars or more.</p>
+<p>Of course, we already know for sure that the mean income in the population is less that 50,000. What is interesting here is that a statistician could become quite sure of this, simply on the basis of a random sample of 50 individuals. That’s the beauty of confidence intervals, and of other techniques in inferential statistics.</p>
 </div>
 <div id="under-the-hood" class="section level2">
 <h2>Under the Hood</h2>
 <p>Understanding the construction of the confidence interval explains a couple of things.</p>
 <ul>
 <li>It explains the 95% confidence level.</li>
-<li>It explains why we use a <span class="math">\(t\)</span>-test.</li>
+<li>It explains why we use a <span class="math">\(t\)</span>-test (that’s the extra “t” in <code>ttestGC()</code>).</li>
 </ul>
-<p>Once the safety check is passed in Step Two, we can assume that <span class="math">\(\bar{x}\)</span> approximately follows a normal distribution. This allows us to think of the center and spread of the distribution using the expected value, <span class="math">\(EV(\bar{x})\)</span>, and the standard deviation, <span class="math">\(SD(\bar{x})\)</span>. See Figure[Xbar Distribution].</p>
-<ul>
-<li><p><span class="math">\(EV(\bar{x})=\mu\)</span></p></li>
-<li><p><span class="math">\(SD(\bar{x})=\dfrac{\sigma}{\sqrt{n}}\)</span></p></li>
-</ul>
-<div class="figure">
-<img src="ch9_files/figure-html/distxbar.png" alt="Xbar Distribution: The distribution of the sample means approximately follows a normal distribution centered at the EV(xbar) with spread given by SD(xbar)." /><p class="caption">Xbar Distribution: The distribution of the sample means approximately follows a normal distribution centered at the EV(xbar) with spread given by SD(xbar).</p>
-</div>
-<p>Since the 68-95 Rule (Empirical) Rule) applies to normal curves, we know that</p>
-<ul>
-<li><span class="math">\(\approx 68\%\)</span> of the <span class="math">\(\bar{x}\)</span>’s fall within one standard deviation of <span class="math">\(EV(\bar{x})=\mu\)</span>,</li>
-<li><span class="math">\(\approx 95\%\)</span> of the <span class="math">\(\bar{x}\)</span>’s fall within two standard deviations of <span class="math">\(EV(\bar{x})=\mu\)</span>, and</li>
-<li><span class="math">\(\approx 99.7\%\)</span> of the <span class="math">\(\bar{x}\)</span>’s fall within three standard deviations of <span class="math">\(EV(\bar{x})=\mu\)</span>.</li>
-</ul>
-<p>Let’s dig deeper into the second part of the 68-95 Rule. It can be visualized below in Figure[68-95 Rule 2].</p>
-<div class="figure">
-<img src="ch9_files/figure-html/empruletwo.png" alt="68-95 Rule 2: This graph is the visualization of the second part of the 68-95 Rule for the distribution of the sample means." /><p class="caption">68-95 Rule 2: This graph is the visualization of the second part of the 68-95 Rule for the distribution of the sample means.</p>
-</div>
-<p>In approximately 95% of all samples of size 50, the sample mean, <span class="math">\(\bar{x}\)</span>, will fall within 2 standard deviations of <span class="math">\(\mu\)</span>, the population parameter.</p>
-<p>So, for approximately 95% of all samples, <span class="math">\[\mu-2 \cdot SD\leq \bar{x} \leq \mu+2\cdot SD.\]</span></p>
-<p>Rearranging this: <span class="math">\[\bar{x}-2\cdot SD\leq \mu \leq \bar{x}+2\cdot SD.\]</span></p>
-<p>In other words, approximately 95% of the time, the population parameter, <span class="math">\(\mu\)</span>, is in the interval <span class="math">\((\bar{x}-2\cdot SD,\mbox{ } \bar{x}+2\cdot SD)\)</span>. This sounds like a confidence interval!</p>
-<p>We do have one problem, however: a statistician with no knowledge of the population has no way of knowing <span class="math">\(SD(\bar{x})\)</span> because it requires knowing the standard deviation of the population, <span class="math">\(\sigma\)</span>. Hence we must use our best estimate of the standard deviation—the standard error—in its place.</p>
-<p>So, an approximate 95% confidence interval for the population mean can be given by <span class="math">\[(\bar{x}-2\cdot SE,\mbox{  } \bar{x}+2\cdot SE).\]</span></p>
-<p>Let’s compute this numerically for our example. We will find the needed values by looking at <code>favstats</code> for the sample.</p>
+<p>In order to understand the confidence intervals produced by <code>ttestGC()</code>, it’s best to start with the “rough” 95%-confidence intervals produced by the 68-95 Rule for Estimation, back in Chapter Eight. In fact, let’s compute this interval for our example. We will find the needed values by looking at <code>favstats()</code>:</p>
 <pre class="r"><code>favstats(~income,data=mysample)</code></pre>
-<pre><code>##   min    Q1 median    Q3    max  mean    sd  n missing
-##  4300 21025  35600 54450 130800 42030 28689 50       0</code></pre>
+<pre><code>##   min    Q1 median    Q3    max  mean       sd  n missing
+##  3300 21475  29050 50750 158600 40610 31691.03 50       0</code></pre>
 <p>We are now equipped with all the information we need to compute the approximate 95% confidence interval for the population mean.</p>
 <ul>
-<li><p><span class="math">\(\bar{x}=\)</span> 42030</p></li>
-<li><p><span class="math">\(s=\)</span> 28689 <em>Note</em> that <span class="math">\(s\)</span> is the standard deviation of the sample.</p></li>
+<li><p><span class="math">\(\bar{x}=\)</span> 40610</p></li>
+<li><p><span class="math">\(s=\)</span> 31691.03 <em>Note</em> that <span class="math">\(s\)</span> is the standard deviation of the sample.</p></li>
 <li><p><span class="math">\(n=\)</span> 50</p></li>
-<li><p><span class="math">\(SE=\dfrac{s}{\sqrt{n}}=\dfrac{28689 }{\sqrt{50}}=4057.3041\)</span></p></li>
-<li><span class="math">\(\mbox{CI}=(\bar{x}-2\cdot SE,\mbox{  } \bar{x}+2\cdot SE)=\)</span>(42030 <span class="math">\(-2\cdot\)</span> 28689, 42030 <span class="math">\(+2\cdot\)</span> 28689) = (33915, 50145)</li>
+<li><p><span class="math">\(SE=\dfrac{s}{\sqrt{n}}=\dfrac{31691.03 }{\sqrt{50}}=4481.7883184\)</span></p></li>
+<li><span class="math">\(\mbox{CI}=(\bar{x}-2\cdot SE,\mbox{  } \bar{x}+2\cdot SE)=\)</span>(40610 <span class="math">\(-2\cdot\)</span> 31691.03, 40610 <span class="math">\(+2\cdot\)</span> 31691.03) = (31646.42, 49573.58)</li>
 <li><p><em>Note:</em> The <span class="math">\(2\cdot SE\)</span> is the <em>margin of error</em>.</p></li>
 </ul>
-<p>Based on the 68-95 Rule, we can say that we are <em>about</em> 95% confident that the population mean income for the folks in <code>imagpop</code> falls somewhere in the interval ($33915, $50145). This seems to make sense, but this is not the confidence interval that the <code>ttestGC</code> function gave us originally. The interval from <code>ttestGC</code> was ($33877,$50183). We seem to be off by a little bit.</p>
-<p>There are a couple of important details related to the <em>multiplier</em> that account for this difference. The second part of the 68-95 Rule prompted us to use the multiplier 2 when we calculated the 95% confidence interval. This is a good approximation of the multiplier, but it’s not the best we can do.</p>
-<p>Let’s take a look at a <strong>standard normal curve</strong> to see if we can find a better multiplier. A standard normal curve has <span class="math">\(\mu=0\)</span> and <span class="math">\(\sigma=1\)</span>. The 68-95 Rule suggests that the shaded area of the curve between <span class="math">\(z=-2\)</span> and <span class="math">\(-z=2\)</span> will be approximately 0.95. See Figure[Two SD].</p>
-<div class="figure">
-<img src="ch9_files/figure-html/twosd.png" alt="Two SD: This graph shows the true area under the curve within two standard deviations of the mean." /><p class="caption">Two SD: This graph shows the true area under the curve within two standard deviations of the mean.</p>
-</div>
-<p>The shaded region is actually 0.9545. This is because 68-95 Rule is just an approximation. Since we are looking for a 95% confidence interval, we would like our multiplier, or <span class="math">\(z\)</span>-score, to be such that the shaded region is exactly 0.95, not 0.9545.</p>
-<p>We can find the appropriate <span class="math">\(z\)</span> and <span class="math">\(-z\)</span> by making use of the quantiles of the normal curve via the <code>qnorm</code> function that we saw in Chapter 7. If we want 0.95 in the middle, then the shaded area to the left of <span class="math">\(z\)</span> is 0.975 - the 0.95 for the middle and the 0.025 for the left tail.</p>
-<pre class="r"><code>qnorm(0.975,mean=0,sd=1)</code></pre>
-<pre><code>## [1] 1.96</code></pre>
-<p>Likewise, the shaded area to the left of <span class="math">\(-z\)</span> is 0.025.</p>
-<pre class="r"><code>qnorm(0.025,mean=0,sd=1)</code></pre>
-<pre><code>## [1] -1.96</code></pre>
-<p>Let’s check that we have the correct values by looking at the shaded region between these two <span class="math">\(z\)</span>-scores. The graph appears in Figure [Better 95% Multiplier].</p>
-<pre class="r"><code>pnormGC(c(-1.96,1.96),region=&quot;between&quot;
-        ,mean=0,sd=1,graph=TRUE)</code></pre>
-<div class="figure">
-<img src="ch9_files/figure-html/better95mult.png" alt="Better 95% Multiplier. 1.96 works out a bit better than 2." /><p class="caption">Better 95% Multiplier. 1.96 works out a bit better than 2.</p>
-</div>
-<p>That’s better! Let’s adjust our formula for our 95% confidence interval.</p>
-<p><span class="math">\[(\bar{x}-1.96 \cdot SE, \mbox{ } \bar{x}+ 1.96\cdot SE)\]</span></p>
-<p>We can now re-compute our 95% confidence interval using this new formula: <span class="math">\(\mbox{CI}=(\bar{x}-1.96\cdot SE,\mbox{  } \bar{x}+1.96\cdot SE)=\)</span> (34078, 49982).</p>
-<p>Summarizing what we’ve done so far:</p>
+<p>Based on the 68-95 Rule, we can say that we are <em>about</em> 95% confident that the population mean income for the folks in <code>imagpop</code> falls somewhere in the interval ($31646.42, $49573.58).</p>
+<p>This seems to make sense, but this is not the confidence interval that the <code>ttestGC</code> function gave us originally. The interval from <code>ttestGC</code> was ($31603.51,$49616.49). The two intervals differ by a little bit.</p>
+<p>So how does R compute the confidence interval in <code>ttestGC()</code>? R’s approach is essentially the same as the 68-95 Estimation approach. so we should we should first recall how that Rule came about: then we’ll look at how R tweaks it a bit.</p>
+<p>When we employ the 68-95 Rule for Estimation, we say that we are about 95% confident that</p>
+<p><span class="math">\[\bar{x}-2SE(\bar{x}) &lt; \mu &lt; \bar{x}+2SE(\bar{x}),\]</span></p>
+<p>We feel justified in saying this because before the sample was taken,</p>
+<p><span class="math">\[P(\bar{x}-2SE(\bar{x}) &lt; \mu &lt; \bar{x}+2SE(\bar{x})) \approx 0.95.\]</span></p>
+<p>(This came from the 68-95 Rule for Probability.)</p>
+<p>Let’s reason a bit with the above probability statement. To say that:</p>
+<p><span class="math">\[\bar{x}-2SE(\bar{x}) &lt; \mu &lt; \bar{x}+2SE(\bar{x})\]</span></p>
+<p>is the same as saying that</p>
+<blockquote>
+<p><span class="math">\(\mu\)</span> is within 2 SE’s of <span class="math">\(\bar{x}\)</span>.</p>
+</blockquote>
+<p>But this means the same thing as:</p>
+<blockquote>
+<p><span class="math">\(\bar{x}\)</span> is within two SE’s of <span class="math">\(\mu\)</span>.</p>
+</blockquote>
+<p>Now the way we measure how many SE’s <span class="math">\(\bar{x}\)</span> is from <span class="math">\(\mu\)</span> is to take the difference <span class="math">\(\bar{x} - \mu\)</span> and divide it by <span class="math">\(SE(\bar{x})\)</span>, thus:</p>
+<p><span class="math">\[\frac{\bar{x}-\mu}{SE(\bar{x})}.\]</span></p>
+<p>This measure — the number of standard errors by which the sample mean differs from the mean of the population – is so important that we give it a special notation, the symbol <span class="math">\(t\)</span>:</p>
+<p><span class="math">\[t = \frac{\bar{x}-\mu}{SE(\bar{x})}.\]</span></p>
+<p>Using this notation, we can see that saying that <span class="math">\(\bar{x}\)</span> is within two SE’s of <span class="math">\(\mu\)</span> is the same thing as saying that</p>
+<p><span class="math">\[-2 &lt; t &lt; 2.\]</span></p>
+<p>Now let’s apply our logic to the probability assertion. Saying that</p>
+<p><span class="math">\[P(\bar{x}-2SE(\bar{x}) &lt; \mu &lt; \bar{x}+2SE(\bar{x})) \approx 0.95\]</span></p>
+<p>amounts to the same thing as saying that</p>
+<p><span class="math">\[P(-2 &lt; t &lt; 2) \approx 0.95.\]</span></p>
+<p>But how good is this approximation? And can we do any better? The answer to this question depends upon realizing that <span class="math">\(t\)</span> depends on:</p>
 <ul>
-<li><p>Using R’s <code>t.test</code> function, <span class="math">\(CI=\)</span> ($33877, $50183).</p></li>
-<li><p>Using the multiplier 2 from the 68-95 Rule, <span class="math">\(CI=\)</span> ($33915, $50145)</p></li>
-<li><p>Now, using the multiplier <span class="math">\(z=1.96\)</span>, <span class="math">\(CI=\)</span> ($34078, $49982)</p></li>
+<li><span class="math">\(\bar{x}\)</span> and <span class="math">\(s\)</span>, which depend on …</li>
+<li>the sample, which depends on …</li>
+<li>… <strong>chance!</strong></li>
 </ul>
-<p>We still don’t have the multiplier quite right. Our problem stems from us, as statisticians, not knowing the population standard deviation, <span class="math">\(\sigma\)</span>. Not knowing <span class="math">\(\sigma\)</span> means that we don’t know <span class="math">\(SD(\bar{x})\)</span>. <span class="math">\(SD(\bar{x})\)</span> has crept up in a couple of different places. First, <span class="math">\(SD(\bar{x})\)</span> was replaced with <span class="math">\(SE(\bar{x})\)</span> in the formula for the confidence interval. Also, <span class="math">\(SD(\bar{x})\)</span> is the denominator in the formula for <span class="math">\(z\)</span>-score, which is what we are using as our multiplier. Using <span class="math">\(SE(\bar{x})\)</span> as an approximation for <span class="math">\(SD(\bar{x})\)</span> in both of these situations is okay if we are dealing with large sample sizes. However, for smaller sample sizes, this approximation is often off the mark.</p>
-<p>Recall that the formula for the <span class="math">\(z\)</span>-score is</p>
-<p><span class="math">\[z=\dfrac{\bar{x}-\mu}{SD(\bar{x})}=\dfrac{\bar{x}-\mu}{\frac{\sigma}{\sqrt{n}}}.\]</span></p>
-<p>When we replace the denominator in the formula for the <span class="math">\(z\)</span>-score with <span class="math">\(SE(\bar{x})\)</span>, we call it a <span class="math">\(t\)</span>-statistic. The formula for the <span class="math">\(t\)</span>-statistic is</p>
-<p><span class="math">\[t=\dfrac{\bar{x}-\mu}{SE(\bar{x})}=\dfrac{\bar{x}-\mu}{\frac{s}{\sqrt{n}}}.\]</span></p>
-<p>Just as the <span class="math">\(z\)</span>-score told us how many standard deviations a value was from the mean, the <span class="math">\(t\)</span>-statistic tells us how many <strong>standard errors</strong> a value is from the mean. Also, just like the <span class="math">\(z\)</span>-score is associated with the normal distribution, the <span class="math">\(t\)</span>-statistic is associated with the <span class="math">\(t\)</span>-distribution. The <span class="math">\(t\)</span>-distribution is a distribution that we have not discussed yet, but it is very similar to the normal distribution.</p>
+<p>Hence <span class="math">\(t\)</span> is a random variable: since it depends upon a sample, we call it the <em>t-statistic</em>. As a random variable, <em>t</em> has some sort of probability distribution, which we might hope to learn about and to approximate.</p>
+<p>In fact some things are known about the distribution of the t-statistic. Early in the twentieth century, the statistician William Sealy Gossett discovered the following:</p>
 <ul>
-<li><p>The <span class="math">\(t\)</span>-distribution, like the normal distribution, is symmetric and bell-shaped.</p></li>
-<li><p>The <span class="math">\(t\)</span>-distribution looks slightly different for different sample sizes. For this reason, the <span class="math">\(t\)</span>-distribution depends on something we call <em>degrees of freedom</em> <span class="math">\(= df= n-1\)</span>.</p></li>
-<li><p>The larger the sample size, <span class="math">\(n\)</span>, the more the <span class="math">\(t\)</span>-distribution looks like the normal distribution.</p></li>
+<li>if you take a random sample from a population, and</li>
+<li>if the population in perfectly normal, and</li>
+<li>your sample is of size <span class="math">\(n\)</span></li>
 </ul>
-<p>You can investigate the shape of the <span class="math">\(t\)</span>-distribution and compare it to the normal curve using the following app.</p>
+<p>then the probability distribution of <span class="math">\(t\)</span> is given by a <em>t-density curve</em> with <span class="math">\(n-1\)</span> <em>degrees of freedom</em>.</p>
+<p>But what are t-curves? well, the fact is that:</p>
+<ul>
+<li>There is a <span class="math">\(t\)</span>-curve for each degree of freedom <span class="math">\(df = 1,2,3,\ldots\)</span>.</li>
+<li>They are symmetric and centered around 0.</li>
+<li>They have fatter tails than the standard normal curve does.</li>
+<li>But the bigger the degree of freedom is, the more the <span class="math">\(t\)</span>-curve resembles the standard normal curve.</li>
+</ul>
+<p>You can see this in the following app:</p>
 <pre class="r"><code>require(manipulate)
 tExplore()</code></pre>
-<p>You may have noticed that when the sample size is small, the <span class="math">\(t\)</span>-distribution is more spread out - it carries more weight in its tails. This is a result of <span class="math">\(SE(\bar{x})\)</span> doing a poor job approximating <span class="math">\(SD(\bar{x})\)</span> for small sample sizes. Since <span class="math">\(t\)</span> actually relies on the standard error, it is better to use a <span class="math">\(t\)</span>-multiplier instead of a <span class="math">\(z\)</span>-multiplier for small sample sizes.</p>
-<p>For large samples, it would be okay to use the <span class="math">\(z\)</span>-multiplier in the construction of confidence intervals. However, as <span class="math">\(n\)</span> increases, the <span class="math">\(t\)</span>-distribution starts looking more and more like the normal curve. (This is because <span class="math">\(SE(\bar{x})\)</span> is a better approximation of <span class="math">\(SD(\bar{x})\)</span> for large <span class="math">\(n\)</span>.) Since the <span class="math">\(t\)</span>-statistic is a good approximation for the <span class="math">\(z\)</span>-score when the sample size is large, we will remain consistent and <strong>always</strong> use the <span class="math">\(t\)</span>-distribution to calculate confidence intervals for population means, regardless of the sample size. If you are interested in learning more about the distinction between <span class="math">\(t\)</span> and <span class="math">\(z\)</span>, consult the GeekNotes.</p>
-<p>We can find the <span class="math">\(t\)</span>-multiplier just as we found <span class="math">\(z=1.96\)</span> before, except we will be dealing with the <span class="math">\(t\)</span>-distribution instead of the normal distribution. For our example, the <span class="math">\(df=n-1=50-1=49\)</span>.</p>
-<pre class="r"><code>qt(0.975, df=49)</code></pre>
-<pre><code>## [1] 2.01</code></pre>
-<pre class="r"><code>qt(0.025,df=49)</code></pre>
-<pre><code>## [1] -2.01</code></pre>
-<p>Similar to the function <code>pnormGC</code>, the function <code>ptGC</code> allows us to look at the shaded region between these two <span class="math">\(t\)</span>-statistics:</p>
-<pre class="r"><code>ptGC(c(-2.01,2.01),region=&quot;between&quot;,df=49,graph=TRUE)</code></pre>
-<p>The graph appears in Figure [t-Multiplier].</p>
+<p>Now <span class="math">\(t\)</span>-curves are determined by known mathematical formulas. Hence we can get a machine to compute areas underneath them, thus obtaining the probability for the <span class="math">\(t\)</span>-statistic to fall within various ranges. To find probabilities for <span class="math">\(t\)</span>-random variables, we will use <code>ptGC()</code>, a probability calculator that works very much like <code>pnormGC()</code>.</p>
+<p>Say, for example, that you are going to take a SRS of size <span class="math">\(n=50\)</span> from a population. What is</p>
+<p><span class="math">\[P(-2 &lt; t &lt;2)?\]</span></p>
+<p>To find out, we note that if the sample size is 50 then the degrees of freedom is 49, so we run the following code:</p>
+<pre class="r"><code>ptGC(c(-2,2),region=&quot;between&quot;,
+     df=49,graph=TRUE)</code></pre>
 <div class="figure">
-<img src="ch9_files/figure-html/tmultiplier.png" alt="t-Multiplier. The multiplier for sample size 50 is about 2.01." /><p class="caption">t-Multiplier. The multiplier for sample size 50 is about 2.01.</p>
+<img src="ch9_files/figure-html/unnamed-chunk-10-1.png" />
 </div>
-<p>Since <span class="math">\(t=2.01\)</span> is the correct multiplier, let’s recompute the confidence interval with it and compare to our previous calculations: <span class="math">\(\mbox{CI}=(\bar{x}-2.01\cdot SE,\mbox{  } \bar{x}+2.01\cdot SE)=\)</span> (33877, 50183)</p>
+<pre><code>## [1] 0.9489409</code></pre>
+<p>The probability is quite close to 95%. This means that at sample size size <span class="math">\(n=50\)</span> (when the sample is a random sample drawn from a perfectly normal population) rough 95% intervals deliver almost exactly the level of confidence that they advertise.</p>
+<p>For smaller, samples, though, the situation is different. For example, say that you are going to take a simple random of size <span class="math">\(n=4\)</span> from a normal population. What is</p>
+<p><span class="math">\[P(-2 &lt; t &lt;2)?\]</span></p>
+<p>When the sample size is 4, the degrees of freedom is 3, so the code to run is:</p>
+<pre class="r"><code>ptGC(c(-2,2),region=&quot;between&quot;,
+     df=3,graph=TRUE)</code></pre>
+<div class="figure">
+<img src="ch9_files/figure-html/unnamed-chunk-11-1.png" />
+</div>
+<pre><code>## [1] 0.860674</code></pre>
+<p>This time the actual probability is only about 86%, pretty far from 95%. Hence at size <span class="math">\(n=4\)</span>, the 95%-confidence intervals delivered by the 68-95 Rule for Estimation are not very reliable: they advertise a confidence level of 95%, but in reality they will cover the population mean only about 86% of the time in repeated sampling.</p>
+<p>The problem with 68-95 Estimation rule confidence intervals comes down to their rigid use of multipliers: 95%-confidence intervals, for example use the multiplier 2, no matter what. What we really ought to do is to adjust this “rough” multiplier so that the interval will have the level of confidence that it advertises.</p>
+<p>Suppose that:</p>
 <ul>
-<li><p>Using R’s <code>ttestGC</code> function, <span class="math">\(CI=\)</span> ($33877, $50183).</p></li>
-<li><p>Using the multiplier 2 from the 68-95 Rule, <span class="math">\(CI=\)</span> ($33915, $50145)</p></li>
-<li><p>Using the multiplier <span class="math">\(z=1.96\)</span>, <span class="math">\(CI=\)</span> ($34078, $49982)</p></li>
-<li><p>Now, using the multiplier <span class="math">\(t=2.01\)</span>, <span class="math">\(CI=\)</span> ($33877, $50183)</p></li>
+<li>you have taken a random sample of size <span class="math">\(n=4\)</span> from a population;</li>
+<li>you know the population is normally distributed,</li>
+<li>you don’t know <span class="math">\(\mu\)</span> or <span class="math">\(\sigma\)</span>;</li>
+<li>you want to make an <em>exact</em> 95%-confidence interval for <span class="math">\(\mu\)</span>.</li>
 </ul>
-<p><strong>Summary</strong>: In general, the formula to compute a 95% confidence interval to estimate a population mean is <span class="math">\[\mbox{CI}=(\bar{x}-t \cdot SE,\mbox{  } \bar{x}+t \cdot SE),\]</span> where <span class="math">\(t\)</span> is calculated from the <span class="math">\(t\)</span>-distribution based on the appropriate degress of freedom. Keep in mind that the packaged function, <code>ttestGC</code>, in R does all of this work for you.</p>
-<p>Since the construction of confidence intervals for means depends on the <span class="math">\(t\)</span>-distribution, <em>Condition 1</em> of the safety check should really be a condition that verifies that the sampling distribution of the <span class="math">\(t\)</span>-statistic approximately follows a <span class="math">\(t\)</span>-distribution. Above (and in Chapter 7) we said that <span class="math">\(n\geq 30\)</span> ensured us that <span class="math">\(\bar{x}\)</span> was approximately normal. It turns out that <span class="math">\(n\geq 30\)</span> also ensures us that the <span class="math">\(t\)</span>-statistic approximately follow a <span class="math">\(t\)</span>-curve. (So what we actually check in <em>condition 1</em> is the same.) You can investigate this idea with the following app.</p>
+<p>You know now that using 2 as a multiplier just won’t do. You need a different multiplier, one that we will denote <span class="math">\(t^*\)</span>. That is, you want your interval to look like:</p>
+<p><span class="math">\[\bar{x} \pm t^*SE(\bar{x}),\]</span></p>
+<p>where <span class="math">\(t^*\)</span> is exactly the right the multiplier for a 95%-confidence interval for <span class="math">\(\mu\)</span>, at sample size <span class="math">\(n=4\)</span>.</p>
+<p>According to the statistical theory we have built up, what we need is that</p>
+<p><span class="math">\[P(-t^* &lt; t &lt; t^*) = 0.95.\]</span></p>
+<p>R has very quick ways to find the right <span class="math">\(t^*\)</span>. For our purposes, it will suffice simply to note that it can be found quickly, and that it is about 3.182446. We can see this using the following code:</p>
+<pre class="r"><code>ptGC(c(-3.182446,3.182446),region=&quot;between&quot;,
+     df=3,graph=TRUE)</code></pre>
+<div class="figure">
+<img src="ch9_files/figure-html/unnamed-chunk-12-1.png" />
+</div>
+<pre><code>## [1] 0.95</code></pre>
+<p>So at sample size <span class="math">\(n=4\)</span>, R computes a 95%-confidence interval using the formula:</p>
+<p><span class="math">\[\bar{x} \pm 3.182446 \times SE(\bar{x}).\]</span></p>
+<p>At sample size 50 (the size of our original example), R would compute a different <span class="math">\(t^*\)</span> multiplier, about 2.009575. We can see verify this in the following code:</p>
+<pre class="r"><code>ptGC(c(-2.009575,2.009575),region=&quot;between&quot;,
+     df=49,graph=TRUE)</code></pre>
+<div class="figure">
+<img src="ch9_files/figure-html/unnamed-chunk-13-1.png" />
+</div>
+<pre><code>## [1] 0.95</code></pre>
+<p>Since <span class="math">\(t=2.009575\)</span> is the correct multiplier for sample size 50, let’s recompute the confidence interval with it and compare to the interval given by R:</p>
+<p><span class="math">\[(\bar{x}-2.009575\cdot SE,\mbox{  } \bar{x}+2.009575\cdot SE),\]</span></p>
+<p><span class="math">\[(40610-2.009575\cdot 4481.788,\mbox{  } 40610+2.009575\cdot 4481.788),\]</span></p>
+<p><span class="math">\[(31603.5,49616.5).\]</span></p>
+<p>This agrees with the interval computed previously by <code>ttestGC()</code>.</p>
+<p><strong>Summary</strong>: In general, the formula to compute a 95% confidence interval to estimate a population mean is</p>
+<p><span class="math">\[\mbox{CI}=(\bar{x}-t^* \cdot SE,\mbox{  } \bar{x}+t^* \cdot SE),\]</span></p>
+<p>where <span class="math">\(t\)</span> is calculated from the <span class="math">\(t\)</span>-distribution based on the appropriate degrees of freedom. Keep in mind that the packaged function, <code>ttestGC()</code>, in R does all of this work for you.</p>
+<p>Since the construction of confidence intervals for means depends on the <span class="math">\(t\)</span>-distribution, Condition 1 of the Safety Check is actually be a condition that verifies that the sampling distribution of the <span class="math">\(t\)</span>-statistic approximately follows a <span class="math">\(t\)</span>-distribution. Above (and in Chapter Eight) we said that <span class="math">\(n\geq 30\)</span> provides a basis for hope that <span class="math">\(\bar{x}\)</span> is approximately normal, as a random variable. It turns out that <span class="math">\(n\geq 30\)</span> also provides some basis for hope that that the <span class="math">\(t\)</span>-statistic approximately follows a <span class="math">\(t\)</span>-curve. You can investigate this idea with the following app.</p>
 <pre class="r"><code>require(manipulate)
 tSampler(~income,data=imagpop)</code></pre>
-<p>For small sample sizes, you can see how the distribution of the t-statistic differs substantially from the <span class="math">\(t\)</span>-distribution. However, for sample sizes around 30 you can’t really tell the difference. This is why we require that <span class="math">\(n\geq 30\)</span>.</p>
+<p>For small sample sizes, you can see how the distribution of the t-statistic differs substantially from the <span class="math">\(t\)</span>-distribution. However, for sample sizes around 30 you can’t really tell the difference. This is why 30 is so often used as a cut-off figure in Condition 1 of the Safety Check.</p>
 </div>
 <div id="additional-example-and-further-ideas" class="section level2">
 <h2>Additional Example, and Further Ideas</h2>
 <blockquote>
-<p><strong>Research Question</strong>: What is the average height of <strong>all</strong> GC students?</p>
+<p><strong>Research Question</strong>: What is the average height of <em>all</em> GC students?</p>
 </blockquote>
 <p><strong>Step One:</strong> <em>Definition of parameter.</em></p>
 <p>Let <span class="math">\(\mu=\)</span> mean height of GC student population.</p>
 <p><strong>Step Two:</strong> <em>Safety Check and Calculation of the Confidence Interval</em></p>
-<p>For this problem, we are using the observations in our <code>m111survey</code> dataset as our sample. The population is <strong>all</strong> GC students.</p>
+<p>For this problem, we are using the observations in our <code>m111survey</code> data set as our sample. The population is <strong>all</strong> GC students.</p>
 <p>Let’s check the two conditions of the safety check.</p>
 <ul>
-<li>Condition 1: <strong>The population is roughly normal in shape or the sample size, <span class="math">\(n\)</span>, is at least 30.</strong> To check this, take a look at <code>favstats</code>.</li>
+<li>Condition 1: <strong>The population is roughly normal in shape or the sample size, <span class="math">\(n\)</span>, is at least 30.</strong> To check this, take a look at <code>favstats()</code>.</li>
 </ul>
-<pre><code>##  min Q1 median    Q3 max  mean    sd  n missing
-##   51 65     68 71.75  79 67.99 5.296 71       0</code></pre>
-<p>There are 71 people in the survey data, so our sample size <span class="math">\(n=71\)</span> is large enough that we don’t need to investigate the shape of the sample data.</p>
+<pre><code>##  min Q1 median    Q3 max     mean       sd  n missing
+##   51 65     68 71.75  79 67.98662 5.296414 71       0</code></pre>
+<p>There are 71 people in the survey data, so our sample size <span class="math">\(n=71\)</span> is so large that the population would have to be VERY far from normal in ourder for our confidence interval not to be reliable. (In fact, a graph of the sample indicates very little in the way of departure from normaility, so the population was probably pretty close to normal after all.)</p>
 <ul>
 <li>Condition 2: <strong>The sample is like a SRS from the population, at least in regard to the variables of interest.</strong></li>
 </ul>
-<p>Our sample of students in this survey consists of all students enrolled in MAT 111 in a particular semester. You might question if this constitutes a SRS of all GC students. Students certainly decide to enroll in MAT 111 for specific reasons such as it being a requirement for their major. However, their decision probably has nothing to do with their height. In other words, one’s height and the decision to enroll in MAT 111 are unrelated. So, in regards to the variable <code>height</code>, the students in the survey constitute a sample that is representative of the population (at least as much so as any simple random sample would).</p>
-<p>Since the safety check is passed, let’s compute a 95% confidence interval.</p>
+<p>Our sample of students in this survey consists of all students enrolled in MAT 111 in a particular semester. You might very well question if this constitutes a simple random sample of all GC students: after all, students certainly decide to enroll in MAT 111 for specific reasons such as it being a requirement for their major. We might hope, though that their decision to enroll in MAT 111 has little or nothing to do with their height. (If we knew of a some strong association between height and choice of a major for which MAT 111 is required, we would abandon this hope!) If there is no such relationship, then as far as the variable <strong>height</strong> is concerned, the students in the survey are may be thought of as <em>like</em> a group that would typically be produced by a random sampling procedure.</p>
+<p>Since the safety check is passed (admnittedly with some queasy feelings about randomness in Condition 2), we’ll go ahead and compute a 95% confidence interval.</p>
 <pre><code>## 
 ## 
 ## Inferential Procedures for One Mean mu:
@@ -469,12 +468,12 @@ tSampler(~income,data=imagpop)</code></pre>
 ## 
 ##           lower.bound         upper.bound          
 ##           66.732979           69.240260</code></pre>
-<p>Our 95% confidence interval for the estimation of the population mean, <span class="math">\(\mu\)</span>, is (66.73,69.24) inches.</p>
+<p>Our 95% confidence interval for the estimation of the population mean, <span class="math">\(\mu\)</span>, is (66.73298,69.24026) inches.</p>
 <p><strong>Step Three:</strong> <em>Interpretation of the Confidence Interval</em></p>
-<p>We are 95% confident that if the average height of the GC student population were known, the interval (66.73,69.24) would contain it. Put another way, (66.73,69.24) gives the most believable values for the average height of the GC student population.</p>
+<p>We are 95% confident that if the average height of the GC student population were known, the interval (66.73298,69.24026) would contain it. Put another way, (66.73298,69.24026) gives the most believable values for the average height of the GC student population.</p>
 <p><strong>Step Four:</strong> <em>Write a Conclusion.</em></p>
-<p>We can be reasonably sure that the average height of the GC student population is between 66.73 inches and 69.24 inches.</p>
-<p><strong>Additional Note:</strong> A confidence interval with any other confidence level can be calculated easily by just adding an extra argument, <code>conf.level</code>, into the <code>ttestGC</code> function. We could calculate a 99% confidence interval as follows.</p>
+<p>We can be reasonably sure that the average height of the GC student population is between 66.73298 inches and 69.24026 inches.</p>
+<p><strong>Additional Note:</strong> A confidence interval with any other confidence level can be calculated easily by just adding an extra argument, <code>conf.level</code>, into the <code>ttestGC()</code> function. We could calculate a 99% confidence interval as follows.</p>
 <pre class="r"><code>ttestGC(~height,data=m111survey,conf.level=0.99)</code></pre>
 <pre><code>## 
 ## 
@@ -496,7 +495,7 @@ tSampler(~income,data=imagpop)</code></pre>
 ## 
 ##           lower.bound         upper.bound          
 ##           66.322230           69.651010</code></pre>
-<p>We are 99% confident that if the average height of the GC student population were known, the interval (66.32,69.65) would contain it.</p>
+<p>We are 99% confident that if the average height of the GC student population were known, the interval (66.32223,69.65101) would contain it.</p>
 <p>Check out a 68% confidence interval:</p>
 <pre class="r"><code>ttestGC(~height,data=m111survey,conf.level=0.68)</code></pre>
 <pre><code>## 
@@ -521,25 +520,27 @@ tSampler(~income,data=imagpop)</code></pre>
 ##           67.357063           68.616177</code></pre>
 <p>Let’s compare the widths of these three confidence intervals - 68%, 95%, and 99%. For the mean height of the GC student population,</p>
 <ul>
-<li><p>(67.36,68.62) is a 68% CI and has width 1.2591.</p></li>
-<li><p>(66.73,69.24) is a 95% CI and has width 2.5073.</p></li>
-<li><p>(66.32,69.65) is a 99% CI and has width 3.3288.</p></li>
+<li><p>(67.35706,68.61618) is a 68% CI and has width 1.2591138.</p></li>
+<li><p>(66.73298,69.24026) is a 95% CI and has width 2.5072813.</p></li>
+<li><p>(66.32223,69.65101) is a 99% CI and has width 3.3287797.</p></li>
 </ul>
-<p>You can see that higher confidence levels produce wider intervals. Wider intervals cover a broader range of numbers so you’re more confident that the population parameter is in that interval. There are two things that affect the width of a confidence interval:</p>
+<p>You can see that higher confidence levels produce wider intervals. Wider intervals cover a broader range of numbers so you’re more confident that the population parameter is in that interval.</p>
+<p>Let’s make sure we understand why this is so. As we have said before, there are two quantities that affect the width of a confidence interval:</p>
 <ul>
 <li>multiplier</li>
 <li>sample size</li>
 </ul>
-<p>In this case, the sample size is the same, so the multiplier is responsible for the width of the interval. Recall that the multiplier is the number from the <span class="math">\(t\)</span> distribution that captures a specified percentage of the area between the multiplier and the multiplier’s negative. As we move more standard errors away from the center, the value of <span class="math">\(t\)</span> increases. We also capture more of the area under the curve, which corresponds to a higher confidence level. Thus, when the sample size is held constant, higher confidence levels produce wider confidence intervals. This can be visualized in the three <span class="math">\(t\)</span>-distributions with <span class="math">\(df=70\)</span> shown below. See Figure[68% t-Distribution], Figure[95% t-Distribution], and Figure[99% t-Distribution].</p>
+<p>In this case, the sample size is the same, so the multiplier is entirely responsible for the differing widths of the intervals. Recall that the multiplier is the number from the <span class="math">\(t\)</span> distribution that captures a specified percentage of the area between the multiplier and the multiplier’s negative. As the multiplier increases it captures more of the area under the curve. This is illustrated in the three <span class="math">\(t\)</span>-distributions with <span class="math">\(df=70\)</span> shown below. See Figure[68% t-Distribution], Figure[95% t-Distribution], and Figure[99% t-Distribution].</p>
 <div class="figure">
-<img src="ch9_files/figure-html/t68.png" alt="68% t-Distribution: Visualization of the t-multiplier used in the construction of a 68% confidence interval for one population mean." /><p class="caption">68% t-Distribution: Visualization of the t-multiplier used in the construction of a 68% confidence interval for one population mean.</p>
+<img src="ch9_files/figure-html/t68-1.png" alt="68% t-Distribution: Visualization of the t-multiplier used in the construction of a 68% confidence interval for one population mean." /><p class="caption">68% t-Distribution: Visualization of the t-multiplier used in the construction of a 68% confidence interval for one population mean.</p>
 </div>
 <div class="figure">
-<img src="ch9_files/figure-html/t95.png" alt="95% t-Distribution: Visualization of the t-multiplier used in the construction of a 95% confidence interval for one population mean." /><p class="caption">95% t-Distribution: Visualization of the t-multiplier used in the construction of a 95% confidence interval for one population mean.</p>
+<img src="ch9_files/figure-html/t95-1.png" alt="95% t-Distribution: Visualization of the t-multiplier used in the construction of a 95% confidence interval for one population mean." /><p class="caption">95% t-Distribution: Visualization of the t-multiplier used in the construction of a 95% confidence interval for one population mean.</p>
 </div>
 <div class="figure">
-<img src="ch9_files/figure-html/t99.png" alt="99% t-Distribution: Visualization of the t-multiplier used in the construction of a 99% confidence interval for one population mean." /><p class="caption">99% t-Distribution: Visualization of the t-multiplier used in the construction of a 99% confidence interval for one population mean.</p>
+<img src="ch9_files/figure-html/t99-1.png" alt="99% t-Distribution: Visualization of the t-multiplier used in the construction of a 99% confidence interval for one population mean." /><p class="caption">99% t-Distribution: Visualization of the t-multiplier used in the construction of a 99% confidence interval for one population mean.</p>
 </div>
+<p>A larger area underneath the <span class="math">\(t\)</span>-curve correspond to a higher probability that the confidence interval formula will produce intervals that contain the parameter, which in turn leads to a higher level of confidence that any one interval does, in fact, contain the population parameter. At the same time, though, the larger multiplier makes for a larger margin of error. Thus when the sample size is held constant, higher confidence levels are associated with wider confidence intervals.</p>
 </div>
 </div>
 <div id="difference-of-two-population-means-mu_1-mu_2" class="section level1">
@@ -557,19 +558,19 @@ tSampler(~income,data=imagpop)</code></pre>
 <blockquote>
 <p>Let <span class="math">\(\mu_2=\)</span> the mean hours of sleep per night for all GC males.</p>
 </blockquote>
-<p>We sre interested in the difference, <span class="math">\(\mu_1-\mu_2\)</span>.</p>
+<p>We are interested in the difference, <span class="math">\(\mu_1-\mu_2\)</span>.</p>
 <p><strong>Step Two:</strong> <em>Safety Check and Calculation of the Confidence Interval</em></p>
 <p>For this parameter, we also have two conditions for our safety check. However, the conditions are slightly different.</p>
 <ul>
 <li>Condition 1: <strong>Both populations are roughly normal in shape or the sample sizes, <span class="math">\(n_1\)</span> and <span class="math">\(n_2\)</span>, are both at least 30.</strong> To check this condition, let’s take a look at <code>favstats</code>.</li>
 </ul>
-<pre><code>##   .group min Q1 median    Q3 max  mean    sd  n missing
-## 1 female   2  5   6.75 7.125   9 6.325 1.619 40       0
-## 2   male   4  5   7.00 7.000  10 6.484 1.557 31       0</code></pre>
-<p>The sample size for females is <span class="math">\(n_1=\)</span> 1.6194 and the sample size for males is <span class="math">\(n_2=\)</span> 1.5572, so both samples are large enough.</p>
-<p>Since our sample of males was barely ‘large enough’, perhaps it’s a good idea to take a look at the distribution of the samples just to make sure we aren’t dealing with outliers or extreme skewness. See Figure[Sleep Histograms].</p>
+<pre><code>##   .group min Q1 median    Q3 max     mean       sd  n missing
+## 1 female   2  5   6.75 7.125   9 6.325000 1.619394 40       0
+## 2   male   4  5   7.00 7.000  10 6.483871 1.557155 31       0</code></pre>
+<p>The sample size for females is <span class="math">\(n_1=\)</span> 1.6193937 and the sample size for males is <span class="math">\(n_2=\)</span> 1.5571548, so both samples are large enough.</p>
+<p>Since our sample of males was barely ‘large enough’, it’s rather important to take a look at the distribution of the samples just to make sure we aren’t dealing with outliers or extreme skewness. See Figure[Sleep Histograms].</p>
 <div class="figure">
-<img src="ch9_files/figure-html/histsleepbysex.png" alt="Sleep Histograms: The histogram on the left shows the hours of sleep that females in the sample get. The histogram on the right shows the hours of sleep that males in the sample get." /><p class="caption">Sleep Histograms: The histogram on the left shows the hours of sleep that females in the sample get. The histogram on the right shows the hours of sleep that males in the sample get.</p>
+<img src="ch9_files/figure-html/histsleepbysex-1.png" alt="Sleep Histograms: The histogram on the left shows the hours of sleep that females in the sample get. The histogram on the right shows the hours of sleep that males in the sample get." /><p class="caption">Sleep Histograms: The histogram on the left shows the hours of sleep that females in the sample get. The histogram on the right shows the hours of sleep that males in the sample get.</p>
 </div>
 <p>There do not seem to be any outliers and neither histogram looks extremely skewed. Couple that with the fact that both sample sizes were, in fact, large enough, this part of the safety check is okay.</p>
 <ul>
@@ -606,11 +607,11 @@ tSampler(~income,data=imagpop)</code></pre>
 ## 
 ##           lower.bound         upper.bound          
 ##           -0.915971           0.598229</code></pre>
-<p>Our 95% confidence interval for the estimation of the population difference in the average number of hours a GC female sleeps and the average number of hours a GC male sleeps at night, <span class="math">\(\mu_1-\mu_2\)</span>, is (-0.916,0.5982) hours.</p>
+<p>Our 95% confidence interval for the estimation of the population difference in the average number of hours a GC female sleeps and the average number of hours a GC male sleeps at night, <span class="math">\(\mu_1-\mu_2\)</span>, is (-0.9159705,0.5982286) hours.</p>
 <p><strong>Step Three:</strong> <em>Interpretation of the Confidence Interval</em></p>
-<p>We are 95% confident that if the average difference in hours of sleep per night between GC females and GC males were known, the interval (-0.916,0.5982) would contain it. Put another way, (-0.916,0.5982) gives the most believable values for this difference.</p>
+<p>We are 95% confident that if the average difference in hours of sleep per night between GC females and GC males were known, the interval (-0.9159705,0.5982286) would contain it. Put another way, (-0.9159705,0.5982286) gives the most believable values for this difference.</p>
 <p><strong>Step Four:</strong> <em>Write a Conclusion.</em></p>
-<p>We are reasonably sure that the difference in the average hours of sleep per night of GC females and GC males is between -0.916 and 0.5982.</p>
+<p>We are reasonably sure that the difference in the average hours of sleep per night of GC females and GC males is between -0.9159705 and 0.5982286.</p>
 <p>The original Research Question asked whether GC males sleep more, on average, than GC females do. If this were so, then <span class="math">\(\mu_1-\mu_2\)</span> would be negative. Observe, however, that the confidence interval for <span class="math">\(\mu_1-\mu_2\)</span> contains zero and some positive values, as well as negative ones: hence we cannot rule out the view that females sleep as much as males do (<span class="math">\(\mu_1-\mu_2=0\)</span>) or even more than males do (<span class="math">\(\mu_1-\mu_2 &gt; 0\)</span>).</p>
 </div>
 <div id="under-the-hood-1" class="section level2">
@@ -621,30 +622,30 @@ tSampler(~income,data=imagpop)</code></pre>
 <p><span class="math">\[\bigg((\bar{x_1}-\bar{x_2}) \mbox{ }\pm \mbox{ }t\cdot SE(\bar{x_1}-\bar{x_2})\bigg)\]</span></p>
 <p>where <span class="math">\(SE(\bar{x_1}-\bar{x_2})=\sqrt{\dfrac{s_1^2}{n_1}+\dfrac{s_2^2}{n_2}}\)</span>.</p>
 <p>All of these values, except for <span class="math">\(t\)</span> can be found from <code>favstats</code>:</p>
-<pre><code>##   .group min Q1 median    Q3 max  mean    sd  n missing
-## 1 female   2  5   6.75 7.125   9 6.325 1.619 40       0
-## 2   male   4  5   7.00 7.000  10 6.484 1.557 31       0</code></pre>
+<pre><code>##   .group min Q1 median    Q3 max     mean       sd  n missing
+## 1 female   2  5   6.75 7.125   9 6.325000 1.619394 40       0
+## 2   male   4  5   7.00 7.000  10 6.483871 1.557155 31       0</code></pre>
 <ul>
 <li><span class="math">\(\bar{x_1}=\)</span> sample mean hours of sleep per night for females = 9</li>
 <li><span class="math">\(\bar{x_2}=\)</span> sample mean hours of sleep per night for males = 10</li>
 <li><span class="math">\(s_1=\)</span> sample standard deviation for females = 6.325</li>
-<li><span class="math">\(s_2=\)</span> sample standard deviation for males = 6.4839</li>
-<li><span class="math">\(n_1=\)</span> sample size of females = 1.6194</li>
-<li><span class="math">\(n_2=\)</span> sample size for males = 1.5572</li>
+<li><span class="math">\(s_2=\)</span> sample standard deviation for males = 6.483871</li>
+<li><span class="math">\(n_1=\)</span> sample size of females = 1.6193937</li>
+<li><span class="math">\(n_2=\)</span> sample size for males = 1.5571548</li>
 </ul>
 <p>To find the multiplier <span class="math">\(t\)</span>, recall that the <span class="math">\(t\)</span>-distribution relies on <span class="math">\(df=n-1\)</span>. In this case, we have two sample sizes, <span class="math">\(n_1\)</span> and <span class="math">\(n_2\)</span>. There are various methods for finding <span class="math">\(df\)</span> for this case, but we won’t go into detail here. (If you want to learn more, consult GeekNotes.) To construct this interval by hand, we can look to see what <code>t.test</code> used for <span class="math">\(df\)</span> and perform the calculation from there. From the test results above, <span class="math">\(df=\)</span> 65.81. So, <span class="math">\(t\)</span> can be found as we did before.</p>
 <pre class="r"><code>qt(0.975,df=65.81)</code></pre>
-<pre><code>## [1] 1.997</code></pre>
+<pre><code>## [1] 1.996672</code></pre>
 <p>Our 95% confidence interval for the difference of means can be computed as follows:</p>
 <p><span class="math">\[\bigg((\bar{x_1}-\bar{x_2}) \mbox{ }\pm \mbox{ }t\cdot SE(\bar{x_1}-\bar{x_2})\bigg),\]</span></p>
 <p>which becomes</p>
-<p><span class="math">\[\bigg((9-10) \pm 1.997 \cdot \sqrt{\dfrac{6.325^2}{1.6194}+\dfrac{6.4839}{1.5572}}  \bigg),\]</span></p>
+<p><span class="math">\[\bigg((9-10) \pm 1.997 \cdot \sqrt{\dfrac{6.325^2}{1.6193937}+\dfrac{6.483871}{1.5571548}}  \bigg),\]</span></p>
 <p>which in turn reduces to</p>
-<p><span class="math">\[\bigg( -15.3593, 13.3593 \bigg).\]</span></p>
+<p><span class="math">\[\bigg( -15.359306, 13.359306 \bigg).\]</span></p>
 </div>
 <div id="order-of-groups" class="section level3">
 <h3>Order of Groups</h3>
-<p>Our original interpretation stated that (-0.916,0.5982) gives the most believable values for the difference between the average amount of sleep a GC female and a GC male get per night. We can actually say more than that.</p>
+<p>Our original interpretation stated that (-0.9159705,0.5982286) gives the most believable values for the difference between the average amount of sleep a GC female and a GC male get per night. We can actually say more than that.</p>
 <p>Notice how the interval covers 0. In other words, zero is a plausible value for the population parameter. If the true mean difference in hours of sleep between females and males were 0, this would tell us that GC females and males get the same amount of sleep per night, on average.</p>
 <p>Negative numbers are also included in the interval. If <span class="math">\(\mu_1-\mu_2\)</span> (females - males) were a negative value, this would mean that males get more sleep on average than females.</p>
 <p>Positive numbers are included in our confidence interval, as well. If <span class="math">\(\mu_1-\mu_2\)</span> were a positive number, this would mean that females get more sleep on average than males.</p>
@@ -669,7 +670,7 @@ tSampler(~income,data=imagpop)</code></pre>
 <ul>
 <li>Condition 1: <strong>Both populations are roughly normal in shape or the sample sizes, <span class="math">\(n_1\)</span> and <span class="math">\(n_2\)</span>, are both at least 30.</strong></li>
 </ul>
-<p>Since we are dealing with summary data for this example, we are not able to plot histograms or look at <code>favstats</code>. We will have to rely only on the information given in the problem. Since we are told that both samples are at least of size 30, this is good enough to satisfy this condition.</p>
+<p>Since we are dealing with summary data for this example, we are not able to plot histograms or look at <code>favstats</code>. We will have to rely only on the information given in the problem. Since we are told that both samples are at least of size 30, we have some hope that this Condition 1 is statisfied (but really we would like to be able to look at graphs of the data as well).</p>
 <ul>
 <li>Condition 2: <strong>One of two things is true</strong>:
 <ul>
@@ -703,12 +704,12 @@ tSampler(~income,data=imagpop)</code></pre>
 ## 
 ##           lower.bound         upper.bound          
 ##           -3.198595           -1.201405</code></pre>
-<p>The 95% confidence interval for the population mean difference in head circumference (females - males) is (-3.1986, -1.2014) centimeters.</p>
+<p>The 95% confidence interval for the population mean difference in head circumference (females - males) is (-3.1985952, -1.2014048) centimeters.</p>
 <p><strong>Step Three</strong>: <em>Interpretation of the Confidence Interval</em></p>
-<p>We are 95% confident that if the population mean difference in head circumference (females - males) were known, it would lie in the interval (-3.1986, -1.2014).</p>
+<p>We are 95% confident that if the population mean difference in head circumference (females - males) were known, it would lie in the interval (-3.1985952, -1.2014048).</p>
 <p>Since all of the numbers in this interval are negative, we can say with 95% confidence that the average head circumference for males in this population is larger than the average head circumference for females. We could go even further to say that males are likely to have at least a 1.2 cm larger head circumference, on average, than females.</p>
 <p><strong>Step Four</strong>: <em>Write a Conclusion</em></p>
-<p>We are reasonably sure that the average head circumference for males in this population is larger than the average head circumference for females. The difference between the average head circumferences for females and males is likely to be a number in the range (-3.1986, -1.2014) centimeters.</p>
+<p>We are reasonably sure that the average head circumference for males in this population is larger than the average head circumference for females. The difference between the average head circumferences for females and males is likely to be a number in the range (-3.1985952, -1.2014048) centimeters.</p>
 </div>
 </div>
 <div id="mean-of-differences-mu_d" class="section level1">
@@ -728,8 +729,8 @@ tSampler(~income,data=imagpop)</code></pre>
 <li>Condition 1: <strong>The population is roughly normal in shape or the sample size, <span class="math">\(n\)</span>, is at least 30.</strong></li>
 </ul>
 <p>Let’s look again at <code>favstats</code> for this sample.</p>
-<pre><code>##  min Q1 median Q3 max  mean    sd  n missing
-##   -4  0      2  3  18 1.946 3.206 69       2</code></pre>
+<pre><code>##  min Q1 median Q3 max     mean       sd  n missing
+##   -4  0      2  3  18 1.945652 3.205828 69       2</code></pre>
 <p>The sample size for this variable is 69 which is larger than 30, so it’s big enough.</p>
 <ul>
 <li>Condition 2: <strong>The sample is like a simple random sample from the population, at least in regard to the variables of interest.</strong></li>
@@ -758,12 +759,12 @@ tSampler(~income,data=imagpop)</code></pre>
 ## 
 ##           lower.bound         upper.bound          
 ##           1.175528            2.715776</code></pre>
-<p>Our 95% confidence interval for the estimation of the GC mean difference between ideal and actual heights, <span class="math">\(\mu_d\)</span>, is (1.176,2.716) inches.</p>
+<p>Our 95% confidence interval for the estimation of the GC mean difference between ideal and actual heights, <span class="math">\(\mu_d\)</span>, is (1.175528,2.715776) inches.</p>
 <p><strong>Step Three:</strong> <em>Interpretation of the Confidence Interval</em></p>
-<p>We are 95% confident that if the true population mean difference in ideal and actual heights were known, the interval (1.176,2.716) would contain it. In other words, this interval gives the most believable values for <span class="math">\(\mu_d\)</span>.</p>
+<p>We are 95% confident that if the true population mean difference in ideal and actual heights were known, the interval (1.175528,2.715776) would contain it. In other words, this interval gives the most believable values for <span class="math">\(\mu_d\)</span>.</p>
 <p>Since this entire interval lies above 0, the reasonable values for <span class="math">\(\mu_d\)</span> are all positive. Since we took <code>ideal height</code> - <code>actual height</code>, this indicates that an individual’s ideal height is likely to be greater than their actual height.</p>
 <p><strong>Step Four:</strong> <em>Write a Conclusion.</em></p>
-<p>In the GC population, it is likely that the mean difference between a student’s ideal height and their actual height is between 1.176 inches and 2.716 inches. Since the interval lies entirely above the number 0, we are pretty sure that GC students wish that they were taller than they are, on average.</p>
+<p>In the GC population, it is likely that the mean difference between a student’s ideal height and their actual height is between 1.175528 inches and 2.715776 inches. Since the interval lies entirely above the number 0, we are pretty sure that GC students wish that they were taller than they are, on average.</p>
 </div>
 <div id="under-the-hood-2" class="section level2">
 <h2>Under the Hood</h2>
@@ -771,9 +772,9 @@ tSampler(~income,data=imagpop)</code></pre>
 </div>
 <div id="additional-example-1" class="section level2">
 <h2>Additional Example</h2>
-<p>Let’s do an example with summary data. A simple random sample of 30 college women was taken. Each woman was asked to provide her own height, in inches, and her mother’s height, in inches. The difference in heights was computed for each woman. Check out favstats for the data.</p>
-<pre><code>##    min     Q1 median    Q3  max  mean    sd  n missing
-##  -1.99 -0.105   1.61 3.885 7.56 1.853 2.508 30       0</code></pre>
+<p>A simple random sample of 30 college women was taken. Each woman was asked to provide her own height, in inches, and her mother’s height, in inches. The difference in heights was computed for each woman. Here are the summary numericla statistics:</p>
+<pre><code>##    min     Q1 median    Q3  max     mean       sd  n missing
+##  -1.99 -0.105   1.61 3.885 7.56 1.852667 2.507909 30       0</code></pre>
 <blockquote>
 <p><strong>Research Question</strong>: Are college women taller, on average, than their mothers?</p>
 </blockquote>
@@ -785,9 +786,9 @@ tSampler(~income,data=imagpop)</code></pre>
 <ul>
 <li>Condition 1: <strong>The population is roughly normal in shape or the sample size, <span class="math">\(n\)</span>, is at least 30.</strong></li>
 </ul>
-<p>Since we have 30 mother/daughter pairs, our sample size is <span class="math">\(n=30\)</span>. Since this is right on the borderline of ‘big enough’, let’s take a look at the distribution of these differences. We want to be aware of extreme skewness and/or the presence of outliers. Let’s look at this with a boxplot. See Figure[Boxplot of Differences].</p>
+<p>Since we have 30 mother/daughter pairs, our sample size is <span class="math">\(n=30\)</span>. Whoever provided us with the summary data really out to give us a graph of the sample differences so we can check it for outliers and skewness. Let’s say that we are able to get a boxplot of the data (see Figure[Boxplot of Differences]).</p>
 <div class="figure">
-<img src="ch9_files/figure-html/boxplotheights.png" alt="Boxplot of Differences: The distribution of the differences of college women’s heights and their mother’s heights." /><p class="caption">Boxplot of Differences: The distribution of the differences of college women’s heights and their mother’s heights.</p>
+<img src="ch9_files/figure-html/boxplotheights-1.png" alt="Boxplot of Differences: The distribution of the differences of college women’s heights and their mother’s heights." /><p class="caption">Boxplot of Differences: The distribution of the differences of college women’s heights and their mother’s heights.</p>
 </div>
 <p>The distribution looks fairly symmetric without any outliers.</p>
 <ul>
@@ -815,11 +816,11 @@ tSampler(~income,data=imagpop)</code></pre>
 ## 
 ##           lower.bound         upper.bound          
 ##           0.916198            2.789136</code></pre>
-<p>The 95% confidence interval for the mean difference in heights of college women and their mothers is (0.9162,2.789) inches.</p>
+<p>The 95% confidence interval for the mean difference in heights of college women and their mothers is (0.9161984,2.789136) inches.</p>
 <p><strong>Step Three</strong> <em>Interpretation of the Confidence Interval</em></p>
-<p>We are 95% confident that if the true population mean of differences of heights between college women and their mothers were known, it would fall in the interval (0.9162,2.789). Since this is an interval of all positive numbers, we can say with 95% confidence that college women are taller than their mothers, on average.</p>
+<p>We are 95% confident that if the true population mean of differences of heights between college women and their mothers were known, it would fall in the interval (0.9161984,2.789136). Since this is an interval of all positive numbers, we can say with 95% confidence that college women are taller than their mothers, on average.</p>
 <p><strong>Step Four</strong> <em>Write a Conclusion</em></p>
-<p>A reasonable difference for the average difference in height between a college woman and her mother is any number between 0.9162 inches and 2.789 inches. On average, college women are taller than their mothers.</p>
+<p>The 95%-confidence interval for <span class="math">\(\mu_d\)</span> consists of all the numbers between 0.9161984 inches and 2.789136 inches. If college women and their mothers were, on average, equally tall, then <span class="math">\(\mu_d\)</span> would be zero. However, all of the numbers in the confidence interval for <span class="math">\(\mu_d\)</span> are positive! Hence it seems that on average college women are taller than their mothers.</p>
 </div>
 </div>
 <div id="one-population-proportion-p" class="section level1">
@@ -857,10 +858,8 @@ tSampler(~income,data=imagpop)</code></pre>
 <p>Again, this is debatable since we are dealing with a sample of only those students enrolled in MAT 111 in a given semester. However, believing in love at first sight seems to be totally unrelated to an individual enrolling in MAT 111. For this reason, our sample can be regarded as a SRS from the population of GC students, in regards to the variable <code>love_first</code>.</p>
 <p>Let’s construct the confidence interval. The function that we will use for this parameter is <code>binomtestGC</code>. It works similarly to <code>ttestGC</code> that we used for means. The main difference is that we need to input what a “success” is defined to be.</p>
 <pre class="r"><code>binomtestGC(~love_first,data=m111survey,success=&quot;yes&quot;)</code></pre>
-<pre><code>## 
-## Exact Binomial Procedures for a Single Proportion p:
+<pre><code>## Exact Binomial Procedures for a Single Proportion p:
 ##  Variable under study is love_first 
-## 
 ## 
 ## Descriptive Results:  26 successes in 71 trials
 ## 
@@ -942,10 +941,8 @@ CIProp()</code></pre>
 <p><strong>Condition 2:</strong> <strong>The sample is like a simple random sample from the population, at least in regard to the variables of interest.</strong> For this problem, we are told that the sample was a SRS, so let’s proceed with the calculation of the confidence interval.</p>
 <p>We first need to find the number of successes. Let’s define “success” as believing that the world will come to an end. Out of the 1000 people surveyed, 59% said they believe that the world will come to an end. This means that the number of successes is 590 because <span class="math">\(\dfrac{590}{1000}=0.59\)</span>.</p>
 <pre class="r"><code>binomtestGC(x=590, n=1000)</code></pre>
-<pre><code>## 
-## Exact Binomial Procedures for a Single Proportion p:
+<pre><code>## Exact Binomial Procedures for a Single Proportion p:
 ##  Results based on Summary Data
-## 
 ## 
 ## Descriptive Results:  590 successes in 1000 trials
 ## 
@@ -1067,12 +1064,12 @@ CIProp()</code></pre>
 ## 
 ##           lower.bound         upper.bound          
 ##           0.036966            0.082072</code></pre>
-<p>The 99% confidence interval for the difference in the two population proportions is (0.037, 0.0821).</p>
+<p>The 99% confidence interval for the difference in the two population proportions is (0.0369663, 0.082072).</p>
 <p><strong>Step Three:</strong> <em>Interpretation of the Confidence Interval</em></p>
-<p>We are 95% confident that if the true difference in proportions of American adult snorers and non-snorers that have heart disease were known, it would be included in the interval (0.037, 0.0821).</p>
+<p>We are 95% confident that if the true difference in proportions of American adult snorers and non-snorers that have heart disease were known, it would be included in the interval (0.0369663, 0.082072).</p>
 <p>Notice that all of the values in this interval are positive. This means that we are 99% confident that the difference in population proportions, <span class="math">\(p_1-p_2\)</span>, is positive. This difference will be positive if <span class="math">\(p_1&gt;p_2\)</span>, which means that the population proportion of snorers with heart disease is greater than the population proportion of non-snorers with heart disease.</p>
 <p><strong>Step Four:</strong> <em>Write a Conclusion.</em></p>
-<p>We are reasonably sure that the proportion of American adult snorers with heart disease is greater than the proportion of non-snorers with heart disease. Moreover, it is likely that about 3.6966% to 8.2072% more snorers have heart disease than non-snorers.</p>
+<p>We are reasonably sure that the proportion of American adult snorers with heart disease is greater than the proportion of non-snorers with heart disease. Moreover, it is likely that about 3.6966341% to 8.2071981% more snorers have heart disease than non-snorers.</p>
 </div>
 </div>
 <div id="thoughts-on-r" class="section level1">
@@ -1105,7 +1102,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

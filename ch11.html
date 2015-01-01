@@ -108,10 +108,8 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <p>At once your eye is drawn to the rather large number of two-spots. After all, if the six-sided die is really fair then the chance of a two-spot on any given roll is only 1 in 6, so you would expect only about ten twos in 60 rolls—give or take a few, of course, for chance variation.</p>
 <p>The locals notice the large number of twos as well. They pull out their computers, fire up R, and perform a quick One-Proportion test with <code>binomtestGC()</code>:</p>
 <pre class="r"><code>binomtestGC(x=18,n=60,p=1/6)</code></pre>
-<pre><code>## 
-## Exact Binomial Procedures for a Single Proportion p:
+<pre><code>## Exact Binomial Procedures for a Single Proportion p:
 ##  Results based on Summary Data
-## 
 ## 
 ## Descriptive Results:  18 successes in 60 trials
 ## 
@@ -127,8 +125,8 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 ## 
 ## Test of Significance:
 ## 
-##  H_0:  p = 0.1667 
-##  H_a:  p != 0.1667 
+##  H_0:  p = 0.1666667 
+##  H_a:  p != 0.1666667 
 ## 
 ##  P-value:        P = 0.0089</code></pre>
 <p>The results show that if the die is really fair, then the chance of 18 or more twos in sixty rolls is only about 0.009, which is less than 1%. The locals prepare to ride the gambler out of town on a rail.</p>
@@ -216,20 +214,20 @@ NullProbs &lt;- rep(1/6,6)
 chisqtestGC(throws,p=NullProbs,
              simulate.p.value=T,B=2500)</code></pre>
 <pre><code>## Pearson&#39;s chi-squared test with simulated p-value 
-##   (based on 2500 resamples)
+##   (based on 2500 resamples) 
 ## 
-##       observed counts Expected by Null contribution to chisq statistic
-## one                 8               10                             0.4
-## two                18               10                             6.4
-## three              11               10                             0.1
-## four                7               10                             0.9
-## five                9               10                             0.1
-## six                 7               10                             0.9
+##       Observed counts Expected by Null Contr to chisq stat
+## one                 8               10                 0.4
+## two                18               10                 6.4
+## three              11               10                 0.1
+## four                7               10                 0.9
+## five                9               10                 0.1
+## six                 7               10                 0.9
 ## 
 ## 
 ## Chi-Square Statistic = 8.8 
 ## Degrees of Freedom of the table = 5 
-## P-Value = 0.1148</code></pre>
+## P-Value = 0.1152</code></pre>
 <p>Note that the output gives the <span class="math">\(\chi^2\)</span>-statistic as 8.8.</p>
 <p><strong>Step Three</strong>: P-value</p>
 <p>The simulated approximation to the P-value is 0.1148.</p>
@@ -264,7 +262,7 @@ chisqtestGC(throws,p=NullProbs,
 <p>or so. From this point of view, the 8.8 value that we got does not seem very unlikely, if the Null is right: it is not much more than one SD above the EV.</p>
 <p>As for what sample size counts as “big enough”&quot; the results we stated above are quite accurate if the Null’s expected cell counts are all at least five. Mathematicians have even discovered a family of random variables, known as the <span class="math">\(\chi^2\)</span> family, such that at large sample sizes the <span class="math">\(\chi^2\)</span>-statistic behaves like one of the members of this family, the member with the degrees of freedom given by the “cells minus one” formula. Figure [Chi-Square df=5] shows a density curve for the <span class="math">\(\chi^2\)</span> curve with 5 degrees of freedom, with the area under the curve after 8.8 shaded in. Note that the area is quite close to the P-value that we obtained through simulation.</p>
 <div class="figure">
-<img src="ch11_files/figure-html/chisqdf5.png" alt="Chi-Square df=5" /><p class="caption">Chi-Square df=5</p>
+<img src="ch11_files/figure-html/chisqdf5-1.png" alt="Chi-Square df=5" /><p class="caption">Chi-Square df=5</p>
 </div>
 <p>Since at large sample sizes the <span class="math">\(\chi^2\)</span> density curve will deliver approximately the right P-value, we usually don’t ask for simulation. For the Gambler’s Die study, the function call would be:</p>
 <pre class="r"><code>chisqtestGC(throws,p=NullProbs)</code></pre>
@@ -301,13 +299,13 @@ chisqtestGC(throws,p=NullProbs,
             p=c(1/3,1/3,1/3))</code></pre>
 <pre><code>## Chi-squared test for given probabilities 
 ## 
-##          observed counts Expected by Null contribution to chisq statistic
-## 1_front               27            23.67                            0.47
-## 2_middle              32            23.67                            2.93
-## 3_back                12            23.67                            5.75
+##          Observed counts Expected by Null Contr to chisq stat
+## 1_front               27            23.67                0.47
+## 2_middle              32            23.67                2.93
+## 3_back                12            23.67                5.75
 ## 
 ## 
-## Chi-Square Statistic = 9.155 
+## Chi-Square Statistic = 9.1549 
 ## Degrees of Freedom of the table = 2 
 ## P-Value = 0.0103</code></pre>
 <p>We see that the P-value is about 0.01, which is less than our “cut-off” of 0.05, so we reject the Null and conclude that this data provided strong evidence that GC students are not equally likely to prefer any of the three seating locations. (The middle appears to be most desired.)</p>
@@ -361,14 +359,14 @@ NullClass &lt;- c(0.30,0.25,0.25,0.20)
 chisqtestGC(Nexus,p=NullClass)</code></pre>
 <pre><code>## Chi-squared test for given probabilities 
 ## 
-##        observed counts Expected by Null contribution to chisq statistic
-## fresh               62             60.6                            0.03
-## soph                27             50.5                           10.94
-## junior              33             50.5                            6.06
-## senior              80             40.4                           38.82
+##        Observed counts Expected by Null Contr to chisq stat
+## fresh               62             60.6                0.03
+## soph                27             50.5               10.94
+## junior              33             50.5                6.06
+## senior              80             40.4               38.82
 ## 
 ## 
-## Chi-Square Statistic = 55.85 
+## Chi-Square Statistic = 55.8482 
 ## Degrees of Freedom of the table = 3 
 ## P-Value = 0</code></pre>
 <p>The <span class="math">\(\chi^2\)</span> statistic was about 55.8. If the Null is true, then it should have been about 3 (the degrees of freedom), give or take</p>
@@ -421,13 +419,13 @@ FairProbs &lt;- rep(1/6,6)
 chisqtestGC(AllegedRolls,p=FairProbs)</code></pre>
 <pre><code>## Chi-squared test for given probabilities 
 ## 
-##       observed counts Expected by Null contribution to chisq statistic
-## one              1003             1000                            0.01
-## two               998             1000                            0.00
-## three             999             1000                            0.00
-## four             1002             1000                            0.00
-## five             1001             1000                            0.00
-## six               997             1000                            0.01
+##       Observed counts Expected by Null Contr to chisq stat
+## one              1003             1000                0.01
+## two               998             1000                0.00
+## three             999             1000                0.00
+## four             1002             1000                0.00
+## five             1001             1000                0.00
+## six               997             1000                0.01
 ## 
 ## 
 ## Chi-Square Statistic = 0.028 
@@ -476,7 +474,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

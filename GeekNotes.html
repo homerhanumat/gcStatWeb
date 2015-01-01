@@ -128,7 +128,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <p>Just like you, R is a reader, so R reads for structure, too. Look at the following code (and see Figure [A Simple Histogram] for the results):</p>
 <pre class="r"><code>histogram(~fastest, data=m111survey)</code></pre>
 <div class="figure">
-<img src="GeekNotes_files/figure-html/geekhistfastest.png" alt="A Simple Histogram." /><p class="caption">A Simple Histogram.</p>
+<img src="GeekNotes_files/figure-html/geekhistfastest-1.png" alt="A Simple Histogram." /><p class="caption">A Simple Histogram.</p>
 </div>
 <p>You can think of the code as saying to R: “Put on your <code>histogram()</code> glasses. Then take up the book named <code>m111survey</code>, turn to chapter <strong>fastest</strong>, and read that chapter with your <code>histogram()</code> glasses.”</p>
 <p>When R gets interprets that code, it “reads” <strong>fastest</strong> with histogram glasses. It can do so because of the structure of fastest:</p>
@@ -137,9 +137,10 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <p>R sees that is <strong>fastest</strong> is a numerical vector. It can use histogram glasses to read that vector and produce the histogram you see on the screen.</p>
 <p>Suppose you were to ask R to make a histogram of <strong>sex</strong>. The result appears in Figure [Bad Histogram].</p>
 <pre class="r"><code>histogram(~sex,data=m111survey)</code></pre>
-<pre><code>## Warning: argument is not numeric or logical: returning NA</code></pre>
+<pre><code>## Warning in mean.default(evalF$right[, 1], ...): argument is not numeric or
+## logical: returning NA</code></pre>
 <div class="figure">
-<img src="GeekNotes_files/figure-html/geekhistsex.png" alt="Bad Histogram. You should not try to make a histogram from a factor variable." /><p class="caption">Bad Histogram. You should not try to make a histogram from a factor variable.</p>
+<img src="GeekNotes_files/figure-html/geekhistsex-1.png" alt="Bad Histogram. You should not try to make a histogram from a factor variable." /><p class="caption">Bad Histogram. You should not try to make a histogram from a factor variable.</p>
 </div>
 <p>You don’t get a histogram; you get something that looks like a cross between a density histrogram and a barchart. R was programmed to look at the structure of the input variable. If it’s a factor rather than a numerical vector and a histogram was requested, then R looks turns the factor into a numerical variable, as best it can. In this case, “female” was turned into a 1 and “male” was turned into a 2. The rectangle over female extends from 0.5 to 1.5, and the recangle over “male” extends from 1.5 to 2.5 Very kindly, R prints the values “female” and “male”, rather than 1 and 2, so it’s doing the best it can to give you a pair of “glasses” through which you can read the data.</p>
 <p>We said that everything in R is an object, and every object has a structure. Therefore, even graphs have a structure. Try this:</p>
@@ -153,7 +154,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <p>The “building” occurs when we `<code>print()</code> the object:</p>
 <pre class="r"><code>print(FastHist)</code></pre>
 <div class="figure">
-<img src="GeekNotes_files/figure-html/geekfasthiststr.png" alt="Now we get the histogram." /><p class="caption">Now we get the histogram.</p>
+<img src="GeekNotes_files/figure-html/geekfasthiststr-1.png" alt="Now we get the histogram." /><p class="caption">Now we get the histogram.</p>
 </div>
 <p>The <code>print()</code> function uses the information in <code>FastHist</code> to produce the histogram you see on in Figure [Now we get the histogram]. (When you ask for a histogram directly, you are actually asking R to print the histogram object created by the <code>histogram()</code> function.)</p>
 <p>Of course when we read a histogram, we usually read the one we see on the screen, so we think of its structure differently than R does. In general, we think of the structure of a graph as:</p>
@@ -171,7 +172,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
            xlab=&quot;Damage in Millions of Dollars&quot;,
             type=&quot;density&quot;)</code></pre>
 <div class="figure">
-<img src="GeekNotes_files/figure-html/geektornado1.png" alt="Tornado damge, with default breaks. All rectangles have the same width." /><p class="caption">Tornado damge, with default breaks. All rectangles have the same width.</p>
+<img src="GeekNotes_files/figure-html/geektornado1-1.png" alt="Tornado damge, with default breaks. All rectangles have the same width." /><p class="caption">Tornado damge, with default breaks. All rectangles have the same width.</p>
 </div>
 <p>The distribution (see Figure [Tornado damge, with default breaks]) is very right-skewed, but most of the states suffered very little damage. Let’s get a finer-grained picture of these states by picking our own breaks:</p>
 <pre class="r"><code>data(tornado)
@@ -181,7 +182,7 @@ histogram(~damage,data=tornado,
             type=&quot;density&quot;,
             breaks=c(0,2,4,6,10,15,20,25,30,40,50,60,70,80,90,100))</code></pre>
 <div class="figure">
-<img src="GeekNotes_files/figure-html/geektornado2.png" alt="Tornado damage, with customized rectangles." /><p class="caption">Tornado damage, with customized rectangles.</p>
+<img src="GeekNotes_files/figure-html/geektornado2-1.png" alt="Tornado damage, with customized rectangles." /><p class="caption">Tornado damage, with customized rectangles.</p>
 </div>
 <p>Figure [Tornado damage, with customized rectangles] shows the result. You should play around with the sequence of breaks, to find one that “tells the story” of the data well.</p>
 </div>
@@ -198,7 +199,7 @@ histogram(~damage,data=tornado,
                   panel.bwplot(..., box.ratio = 0.1)
                 })</code></pre>
 <div class="figure">
-<img src="GeekNotes_files/figure-html/geekgpaseatviolin2.png" alt="Combined Plot. Box-and-Whisker plots combined with violin plots are very cool." /><p class="caption">Combined Plot. Box-and-Whisker plots combined with violin plots are very cool.</p>
+<img src="GeekNotes_files/figure-html/geekgpaseatviolin2-1.png" alt="Combined Plot. Box-and-Whisker plots combined with violin plots are very cool." /><p class="caption">Combined Plot. Box-and-Whisker plots combined with violin plots are very cool.</p>
 </div>
 <p>The result is shown in Figure [Combined Plot].</p>
 <p>In order to get more than one graph into the “panel” area of a plot, you modify something called the “panel” function. In advanced courses (or own your own) you canlearn more about how R’s graphics systems work, but for now just try copying and modifying the code you see in the Course Notes.</p>
@@ -216,7 +217,7 @@ histogram(~damage,data=tornado,
             }
           )</code></pre>
 <div class="figure">
-<img src="GeekNotes_files/figure-html/geekbwrug.png" alt="Damage with Rug. We added a rug to this plot." /><p class="caption">Damage with Rug. We added a ‘rug’ to this plot.</p>
+<img src="GeekNotes_files/figure-html/geekbwrug-1.png" alt="Damage with Rug. We added a rug to this plot." /><p class="caption">Damage with Rug. We added a ‘rug’ to this plot.</p>
 </div>
 <p>The result appears in Figure [Damage with Rug].</p>
 </div>
@@ -237,7 +238,7 @@ histogram(~damage,data=tornado,
             }
           )</code></pre>
 <div class="figure">
-<img src="GeekNotes_files/figure-html/geekhisttuning.png" alt="Setting Bandwidth. The bandwidth of the density plot was set to 3." /><p class="caption">Setting Bandwidth. The bandwidth of the density plot was set to 3.</p>
+<img src="GeekNotes_files/figure-html/geekhisttuning-1.png" alt="Setting Bandwidth. The bandwidth of the density plot was set to 3." /><p class="caption">Setting Bandwidth. The bandwidth of the density plot was set to 3.</p>
 </div>
 <p>R constructs a density plot by combining lots of little bell-shaped curves (called <em>kernals</em>), one centered at each point in the data. The bandwidth <code>bw</code> tells R how spread out these kernals should be: the bigger the bandwidth, the shorter and wider the kernal, and the stiffer the density curve will be. With a small bandwidth, the kernals are skinny and tall, giving the density plot a wiggly appearance, especially near isolated data points.</p>
 <p>How do you know what the bandwidth should be? For now, you just have to try various values. The following <code>manipulate()</code> app helps you experiment with different values of the bandwidth.</p>
@@ -274,43 +275,43 @@ manipulate(
 <p>What do we mean by “good estimate”? Let’s suppose that a statistician wants to estimate the variance of the heights of <code>imagpop</code>, but she only has time to take a sample of size, say, <span class="math">\(n=4\)</span>. Unknown to her the population variance is:</p>
 <pre class="r"><code>sigmasq &lt;- var(imagpop$height)*(9999/10000)
 sigmasq</code></pre>
-<pre><code>## [1] 15.26</code></pre>
+<pre><code>## [1] 15.26323</code></pre>
 <p>Her sample might, on the other hand, might look like this:</p>
 <pre class="r"><code>HerSamp &lt;- popsamp(n=4,pop=imagpop)
 HerSamp</code></pre>
 <pre><code>##         sex math income cappun height idealheight diff kkardashtemp
-## 7038 female   no  21700  favor   67.4          69  1.6           23
-## 5600   male   no 107800 oppose   71.3          74  2.7           95
-## 4588 female   no  25800 oppose   63.4          65  1.6           11
-## 134  female   no  60500 oppose   65.8          67  1.2           20</code></pre>
+## 3109 female   no   6900  favor   60.1          62  1.9           41
+## 9924 female   no  10100  favor   69.2          71  1.8           32
+## 9608 female  yes  25800 oppose   63.3          65  1.7            2
+## 4567 female   no  18900 oppose   72.7          74  1.3           25</code></pre>
 <p>Then her estimate of the variance would be</p>
 <pre class="r"><code>var(HerSamp$height)</code></pre>
-<pre><code>## [1] 11.02</code></pre>
+<pre><code>## [1] 32.26917</code></pre>
 <p>Her estimate might be high or low: it depends on the luck of the draw. But suppose that many, many statisticians (10,000 of them, let’s say) were to each take a random sample of size 4 and compute the sample variance. Then the results would be like this:</p>
 <pre class="r"><code>SimVars &lt;- do(10000)*var(popsamp(n=4,pop=imagpop)$height)</code></pre>
 <pre><code>## Loading required package: parallel</code></pre>
 <p>Individually, their estimates would be all over the place (see Figure[Variance Estimates] for the plot:</p>
 <pre class="r"><code>head(SimVars,n=10)</code></pre>
-<pre><code>##    result
-## 1   4.433
-## 2   9.269
-## 3   3.007
-## 4   7.140
-## 5  14.820
-## 6  30.417
-## 7  17.813
-## 8   5.720
-## 9   4.956
-## 10 45.567</code></pre>
+<pre><code>##       result
+## 1   3.355833
+## 2   4.182500
+## 3  17.455833
+## 4  23.082500
+## 5  55.829167
+## 6   7.126667
+## 7  41.469167
+## 8   8.853333
+## 9  30.962500
+## 10 14.440000</code></pre>
 <pre class="r"><code>histogram(~SimVars$result)</code></pre>
-<p><img src="GeekNotes_files/figure-html/geekhistsimvars.png" alt="Variance Estimates." /> But on average, they would get:</p>
+<p><img src="GeekNotes_files/figure-html/geekhistsimvars-1.png" alt="Variance Estimates." /> But on average, they would get:</p>
 <pre class="r"><code>mean(SimVars$result)</code></pre>
-<pre><code>## [1] 15.3</code></pre>
-<p>Notice that this about the same as the population variance <span class="math">\(\sigma^2 = 15.2632\)</span>.</p>
+<pre><code>## [1] 15.30223</code></pre>
+<p>Notice that this about the same as the population variance <span class="math">\(\sigma^2 = 15.2632308\)</span>.</p>
 <p>On average, over many, many samples, the sample variance equals the population variance. We say that the sample variance is an <em>unbiased</em> estimator of the population variance. On the other hand, if the statisticians were to compute the sample variance by dividing by <span class="math">\(n=4\)</span> instead of dividing by <span class="math">\(n-1=3\)</span>, then they would get results that are, on average, <em>too small</em>:</p>
 <pre class="r"><code>BadVars &lt;- SimVars$result*3/4  #so that there is now a 4 on the bottom
 mean(BadVars)</code></pre>
-<pre><code>## [1] 11.48</code></pre>
+<pre><code>## [1] 11.47667</code></pre>
 <p>Sure enough, the results, on average are only about 3/4th the size of the true <span class="math">\(\sigma^2\)</span>. Dividing by <span class="math">\(n\)</span> in the sample variance would give you a biased estimator of population variance!</p>
 </div>
 </div>
@@ -323,13 +324,13 @@ mean(BadVars)</code></pre>
 dotplot(SexSeatrp,groups=FALSE,horizontal=FALSE,type=c(&quot;p&quot;,&quot;h&quot;),
         ylab=&quot;Percent&quot;,xlab=&quot;Feeling About Weight&quot;,
         main=&quot;Feeling About Weight, by Sex&quot;)</code></pre>
-<p><img src="GeekNotes_files/figure-html/geekcleveland1.png" alt="Cleveland Plot." /> The resulting plot appears as Figure [Cleveland Plot]. The first line of code above constructs a twoway table and computes row percentages for it, using the <code>prop.table()</code> function to prevent having to deal with the extraneous column of total percentages. Note that in the twoway table the explanatory variable comes second. Reverse the order to see the effect on the layout of the plot.</p>
+<p><img src="GeekNotes_files/figure-html/geekcleveland1-1.png" alt="Cleveland Plot." /> The resulting plot appears as Figure [Cleveland Plot]. The first line of code above constructs a twoway table and computes row percentages for it, using the <code>prop.table()</code> function to prevent having to deal with the extraneous column of total percentages. Note that in the twoway table the explanatory variable comes second. Reverse the order to see the effect on the layout of the plot.</p>
 <p>The second line constructs the dot plot itself. Whereas barcharts indicate percentages by the tops of rectangles, the Cleveland dot plot uses points. Setting the <code>type</code> argument to <code>c(&quot;p&quot;,&quot;h&quot;)</code> indicates that we want points, but also lines extending to the points. The lines are helpful, as the human eye is good at comparing relative lengths of side-by-side segments. The <code>groups</code> argument is FALSE by default; we include it here to emphasize how the plot will change when it is set to TRUE, as in the next example. The results appears in Figure [Cleveland Plot 2].</p>
 <pre class="r"><code>dotplot(SexSeatrp,groups=TRUE,horizontal=FALSE,type=c(&quot;p&quot;,&quot;o&quot;),
         ylab=&quot;Proportion&quot;,xlab=&quot;Feeling About Weight&quot;,
         auto.key=list(space=&quot;right&quot;,title=&quot;Sex&quot;,lines=TRUE),
         main=&quot;Feeling About Weight, by Sex&quot;)</code></pre>
-<p><img src="GeekNotes_files/figure-html/geekcleveland2.png" alt="Cleveland Plot 2. We added lines extending to the dots." /> Setting <code>groups</code> to TRUE puts both sexes in the same panel. Setting <code>type=c(&quot;p&quot;,&quot;o&quot;)</code> produces the points, with points in the same group connected by line segments. The <code>lines</code> argument in <code>auto.key</code> calls for lines as well as points to appear in the legend.</p>
+<p><img src="GeekNotes_files/figure-html/geekcleveland2-1.png" alt="Cleveland Plot 2. We added lines extending to the dots." /> Setting <code>groups</code> to TRUE puts both sexes in the same panel. Setting <code>type=c(&quot;p&quot;,&quot;o&quot;)</code> produces the points, with points in the same group connected by line segments. The <code>lines</code> argument in <code>auto.key</code> calls for lines as well as points to appear in the legend.</p>
 </div>
 </div>
 <div id="chapter-3" class="section level1">
@@ -360,7 +361,7 @@ ChisqSimSlow(~weather+crowd.behavior,data=ledgejump, effects=&quot;random&quot;)
 <h2>Point Shapes in Scatterplots using <code>pch</code></h2>
 <p>The plot character, <code>pch</code>, is an integer between 1 and 25 that controls how the points on your scatterplot appear. A summary can be seen in Figure[Plot Characters].</p>
 <div class="figure">
-<img src="GeekNotes_files/figure-html/geekpch.png" alt="Plot Characters." /><p class="caption">Plot Characters.</p>
+<img src="GeekNotes_files/figure-html/geekpch-1.png" alt="Plot Characters." /><p class="caption">Plot Characters.</p>
 </div>
 </div>
 <div id="scatterplot-matrix" class="section level2">
@@ -368,24 +369,24 @@ ChisqSimSlow(~weather+crowd.behavior,data=ledgejump, effects=&quot;random&quot;)
 <p>Given several numerical variables, R can produce a group of scatterplots, one for each pair of variables – all in one graph. Such a graph is called a <em>scatterplot matrix</em>. We can create a matrix of scatterplots using the following <code>pairs</code> function in R. You only need to enter in the variables that you want plotted and the dataset that contains them. R will create a square matrix of plots for every combination of variables. See Figure<a href="#scatterplot-matrix">Scatterplot Matrix</a>.</p>
 <pre class="r"><code>pairs(~height+sleep+GPA+fastest,data=m111survey)  </code></pre>
 <div class="figure">
-<img src="GeekNotes_files/figure-html/geekxymatrix.png" alt="Scatterplot Matrix." /><p class="caption">Scatterplot Matrix.</p>
+<img src="GeekNotes_files/figure-html/geekxymatrix-1.png" alt="Scatterplot Matrix." /><p class="caption">Scatterplot Matrix.</p>
 </div>
 <p>Of course, you can always make this look nicer by changing the colors and plot characters. Notice that the scatterplots are arranged in a somewhat symmetric way across the main diagonal (the boxes with the variable names). A scatterplots mirror image uses the same variables, but the explanatory and response variables are reversed.</p>
 <p>You can also plot only the upper (or lower) panels. See Figure[Upper Panel] and Figure[LowerPanel].</p>
 <pre class="r"><code>pairs(~height+sleep+GPA+fastest,data=m111survey,pch=19,col=&quot;red&quot;,lower.panel=NULL)</code></pre>
 <div class="figure">
-<img src="GeekNotes_files/figure-html/geekxymatrixupper.png" alt="Upper Panel. Scatterplot matrix showing only the upper panel of scatterplots." /><p class="caption">Upper Panel. Scatterplot matrix showing only the upper panel of scatterplots.</p>
+<img src="GeekNotes_files/figure-html/geekxymatrixupper-1.png" alt="Upper Panel. Scatterplot matrix showing only the upper panel of scatterplots." /><p class="caption">Upper Panel. Scatterplot matrix showing only the upper panel of scatterplots.</p>
 </div>
 <pre class="r"><code>pairs(~height+sleep+GPA+fastest,data=m111survey,pch=19,col=&quot;red&quot;,upper.panel=NULL)</code></pre>
 <div class="figure">
-<img src="GeekNotes_files/figure-html/geekxymatrixlower.png" alt="Lower Panel. Scatterplot matrix showing only the lower panel of scatterplots." /><p class="caption">Lower Panel. Scatterplot matrix showing only the lower panel of scatterplots.</p>
+<img src="GeekNotes_files/figure-html/geekxymatrixlower-1.png" alt="Lower Panel. Scatterplot matrix showing only the lower panel of scatterplots." /><p class="caption">Lower Panel. Scatterplot matrix showing only the lower panel of scatterplots.</p>
 </div>
 </div>
 <div id="the-rationale-for-values-of-the-correlation-coefficient-r" class="section level2">
 <h2>The Rationale for Values of the Correlation Coefficient, <span class="math">\(r\)</span></h2>
 <p>Let’s consider why variables with a positive linear association also have a positive correlation coefficient, <span class="math">\(r\)</span>. Consider what value of <span class="math">\(r\)</span> you might <em>expect</em> for <strong>positively correlated</strong> variables. Let’s recall how we plotted the two “mean” lines to break a scatterplot into four “boxes”. See Figure[Four Boxes].</p>
 <div class="figure">
-<img src="GeekNotes_files/figure-html/geekfourboxesxyhandheight.png" alt="Four Boxes. Scatterplot of Right Handspan (cm) versus Height (in). The lines marking the mean of the handspans and the mean of the heights have been plotted to break the scatterplot into four boxes." /><p class="caption">Four Boxes. Scatterplot of Right Handspan (cm) versus Height (in). The lines marking the mean of the handspans and the mean of the heights have been plotted to break the scatterplot into four boxes.</p>
+<img src="GeekNotes_files/figure-html/geekfourboxesxyhandheight-1.png" alt="Four Boxes. Scatterplot of Right Handspan (cm) versus Height (in). The lines marking the mean of the handspans and the mean of the heights have been plotted to break the scatterplot into four boxes." /><p class="caption">Four Boxes. Scatterplot of Right Handspan (cm) versus Height (in). The lines marking the mean of the handspans and the mean of the heights have been plotted to break the scatterplot into four boxes.</p>
 </div>
 <p>We’ve looked at this scatterplot before, and determined that it indicates a positive association between <strong>RtSpan</strong> and <strong>Height</strong>. Now, let’s think carefully about how the points in the scatterplot contribute to the value of <span class="math">\(r\)</span>. Check out the formula again:</p>
 <p><span class="math">\[ r=\frac{1}{n-1}\sum{\bigg(\frac{x_i-\bar{x}}{s_x}\bigg)\bigg(\frac{y_i-\bar{y}}{s_y}\bigg)}  \]</span></p>
@@ -403,25 +404,38 @@ ChisqSimSlow(~weather+crowd.behavior,data=ledgejump, effects=&quot;random&quot;)
 </div>
 <div id="computation-of-the-coefficients-in-the-regression-equation" class="section level2">
 <h2>Computation of the Coefficients in the Regression Equation</h2>
-<p>The regression equation is <span class="math">\(\hat{y}=a+bx\)</span>. You might be wondering…how are <span class="math">\(a\)</span> and <span class="math">\(b\)</span> calculated?</p>
-<p><span class="math">\[\mbox{slope }= b = r \cdot \frac{s_y}{s_x},\]</span> where * <span class="math">\(r\)</span> is the correlation coefficient, * <span class="math">\(s_y\)</span> is the SD of the <span class="math">\(y\)</span>’s in the scatterplot, and * <span class="math">\(s_x\)</span> is the SD of the <span class="math">\(x\)</span>’s in the scatterplot.</p>
-<p><span class="math">\[\mbox{intercept }= a = \bar{y}-b\cdot\bar{x},\]</span> where * <span class="math">\(b\)</span> is the slope calculated above, * <span class="math">\(\bar{y}\)</span> is the mean of the <span class="math">\(y\)</span>’s in the scatterplot, and * <span class="math">\(\bar{x}\)</span> is the mean of the <span class="math">\(x\)</span>’s in the scatterplot.</p>
+<p>The regression equation is <span class="math">\(\hat{y}=a+bx\)</span>. You might be wondering…how are <span class="math">\(a\)</span> and <span class="math">\(b\)</span> calculated? The formula for the slope <span class="math">\(b\)</span> is:</p>
+<p><span class="math">\[\mbox{slope }= b = r \cdot \frac{s_y}{s_x},\]</span></p>
+<p>where</p>
+<ul>
+<li><span class="math">\(r\)</span> is the correlation coefficient,</li>
+<li><span class="math">\(s_y\)</span> is the SD of the <span class="math">\(y\)</span>’s in the scatterplot, and</li>
+<li><span class="math">\(s_x\)</span> is the SD of the <span class="math">\(x\)</span>’s in the scatterplot.</li>
+</ul>
+<p>The formula for the intercept <span class="math">\(a\)</span> is:</p>
+<p><span class="math">\[\mbox{intercept }= a = \bar{y}-b\cdot\bar{x},\]</span></p>
+<p>where</p>
+<ul>
+<li><span class="math">\(b\)</span> is the slope calculated above,</li>
+<li><span class="math">\(\bar{y}\)</span> is the mean of the <span class="math">\(y\)</span>’s in the scatterplot, and</li>
+<li><span class="math">\(\bar{x}\)</span> is the mean of the <span class="math">\(x\)</span>’s in the scatterplot.</li>
+</ul>
 <p>Before interpreting these formulas, let’s look at a little late 19th century history. Sir Francis Galton, a half-cousin of Charles Darwin, made important contributions to many scientific fields, including biology and statistics. He had a special interest in heredity and how traits are passed from parents to their offspring. He noticed that extreme characteristics in parents are not completely passed on to their children.</p>
 <p>Consider how fathers’ heights is related to sons’ heights. See Figure[Galton].</p>
 <div class="figure">
-<img src="GeekNotes_files/figure-html/geekxygalton.png" alt="Galton. Relationship Between Father and Sons’ Heights" /><p class="caption">Galton. Relationship Between Father and Sons’ Heights</p>
+<img src="GeekNotes_files/figure-html/geekxygalton-1.png" alt="Galton. Relationship Between Father and Sons’ Heights" /><p class="caption">Galton. Relationship Between Father and Sons’ Heights</p>
 </div>
 <p>It seems reasonable to think that an average height father would probably have an average height son. So surely our “best fit” line should pass through the <em>point of averages</em>, <span class="math">\((\bar{x},\bar{y})\)</span>. See Figure [Point of Averages]</p>
 <div class="figure">
-<img src="GeekNotes_files/figure-html/geekxygaltonaverages.png" alt="Point of Averages. Galton data with the point of averages plotted." /><p class="caption">Point of Averages. Galton data with the point of averages plotted.</p>
+<img src="GeekNotes_files/figure-html/geekxygaltonaverages-1.png" alt="Point of Averages. Galton data with the point of averages plotted." /><p class="caption">Point of Averages. Galton data with the point of averages plotted.</p>
 </div>
 <p>Intuitively, it might also seem that a reasonably tall father, say, 1 standard deviation taller than average would produce a reasonably tall son, also about 1 standard deviation taller than average. The line that would “best fit” this assumption would have slope equal to <span class="math">\(\frac{s_y}{s_x}\)</span>.</p>
 <div class="figure">
-<img src="GeekNotes_files/figure-html/geekxygaltonsdline.png" alt="SD Line. Galton Data with SD line" /><p class="caption">SD Line. Galton Data with SD line</p>
+<img src="GeekNotes_files/figure-html/geekxygaltonsdline-1.png" alt="SD Line. Galton Data with SD line" /><p class="caption">SD Line. Galton Data with SD line</p>
 </div>
-<p>However, this <strong>is not</strong> the “best fit” line. It does not minimize the Sum of Squares! Check out how the <em>regression</em> line looks in comparison to this <em>standard deviation</em> line.</p>
+<p>However, this <em>not</em> the “best fit” line. It does not minimize the Sum of Squares! Check out how the <em>regression</em> line looks in comparison to this <em>standard deviation</em> line.</p>
 <div class="figure">
-<img src="GeekNotes_files/figure-html/geekxygaltonregression.png" alt="Regression. Galton data with SD line and regression line." /><p class="caption">Regression. Galton data with SD line and regression line.</p>
+<img src="GeekNotes_files/figure-html/geekxygaltonregression-1.png" alt="Regression. Galton data with SD line and regression line." /><p class="caption">Regression. Galton data with SD line and regression line.</p>
 </div>
 <p>The slope of the SD line is <span class="math">\(b=\frac{s_y}{s_x}\)</span>. The slope of the regression line is <span class="math">\(b=r\cdot\frac{s_y}{s_x}\)</span>. Since <span class="math">\(r\)</span> is a value between -1 and 1, you can see why this causes the regression line to be more <em>shallow</em>.</p>
 <p>This is what is known as the <strong>regression effect</strong> or <strong>regression to the mean</strong>. Extremely tall fathers do tend to have taller than average sons, but the sons don’t tend to be as extreme in height as their fathers. Likewise for short fathers.</p>
@@ -490,7 +504,7 @@ columns</code></pre>
             auto.key=list(space=&quot;right&quot;,title=&quot;Suggested\nRace&quot;),
             from=2,to=50)</code></pre>
 <div class="figure">
-<img src="GeekNotes_files/figure-html/geekdensitysent.png" alt="Race and Sentence. We set limits for the density curves." /><p class="caption">Race and Sentence. We set limits for the density curves.</p>
+<img src="GeekNotes_files/figure-html/geekdensitysent-1.png" alt="Race and Sentence. We set limits for the density curves." /><p class="caption">Race and Sentence. We set limits for the density curves.</p>
 </div>
 <p>The result is shown in Figure [Race and Sentence]. Density plots for different are especially effective when overlaid, because differences in the modes (the “humps”) of the distribution are readily apparent.</p>
 <p>In the case of this data, we know that the minimum possible sentence is 2 and the maximum possible is 50. (These limits were specified on the survey forms.) Hence we should communicate these limits to R by means of the <code>from</code> and <code>to</code> arguments. R then constructs the kernel density estimators with these limits in mind.</p>
@@ -505,7 +519,7 @@ columns</code></pre>
             auto.key=list(space=&quot;top&quot;,title=&quot;Suggested Race&quot;,columns=2),
             from=2,to=50)</code></pre>
 <div class="figure">
-<img src="GeekNotes_files/figure-html/geekdensitysetenceleg,%20fig.png" alt="plot of chunk geekdensitysetenceleg, fig" /><p class="caption">plot of chunk geekdensitysetenceleg, fig</p>
+<img src="GeekNotes_files/figure-html/geekdensitysetenceleg,%20fig-1.png" />
 </div>
 </div>
 <div id="more-on-strip-plots" class="section level2">
@@ -520,7 +534,7 @@ columns</code></pre>
            panel.stripplot(...)
          })</code></pre>
 <div class="figure">
-<img src="GeekNotes_files/figure-html/geekstripplotsentmaj.png" alt="Sentence by Major. Strip-plot comined with violin plot." /><p class="caption">Sentence by Major. Strip-plot comined with violin plot.</p>
+<img src="GeekNotes_files/figure-html/geekstripplotsentmaj-1.png" alt="Sentence by Major. Strip-plot comined with violin plot." /><p class="caption">Sentence by Major. Strip-plot comined with violin plot.</p>
 </div>
 <p>In the code above, setting the argument <code>jitter.data</code> to <code>TRUE</code> has the effect, in a strip-plot, of moving each point randomly a bit in the direction perpendicular to the axis along which the groups are ordered, thus separating the points from one another. The <code>alpha</code> argument has a default value of 1. When set to a value between 0 and 1, it introduces a degree of translucence to the points. At value 0.5, for example, two over plotted points would appear as dark as a single point would when alpha is set at 1.</p>
 </div>
@@ -563,15 +577,15 @@ KnifeGunSim &lt;- do(500)*compareMean(volume~treat.grp,
 <p>Let’s look at the first few simulations::</p>
 <pre class="r"><code>head(KnifeGunSim,n=5)</code></pre>
 <pre><code>##   result
-## 1  -4.97
-## 2  -6.31
-## 3   0.03
-## 4  -3.07
-## 5   7.49</code></pre>
+## 1   6.35
+## 2   0.77
+## 3  -1.11
+## 4  -2.27
+## 5  -1.55</code></pre>
 <p>Remember: these differences are all based on the assumption that means of slaying has no effect at all on the volume of dying screams. So, about how big are the differences, when the Null is right? Let’s see:</p>
 <pre class="r"><code>favstats(~result,data=KnifeGunSim)</code></pre>
-<pre><code>##     min     Q1 median   Q3   max     mean    sd   n missing
-##  -15.59 -3.815   0.04 3.61 14.67 -0.07768 5.526 500       0</code></pre>
+<pre><code>##     min    Q1 median    Q3   max     mean       sd   n missing
+##  -13.93 -3.89  -0.12 3.835 15.91 -0.17104 5.495935 500       0</code></pre>
 <p>As you might expect, the typical difference is quite small: about 0, give or take 5.5 or so. The difference we saw in the study (20.13) was about four SDs above what the Null would expect.</p>
 <p>In fact, the maximum of the simulated differences was only 12.73: not once in our 500 simulations did the test statistic exceed the value of the test statistic that we got in the actual study.</p>
 <p>This gives us Step Four in a test of significance: the P-value is very small, probably less than one in 500, so we reject <span class="math">\(H_0\)</span>.</p>
@@ -585,7 +599,7 @@ View(ToothGrowth)
 help(ToothGrowth)</code></pre>
 <pre class="r"><code>bwplot(len~as.factor(dose)|supp,data=ToothGrowth)</code></pre>
 <div class="figure">
-<img src="GeekNotes_files/figure-html/geekbwlendose.png" alt="Tooth growth." /><p class="caption">Tooth growth.</p>
+<img src="GeekNotes_files/figure-html/geekbwlendose-1.png" alt="Tooth growth." /><p class="caption">Tooth growth.</p>
 </div>
 <p>Figure [Tooth growth] shows boxplots of the data. In both panels, the boxes rise as you read to the right. Hence, for both values of the explanatory variable <strong>supp</strong>, the length of tooth increases as dosage (also an explanatory variable) increases. However, the increase in length as dosage of Vitamin c increases from 1 to 2 is greater when the dosage method is by ascorbic acid (VC) than when the Vitamin C is administered in the form of orange juice (OJ). Hence, the effect of *dose<strong> on </strong>len<strong> differs with differing values of the other explanatory variable </strong>supp<strong>. Because of this difference, the variables </strong>dose<strong> and </strong>supp** are said to be <em>interact</em>. The formal definition follows:</p>
 <dl>
@@ -635,8 +649,8 @@ SimpleRandom()</code></pre>
 n &lt;- 2500
 CorrFac &lt;- sqrt((N-n)/(N-1))
 CorrFac</code></pre>
-<pre><code>## [1] 1</code></pre>
-<p>The correction factor is approximately 1,which so close to 1 that it is rounded to one in the Knitted version of this document. We know that multiplying a number by 1, won’t change the original number, so multiplying the “Wrong” SD formula by the correction factor barely changes the number at all.</p>
+<pre><code>## [1] 0.999996</code></pre>
+<p>The correction factor is approximately 0.999996,which so close to 1 that it is rounded to one in the Knitted version of this document. We know that multiplying a number by 1, won’t change the original number, so multiplying the “Wrong” SD formula by the correction factor barely changes the number at all.</p>
 <p>If you happen to know the population size, however, there is no harm in using the correct SD formula, with the correction factor.</p>
 <p>The same correction factor shows up in the correct SD formulas for <span class="math">\(\hat{p}\)</span> and for <span class="math">\(\bar{d}\)</span>, and there are correction factors for the SDs of the other two Basic Five parameters, too.</p>
 </div>
@@ -732,17 +746,17 @@ CorrFac</code></pre>
 ##           lower.bound         upper.bound          
 ##           -0.915971           0.598229</code></pre>
 <p>The <span class="math">\(df=\)</span> 65.81. Let’s use the Welch-Satterthwaite equation to verify this.</p>
-<pre><code>##   .group min Q1 median    Q3 max  mean    sd  n missing
-## 1 female   2  5   6.75 7.125   9 6.325 1.619 40       0
-## 2   male   4  5   7.00 7.000  10 6.484 1.557 31       0</code></pre>
+<pre><code>##   .group min Q1 median    Q3 max     mean       sd  n missing
+## 1 female   2  5   6.75 7.125   9 6.325000 1.619394 40       0
+## 2   male   4  5   7.00 7.000  10 6.483871 1.557155 31       0</code></pre>
 <p>The following statistics will be used in our calculation of <span class="math">\(df\)</span>:</p>
 <ul>
 <li><p><span class="math">\(s_1=\)</span> standard deviation of the females amount of sleep = 6.325.</p></li>
-<li><p><span class="math">\(s_2=\)</span> standard deviation of the males amount of sleep = 6.4839.</p></li>
-<li><p><span class="math">\(n_1=\)</span> sample size of females = 1.6194.</p></li>
-<li><p><span class="math">\(n_1=\)</span> sample size of females = 1.5572.</p></li>
+<li><p><span class="math">\(s_2=\)</span> standard deviation of the males amount of sleep = 6.483871.</p></li>
+<li><p><span class="math">\(n_1=\)</span> sample size of females = 1.6193937.</p></li>
+<li><p><span class="math">\(n_1=\)</span> sample size of females = 1.5571548.</p></li>
 </ul>
-<p>So, <span class="math">\(df=\dfrac{\bigg(\dfrac{s_1^2}{n_1}+\dfrac{s_2^2}{n_2}\bigg)^2}{\dfrac{s_1^4}{n_1^2(n_1-1)}+\dfrac{s_2^2}{n_2^2(n_2-1)}} = \dfrac{\bigg(\dfrac{6.325^2}{1.6194}+\dfrac{6.4839^2}{1.5572}\bigg)^2}{\dfrac{6.325^4}{1.6194^2(1.6194-1)}+\dfrac{6.4839^4}{1.5572^2(1.5572-1)}} =\)</span> 1.1655 .</p>
+<p>So, <span class="math">\(df=\dfrac{\bigg(\dfrac{s_1^2}{n_1}+\dfrac{s_2^2}{n_2}\bigg)^2}{\dfrac{s_1^4}{n_1^2(n_1-1)}+\dfrac{s_2^2}{n_2^2(n_2-1)}} = \dfrac{\bigg(\dfrac{6.325^2}{1.6193937}+\dfrac{6.483871^2}{1.5571548}\bigg)^2}{\dfrac{6.325^4}{1.6193937^2(1.6193937-1)}+\dfrac{6.483871^4}{1.5571548^2(1.5571548-1)}} =\)</span> 1.1654895 .</p>
 </div>
 </div>
 
@@ -763,7 +777,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

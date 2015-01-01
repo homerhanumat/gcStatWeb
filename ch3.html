@@ -61,7 +61,9 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <ul>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#the-descriptive-aspect">The Descriptive Aspect</a><ul>
-<li><a href="#terminology-for-two-way-tables">Terminology for Two-Way Tables</a></li>
+<li><a href="#terminology-for-two-way-tables">Terminology for Two-Way Tables</a><ul>
+<li><a href="#barchart-reminder">Barchart Reminder</a></li>
+</ul></li>
 <li><a href="#detecting-and-describing-relationships">Detecting and Describing Relationships</a><ul>
 <li><a href="#detection">Detection</a></li>
 <li><a href="#description">Description</a></li>
@@ -146,22 +148,24 @@ SexWt</code></pre>
 <p>If these two conditional distributions differ, then we will know that <strong>sex</strong> and <strong>weight_feel</strong> are related, in this sample of students.</p>
 <p>Since the two sexes occur on two different rows of the two-way table, we can get them by computing row percentages:</p>
 <pre class="r"><code>rowPerc(SexWt)</code></pre>
-<pre><code>##        1_underweight 2_about_right 3_overweight Total
-## female          2.50         27.50        70.00   100
-## male           25.81         45.16        29.03   100</code></pre>
+<pre><code>##         weight_feel
+## sex      1_underweight 2_about_right 3_overweight  Total
+##   female          2.50         27.50        70.00 100.00
+##   male           25.81         45.16        29.03 100.00</code></pre>
 <p>Let’s check a couple of the figures. Out of 40 females in the study, 28 thought they were overweight. Compute</p>
 <pre class="r"><code>28/40*100</code></pre>
 <pre><code>## [1] 70</code></pre>
 <p>Sure enough, we get the 70% figure that we see in the table of row percents. The two-way table also tells us that 9 of the 31 males in the study thought they were overweight; as a percentage, that is:</p>
 <pre class="r"><code>9/31*100</code></pre>
-<pre><code>## [1] 29.03</code></pre>
+<pre><code>## [1] 29.03226</code></pre>
 <p>Again, this agrees with the figure in the table of row percentages.</p>
 <p>You can also get column percents (observed counts divided by column totals):</p>
 <pre class="r"><code>colPerc(SexWt)</code></pre>
-<pre><code>##        1_underweight 2_about_right 3_overweight
-## female         11.11            44        75.68
-## male           88.89            56        24.32
-## Total         100.00           100       100.00</code></pre>
+<pre><code>##         weight_feel
+## sex      1_underweight 2_about_right 3_overweight
+##   female         11.11            44        75.68
+##   male           88.89            56        24.32
+##   Total         100.00           100       100.00</code></pre>
 <p>The column percents give you three conditional distributions:</p>
 <ul>
 <li>the conditional distribution of <strong>sex</strong> given that <strong>Weight_feel</strong> is “underweight” (the first column);</li>
@@ -181,8 +185,18 @@ SexWt</code></pre>
 </blockquote>
 <p>There are 9 people who are men and who think that they are overweight. The grand total is 71 people, so the percentage of all people who are men and who feel they are overweight is</p>
 <pre class="r"><code>9/71*100</code></pre>
-<pre><code>## [1] 12.68</code></pre>
+<pre><code>## [1] 12.67606</code></pre>
 <p>This is neither a row percentage nor a column percentage.</p>
+<div id="barchart-reminder" class="section level3">
+<h3>Barchart Reminder</h3>
+<p>Remember that you can use barcharts to investigate graphically the relationship between two factor variables. Flat barcharts can be especially useful (see Figure [Sex and feeling about weight]):</p>
+<pre class="r"><code>barchartGC(SexWt,
+           type=&quot;percent&quot;,
+           ylab=&quot;Sex&quot;,flat=TRUE)</code></pre>
+<div class="figure">
+<img src="ch3_files/figure-html/sexweightbar-1.png" alt="Sex and feeling about weight at GC" /><p class="caption">Sex and feeling about weight at GC</p>
+</div>
+</div>
 </div>
 <div id="detecting-and-describing-relationships" class="section level2">
 <h2>Detecting and Describing Relationships</h2>
@@ -190,9 +204,10 @@ SexWt</code></pre>
 <h3>Detection</h3>
 <p>Let’s focus back on the conditional distributions of <strong>weight_feel</strong>, given <strong>sex</strong>:</p>
 <pre class="r"><code>rowPerc(SexWt)</code></pre>
-<pre><code>##        1_underweight 2_about_right 3_overweight Total
-## female          2.50         27.50        70.00   100
-## male           25.81         45.16        29.03   100</code></pre>
+<pre><code>##         weight_feel
+## sex      1_underweight 2_about_right 3_overweight  Total
+##   female          2.50         27.50        70.00 100.00
+##   male           25.81         45.16        29.03 100.00</code></pre>
 <p>These two distributions obviously differ. For example, 70% of women feel overweight, but only 29.03% of the men feel overweight. This tells us that the women in the sample are more likely to feel overweight than the men in the sample are. We have just discovered that <strong>sex</strong> and <strong>weight_feel</strong> are related, in this sample!</p>
 <p>This suggest a general procedure for detecting a relationship between two factor variables:</p>
 <ol style="list-style-type: decimal">
@@ -270,9 +285,10 @@ WeBe</code></pre>
 ##    warm       8      4</code></pre>
 <p>Next we make row percents:</p>
 <pre class="r"><code>rowPerc(WeBe)</code></pre>
-<pre><code>##      baiting polite Total
-## cool   22.22  77.78   100
-## warm   66.67  33.33   100</code></pre>
+<pre><code>##        crowd.behavior
+## weather baiting polite  Total
+##    cool   22.22  77.78 100.00
+##    warm   66.67  33.33 100.00</code></pre>
 <p>In the data there appears to be a strong relationship between weather and crowd behavior: when the weather was warm, the crowd was far more likely to bait the would-be jumper than when the weather was cool (66.67% baiting in warm weather vs. 22.22% baiting in cool weather).</p>
 <p>But is this data-pattern real, or just due to chance? After all, there are many other factors besides weather that can influence a crowd’s behavior, for example:</p>
 <ul>
@@ -298,10 +314,10 @@ WeBe</code></pre>
 <p>for that cell.</p>
 <p>Using this formula, we can compute expected cell counts for the remaining cells. For the cool-baiting cell, the column sum is <span class="math">\(8+2=10\)</span> and the row sum is <span class="math">\(8+4=12\)</span>. The grand total is 21, so the expected cell count is:</p>
 <pre class="r"><code>10/21*12</code></pre>
-<pre><code>## [1] 5.714</code></pre>
+<pre><code>## [1] 5.714286</code></pre>
 <p>which is about 5.71, if we round to two decimal places. For the cool-polite cell, we get:</p>
 <pre class="r"><code>11/21*12</code></pre>
-<pre><code>## [1] 6.286</code></pre>
+<pre><code>## [1] 6.285714</code></pre>
 <p>which is about 6.29. The table of expected cell counts is:</p>
 <pre><code>##      baiting polite
 ## cool    4.29   4.71
@@ -327,7 +343,7 @@ WeBe</code></pre>
 </ul>
 <p>Let’s try it out on our table:</p>
 <pre class="r"><code>(2-4.29)^2/4.29+(7-4.71)^2/4.71+(8-5.71)^2/5.71+(4-6.29)^2/6.29</code></pre>
-<pre><code>## [1] 4.088</code></pre>
+<pre><code>## [1] 4.087924</code></pre>
 <p>We get about 4.09. (The actual value is closer to 4.07: our-round-offs along the way led to some error.)</p>
 <p>Here are some facts about the chi-square statistic:</p>
 <ul>
@@ -352,32 +368,32 @@ ChisqSimSlow(~weather+crowd.behavior,
 <p>The chain of reasoning we followed in the ledge-jump study is so common in inferential statistics that it has a name: it is called a <em>test of signifiance</em>, or a <em>test of hypothesis.</em> It will be repeated so many times that we should learn to break it down into steps, and to assign special names to important components of the argument.</p>
 <p><strong>Step One</strong>. State Null and Alternative Hypotheses.</p>
 <p>The Null Hypothesis always involves the claim that there is no particular pattern in the population, or in the process that resulted in the data under study. When we are investigating the relationship between two variables, it claims “no relationship.”</p>
-<p><strong>H0:</strong> There is no relationship between weather and crowd behavior.</p>
+<p><span class="math">\(H_0:\)</span> There is no relationship between weather and crowd behavior.</p>
 <p>This is not a claim that there is no relationship in the sample data. Rather, it is a claim that weather and crowd behavior are independent, and that the pattern we got in the data was just chance variation.</p>
 <p>The Alternative Hypothesis always contradicts the Null Hypothesis, in one way or another. In this topic, the Alternative claims:</p>
-<p><strong>Ha:</strong> There is a relationship between weather and crowd behavior.</p>
+<p><span class="math">\(H_a:\)</span> There is a relationship between weather and crowd behavior.</p>
 <p>Again, this is NOT a claim that weather and crowd behavior are related in the sample data: everyone agrees that there is a relationship in the sample. Rather, the Alternative is claiming that the relationship in the sample is so strong that it exists because of a <em>real</em> relationship between weather and crowd behavior, not because of chance variation in the 21 incidents under study.</p>
 <p><strong>Step Two</strong>. Compute a test statistic.</p>
 <p>The test statistic is a number that depends on the data. The formula for the test statistic is chosen so that the bigger it is, the more the data differ from what the Null Hypothesis expects to see. This time, the test statistic is the chi-square statistic, and its value is about 4.07.</p>
 <p><strong>Step Three</strong>. Compute the P-value.</p>
 <p><em>By definition</em>, the P-value is always:</p>
 <blockquote>
-<p>the probability of getting a test statistic at least as extreme as the one you got, if H0 were true.</p>
+<p>the probability of getting a test statistic at least as extreme as the one you got, if <span class="math">\(H_0\)</span> were true.</p>
 </blockquote>
-<p>We can approximate the P-value by simulating the study many times, under conditions where H0 is true. Statisticians often have short-cut ways to calculate P-values, and you will learn about them as we go along.</p>
+<p>We can approximate the P-value by simulating the study many times, under conditions where <span class="math">\(H_0\)</span> is true. Statisticians often have short-cut ways to calculate P-values, and you will learn about them as we go along.</p>
 <p>This time, the P-value was a little over 5%, we think.</p>
 <p>It is a very good idea to pause at this point and to construct a <em>practical intepretation</em> of the P-value that we have obtained. This interpretation is basically a restatement of the definition of the term “P-value”, <em>with the specific context of the problem inserted in place of the abstract terminology</em>. Here is a fine practical interpretation of the P-value in this study:</p>
 <blockquote>
 <p>If there is no relationship between weather and crowd behavior, then there is a bit more than a 5% chance of getting a test statistic at least as big as the 4.07 value that we got in the actual study.</p>
 </blockquote>
 <p>Notice that we used the numerical value of the P-value in our interpretation. This tells the audience just how likely or unlikely it is to get results of the sort we got, if the Null is true.</p>
-<p><strong>Step Four</strong>. Decide whether or not to reject H0.</p>
+<p><strong>Step Four</strong>. Decide whether or not to reject <span class="math">\(H_0\)</span>.</p>
 <p>We always make this decision on the basis of our P-value, and on the “cut-off” value, which has been set at 0.05.</p>
 <ul>
-<li>If P &lt; 0.05, we reject H0, and we say that our results are <em>statistically significant</em>.</li>
-<li>If P <span class="math">\(\geq\)</span> 0.05, we do not reject H0, and we do not say that our results are statistically significant.</li>
+<li>If P &lt; 0.05, we reject <span class="math">\(H_0\)</span>, and we say that our results are <em>statistically significant</em>.</li>
+<li>If P <span class="math">\(\geq\)</span> 0.05, we do not reject <span class="math">\(H_0\)</span>, and we do not say that our results are statistically significant.</li>
 </ul>
-<p>This time, we don’t reject H0. (But we are suspicious anyway that H0 might be wrong.)</p>
+<p>This time, we don’t reject <span class="math">\(H_0\)</span>. (But we are suspicious anyway that <span class="math">\(H_0\)</span> might be wrong.)</p>
 <p>Notice how important it is to be able to interpret your P-value. It’s the interpretation of the P-value that really makes the case for whether we should rule out the the Null Hypothesis as unreasonable.</p>
 <p><strong>Step Five</strong>: Report a conclusion.</p>
 <p>We always write a brief conclusion, stated in the context of the problem. This means that we don’t use a lot of technical terminology such as “P-value” or “chi-square statistic”: we just state our conclusion in such a way that anyone who can understand the Research Question can understand our conclusion.</p>
@@ -385,8 +401,8 @@ ChisqSimSlow(~weather+crowd.behavior,
 <blockquote>
 <p>The data do not quite provide strong evidence for a relationship between weather and crowd behavior.</p>
 </blockquote>
-<p>As a rule, the conclusion should say how strong the evidence is against H0. Equivalently, it could say how strong the evidence is for Ha (which is how we chose to state it just now).</p>
-<p><strong>Note</strong>: Interestingly, the tests of significance that we perform in this book often cannot provide positive evidence <em>for</em> a Null hypothesis. When you decide not to reject H0, you should avoid wording your conclusion as “the data provided so-and-so much evidence for” the Null.</p>
+<p>As a rule, the conclusion should say how strong the evidence is against <span class="math">\(H_0\)</span>. Equivalently, it could say how strong the evidence is for <span class="math">\(H_a\)</span> (which is how we chose to state it just now).</p>
+<p><strong>Note</strong>: Interestingly, the tests of significance that we perform in this book often cannot provide positive evidence <em>for</em> a Null hypothesis. When you decide not to reject <span class="math">\(H_0\)</span>, you should avoid wording your conclusion as “the data provided so-and-so much evidence for” the Null.</p>
 <p>For additional practice, let’s consider another example. This time our Research Question is:</p>
 <blockquote>
 <p>In the student population at Georgetown College, is there a relationship between one’s sex and where one prefers to sit in a classroom?</p>
@@ -401,14 +417,15 @@ SexSeat</code></pre>
 ##   male         8       16      7</code></pre>
 <p>Compute row percents:</p>
 <pre class="r"><code>rowPerc(SexSeat)</code></pre>
-<pre><code>##        1_front 2_middle 3_back Total
-## female   47.50    40.00  12.50   100
-## male     25.81    51.61  22.58   100</code></pre>
+<pre><code>##         seat
+## sex      1_front 2_middle 3_back  Total
+##   female   47.50    40.00  12.50 100.00
+##   male     25.81    51.61  22.58 100.00</code></pre>
 <p>As we saw in Chapter 2, it appears that in the sample the females are more likely than the males to prefer the front (47.5% vs. 25.81% for the guys).</p>
 <p>Now we go for the inferential statistics: we will perform a test of significance.</p>
 <p><strong>Step One</strong>: The hypotheses are:</p>
-<p>H0: There is no relationship, in the GC population, between sex and seating preference.</p>
-<p>Ha: There is a relationship, in the population, between sex and seating preference.</p>
+<p><span class="math">\(H_0\)</span>: There is no relationship, in the GC population, between sex and seating preference.</p>
+<p><span class="math">\(H_a\)</span>: There is a relationship, in the population, between sex and seating preference.</p>
 <p><strong>Step Two</strong>: Compute the test statistic.</p>
 <p><strong>Step Three</strong>: Compute the P-value.</p>
 <p>For these two steps, let’s use the app again:</p>
@@ -419,8 +436,8 @@ SexSeat</code></pre>
 <blockquote>
 <p>If <strong>sex</strong> and <strong>seat</strong> are unrelated in the GC population, then there is about a 16% chance of getting a test statistic of 3.73 or more, as we got in our study.</p>
 </blockquote>
-<p><strong>Step Four</strong> Make a decision about H0.</p>
-<p>Since P = 0.16 &gt; 0.05, we do not reject H0.</p>
+<p><strong>Step Four</strong> Make a decision about <span class="math">\(H_0\)</span>.</p>
+<p>Since P = 0.16 &gt; 0.05, we do not reject <span class="math">\(H_0\)</span>.</p>
 <p><strong>Step Five</strong>: Write a conclusion.</p>
 <p>The sample data did not provide strong evidence for a relationship between sex and seating preference in the Georgetown College population.</p>
 </div>
@@ -429,8 +446,8 @@ SexSeat</code></pre>
 <p>The <em>degrees of freedom</em> for a two-way table (<em>df</em> for short) is an important quantity in statistical theory. It is defined as:</p>
 <p><span class="math">\[df = {(NumbRows -1)} \times {(NumbCols -1)}.\]</span></p>
 <p>For the Sex and Seat table, the <span class="math">\(df\)</span> is <span class="math">\((2-1) \times (3-1) = 2\)</span>.</p>
-<p>Statistical theory says that, if H0 is true and we have taken a fairly large sample, then in repeated re-sampling the chi-square statistic should be, on average, equal to the <span class="math">\(df\)</span>. Also, the standard deviation of the re-sampled chi-square statistic should be about <span class="math">\(\sqrt{2 \times df}\)</span>. In this case, the SD should be about <span class="math">\(\sqrt{4}=2\)</span>.</p>
-<p>You can use the mean and the SD as an advance indicator to whether or not H0 looks reasonable. If the test statistic is many SDs above the df, then things look pretty bad for the Null.</p>
+<p>Statistical theory says that, if <span class="math">\(H_0\)</span> is true and we have taken a fairly large sample, then in repeated re-sampling the chi-square statistic should be, on average, equal to the <span class="math">\(df\)</span>. Also, the standard deviation of the re-sampled chi-square statistic should be about <span class="math">\(\sqrt{2 \times df}\)</span>. In this case, the SD should be about <span class="math">\(\sqrt{4}=2\)</span>.</p>
+<p>You can use the mean and the SD as an advance indicator to whether or not <span class="math">\(H_0\)</span> looks reasonable. If the test statistic is many SDs above the df, then things look pretty bad for the Null.</p>
 </div>
 <div id="chisqtestgc" class="section level2">
 <h2>chisqtestGC()</h2>
@@ -463,8 +480,8 @@ SexSeat</code></pre>
 <p>You get the test statistic and the P-value that you need to write up a test of significance. You get more information, too, such as a table of observed counts and a table of expected counts.</p>
 <p>You should still write out all five steps of a test, even when you use a pre-made R-function. Here is how we would write up the test using such a function.</p>
 <p><strong>Step One</strong>: The hypotheses are:</p>
-<p>H0: There is no relationship, in the GC population, between sex and seating preference.</p>
-<p>Ha: There is a relationship, in the population, between sex and seating preference.</p>
+<p><span class="math">\(H_0\)</span>: There is no relationship, in the GC population, between sex and seating preference.</p>
+<p><span class="math">\(H_a\)</span>: There is a relationship, in the population, between sex and seating preference.</p>
 <p><strong>Step Two</strong>: Compute the test statistic.</p>
 <p>Just run the test:</p>
 <pre class="r"><code>chisqtestGC(~sex+seat,data=m111survey)</code></pre>
@@ -497,8 +514,8 @@ SexSeat</code></pre>
 <p>or so. The value of 3.73 that we got isn’t even one SD above 2, so if the Null is right then our results aren’t very surprising.</p>
 <p><strong>Step Three</strong> Report the P-value.</p>
 <p>The test output showed the P-value as about 0.155. Sure enough, results like ours aren’t terribly unlikely to occur, if the Null is right.</p>
-<p><strong>Step Four</strong> Make a decision about H0.</p>
-<p>Since P = 0.155 &gt; 0.05, we do not reject H0.</p>
+<p><strong>Step Four</strong> Make a decision about <span class="math">\(H_0\)</span>.</p>
+<p>Since P = 0.155 &gt; 0.05, we do not reject <span class="math">\(H_0\)</span>.</p>
 <p><strong>Step Five</strong>: Write a conclusion.</p>
 <p>The sample data did not provide strong evidence for a relationship between sex and seating preference in the Georgetown College population.</p>
 <p>Here is one more example. Learn about the General Social Survey:</p>
@@ -528,8 +545,8 @@ help(gss02)</code></pre>
 <p>In this study we’ll think of <strong>race</strong> as explanatory and <strong>gunlaw</strong> as response.</p>
 <p>Here we go with the test of significance:</p>
 <p><strong>Step One</strong>: The hypotheses are:</p>
-<p>H0: There is no relationship, in the United States population, between race and gun ownership.</p>
-<p>Ha: There is a relationship, in the U.S. population, between these two variables.</p>
+<p><span class="math">\(H_0\)</span>: There is no relationship, in the United States population, between race and gun ownership.</p>
+<p><span class="math">\(H_a\)</span>: There is a relationship, in the U.S. population, between these two variables.</p>
 <p><strong>Step Two</strong>: Compute the test statistic.</p>
 <p>We run the test:</p>
 <pre class="r"><code>chisqtestGC(~race+owngun,data=gss02)</code></pre>
@@ -560,7 +577,7 @@ help(gss02)</code></pre>
 ##   White     2.36  4.61
 ## 
 ## 
-## Chi-Square Statistic = 36.98 
+## Chi-Square Statistic = 36.9779 
 ## Degrees of Freedom of the table = 3 
 ## P-Value = 0</code></pre>
 <p>The chi-square statistic is about 36.98. The degrees of freedom for this table is reported to be 3, so if the Null is right you would expect the chi-square statistic to turn out to be around 3, give or take</p>
@@ -570,17 +587,18 @@ help(gss02)</code></pre>
 <p>The test output showed the P-value as about <code>4.651151e-08</code>. This is in scientific notation, and it equals</p>
 <p><span class="math">\[4.651151 \times 10^{-8} \sim 0.000000046,\]</span></p>
 <p>or about 5 in 100 million. so if the null is right, there is only about a 5 in 100 million chance of getting a test statistic at least as big as the one we got in this study.</p>
-<p><strong>Step Four</strong> Make a decision about H0.</p>
-<p>Since <span class="math">\(P=4.65 \times 10^{-8} &lt; 0.05\)</span>, we do reject H0.</p>
+<p><strong>Step Four</strong> Make a decision about <span class="math">\(H_0\)</span>.</p>
+<p>Since <span class="math">\(P=4.65 \times 10^{-8} &lt; 0.05\)</span>, we do reject <span class="math">\(H_0\)</span>.</p>
 <p><strong>Step Five</strong>: Write a conclusion.</p>
 <p>The sample data provided very strong evidence for a relationship between race and gun ownership in the United States population.</p>
 <p>We might want to describe the relationship a bit more. In order to do this, we should look at some row percentages:</p>
 <pre class="r"><code>rowPerc(xtabs(~race+owngun,data=gss02))</code></pre>
-<pre><code>##             No   Yes Total
-## AfrAm    86.89 13.11   100
-## Hispanic 86.96 13.04   100
-## Other    78.12 21.88   100
-## White    61.52 38.48   100</code></pre>
+<pre><code>##           owngun
+## race           No    Yes  Total
+##   AfrAm     86.89  13.11 100.00
+##   Hispanic  86.96  13.04 100.00
+##   Other     78.12  21.88 100.00
+##   White     61.52  38.48 100.00</code></pre>
 <p>We see that white folks are more likely to own guns than people of other races are: for example, 38% of whites own a gun, whereas only 13% of African American own a gun.</p>
 <p>This is not to say that one’s race has a <em>causal</em> role in whether or not one owns a gun. We know that gun owners are predominantly rural, so if white people tend to be more rural than folks of other races are, that could make the difference. (In Chapter 6 we will look more deeply into questions about inferring causation from studies where an association is found between variables.)</p>
 </div>
@@ -616,14 +634,14 @@ WeBe2</code></pre>
 ## warm      16      8</code></pre>
 <p>That’s better. To check for a relationship in the data, we compute row percents:</p>
 <pre class="r"><code>rowPerc(WeBe2)</code></pre>
-<pre><code>##      baiting polite Total
-## cool   22.22  77.78   100
-## warm   66.67  33.33   100</code></pre>
+<pre><code>##      baiting polite  Total
+## cool   22.22  77.78 100.00
+## warm   66.67  33.33 100.00</code></pre>
 <p>We see the same strong relationship as before. In this imaginary example, we just doubled all of the counts, so the percentages stay the same!</p>
 <p>Now for the inferential statistics:</p>
 <p><strong>Step One</strong>: The hypotheses are:</p>
-<p>H0: There is no relationship between weather and crowd behavior.</p>
-<p>Ha: There is a relationship, between weather and crowd behavior.</p>
+<p><span class="math">\(H_0\)</span>: There is no relationship between weather and crowd behavior.</p>
+<p><span class="math">\(H_a\)</span>: There is a relationship, between weather and crowd behavior.</p>
 <p><strong>Step Two</strong>: Compute the test statistic. <strong>Step Three</strong>: Report the P-value.</p>
 <p>Again we can combine these steps, by putting the table into <code>chisqtestGC()</code>:</p>
 <pre class="r"><code>chisqtestGC(WeBe2)</code></pre>
@@ -645,15 +663,15 @@ WeBe2</code></pre>
 ## warm    1.83   1.66
 ## 
 ## 
-## Chi-Square Statistic = 6.461 
+## Chi-Square Statistic = 6.4611 
 ## Degrees of Freedom of the table = 1 
 ## P-Value = 0.011</code></pre>
 <p>The chi-square statistic is about 6.46, and the P-value is about 0.01.</p>
-<p><strong>Step Four</strong>: Make a decision about H0.</p>
-<p>Since P = 0.01 &lt; 0.05, we do reject H0.</p>
+<p><strong>Step Four</strong>: Make a decision about <span class="math">\(H_0\)</span>.</p>
+<p>Since P = 0.01 &lt; 0.05, we do reject <span class="math">\(H_0\)</span>.</p>
 <p><strong>Step Five</strong>: Write a conclusion.</p>
 <p>The sample data provided strong evidence for a relationship between weather and crowd behavior.</p>
-<p><strong>Note</strong>: The pattern in this imaginary study was exactly as strong as the pattern in the actual ledge-jump study, but it was based on twice as much data. Observe the effect on the P-value: it went down a lot from the original example! In general, the more data you have, the more <em>powerful</em> your test of significance will be, in the sense that it is more likely to reject H0 when H0 is false.</p>
+<p><strong>Note</strong>: The pattern in this imaginary study was exactly as strong as the pattern in the actual ledge-jump study, but it was based on twice as much data. Observe the effect on the P-value: it went down a lot from the original example! In general, the more data you have, the more <em>powerful</em> your test of significance will be, in the sense that it is more likely to reject <span class="math">\(H_0\)</span> when <span class="math">\(H_0\)</span> is false.</p>
 </div>
 <div id="simulating-p-values" class="section level2">
 <h2>Simulating P-Values</h2>
@@ -681,39 +699,43 @@ WeBe2</code></pre>
 ##    warm    0.91   0.83
 ## 
 ## 
-## Chi-Square Statistic = 2.486 
+## Chi-Square Statistic = 2.4858 
 ## Degrees of Freedom of the table = 1 
-## P-Value = 0.1149</code></pre>
-<pre><code>## Warning: Some expected cell counts are low:
+## P-Value = 0.1149 
+## 
+## Some expected cell counts are low:
 ##  the approximation of the P-value may be unreliable.
 ##  Consider using simulation.</code></pre>
 <p>The warning at the end was issued because a couple of the expected cell counts—the ones in the first row—were less than 5.</p>
 <p>When you get a warning, it is best to back up and try simulation. You don’t necessarily have to use the app <code>ChisqSimSlow()</code>, because R provides its own simulation routines, via the <em>simulate.p.value</em> argument. Another argument <em>B</em> specifies the number of re-samples to take.</p>
-<pre class="r"><code>xchisq.test(WeBe,simulate.p.value=TRUE,B=2500)</code></pre>
-<pre><code>## 
-##  Pearson&#39;s Chi-squared test with simulated p-value (based on 2500
-##  replicates)
+<pre class="r"><code>chisqtestGC(WeBe,simulate.p.value=TRUE,B=2500)</code></pre>
+<pre><code>## Pearson&#39;s chi-squared test with simulated p-value 
+##   (based on 2500 resamples) 
 ## 
-## data:  WeBe
-## X-squared = 4.073, df = NA, p-value = 0.08117
+## Observed Counts:
+##        crowd.behavior
+## weather baiting polite
+##    cool       2      7
+##    warm       8      4
 ## 
-##   2.00     7.00  
-##  (4.29)   (4.71) 
-##  [1.22]   [1.11] 
-## &lt;-1.10&gt;  &lt; 1.05&gt; 
-##    
-##   8.00     4.00  
-##  (5.71)   (6.29) 
-##  [0.91]   [0.83] 
-## &lt; 0.96&gt;  &lt;-0.91&gt; 
-##    
-## key:
-##  observed
-##  (expected)
-##  [contribution to X-squared]
-##  &lt;residual&gt;</code></pre>
+## Counts Expected by Null:
+##        crowd.behavior
+## weather baiting polite
+##    cool    4.29   4.71
+##    warm    5.71   6.29
+## 
+## Contributions to the chi-square statistic:
+##        crowd.behavior
+## weather baiting polite
+##    cool    1.22   1.11
+##    warm    0.91   0.83
+## 
+## 
+## Chi-Square Statistic = 4.0727 
+## Degrees of Freedom of the table = 1 
+## P-Value = 0.0744</code></pre>
 <p>We recommend that you perform such “safety checks” during Step Two of any test of significance. <code>chisqtestGC()</code> comes in handy, here, because it shows the expected cell counts.</p>
-<p><strong>Note:</strong> The simulated P-value you got with <strong>xchisq.test</strong> was probably a bit higher than the one you got with <code>ChisqSimSlow()</code>. That’s because the two functions take slightly different approaches to re-sampling. (Interested persons should consult the GeekNotes for details.)</p>
+<p><strong>Note:</strong> The simulated P-value you got with <strong>chisqtestGC()</strong> was probably a bit higher than the one you got with <code>ChisqSimSlow()</code>. That’s because the two functions take slightly different approaches to re-sampling. (Interested persons should consult the GeekNotes for details.)</p>
 </div>
 </div>
 <div id="simpsons-paradox" class="section level1">
@@ -737,9 +759,10 @@ DefD</code></pre>
 ##   white 141  19</code></pre>
 <p>Of course to detect the relationship we need to consider row percents:</p>
 <pre class="r"><code>rowPerc(DefD)</code></pre>
-<pre><code>##          no   yes Total
-## black 89.76 10.24   100
-## white 88.12 11.88   100</code></pre>
+<pre><code>##        death
+## defrace     no    yes  Total
+##   black  89.76  10.24 100.00
+##   white  88.12  11.88 100.00</code></pre>
 <p>Surprisingly, it seems that white defendants are a little bit more likely to get the death penalty than black defendants are (11.88% compared to 10.24% for black defendants).</p>
 <p>There is a third variable present in the study: <strong>vicrace</strong>, the race of the murdered victim. Let’s break the data down into two groups, based on the two values of <strong>vicrace</strong>. This can be accomplished with R’s <code>subset()</code> function:</p>
 <pre class="r"><code>deathpenWV &lt;- subset(deathpen,vicrace==&quot;white&quot;)
@@ -753,9 +776,10 @@ DefDWV</code></pre>
 ##   white 132  19</code></pre>
 <p>Then row percents:</p>
 <pre class="r"><code>rowPerc(DefDWV)</code></pre>
-<pre><code>##          no   yes Total
-## black 82.54 17.46   100
-## white 87.42 12.58   100</code></pre>
+<pre><code>##        death
+## defrace     no    yes  Total
+##   black  82.54  17.46 100.00
+##   white  87.42  12.58 100.00</code></pre>
 <p>This is interesting: when the victim was white, a black murderer was considerably more likely to get the death penalty (17.46%, as compared to 12.58% for a white murderer).</p>
 <p>Now let’s study the relationship between <strong>defrace</strong> and <strong>death</strong> when the victim was black. Here’s the two-way table:</p>
 <pre class="r"><code>DefDBV &lt;- xtabs(~defrace+death,data=deathpenBV)
@@ -766,9 +790,10 @@ DefDBV</code></pre>
 ##   white  9   0</code></pre>
 <p>Now row percents:</p>
 <pre class="r"><code>rowPerc(DefDBV)</code></pre>
-<pre><code>##           no  yes Total
-## black  94.17 5.83   100
-## white 100.00 0.00   100</code></pre>
+<pre><code>##        death
+## defrace     no    yes  Total
+##   black  94.17   5.83 100.00
+##   white 100.00   0.00 100.00</code></pre>
 <p>When the victim was black, again a black murderer was more likely to get the death penalty (5.83% chance, as compared to 0% for a white murderer).</p>
 <p>This puzzling situation is an example of <em>Simpson’s Paradox.</em> Simpson’s Paradox occurs when the direction of the relationship between two variables is one way when you look at the aggregate data, but turns out the opposite way when you break up the data into subgroups based on a third variable. This time, whites were more likely than blacks to get death in the aggregate data, but were less likely than blacks to get death in both of the subgroups.</p>
 <p>Simpson’s Paradox is mathematically possible—we just now saw an example—but it still seems unreal. Can we figure out WHY it has occurred, in this example?</p>
@@ -786,9 +811,10 @@ DefVic</code></pre>
 ##   black   103    63
 ##   white     9   151</code></pre>
 <pre class="r"><code>rowPerc(DefVic)</code></pre>
-<pre><code>##       black white Total
-## black 62.05 37.95   100
-## white  5.62 94.38   100</code></pre>
+<pre><code>##        vicrace
+## defrace  black  white  Total
+##   black  62.05  37.95 100.00
+##   white   5.62  94.38 100.00</code></pre>
 <p>We see that black folks are much more likely to kill black folks than white folks are.</p>
 <p>As for the relationship between <strong>vicrace</strong> and <strong>death</strong>, we have:</p>
 <pre class="r"><code>VicD &lt;- xtabs(~vicrace+death,data=deathpen)
@@ -798,9 +824,10 @@ VicD</code></pre>
 ##   black 106   6
 ##   white 184  30</code></pre>
 <pre class="r"><code>rowPerc(VicD)</code></pre>
-<pre><code>##          no   yes Total
-## black 94.64  5.36   100
-## white 85.98 14.02   100</code></pre>
+<pre><code>##        death
+## vicrace     no    yes  Total
+##   black  94.64   5.36 100.00
+##   white  85.98  14.02 100.00</code></pre>
 <p>Interesting: when the victim is white, the defendant is about three times more likely to get the death penalty than when the victim is black (14.02% vs. 5.36%).</p>
 <p>Synthesize the results and the mystery is solved: White defendants are indeed less likely to get the death penalty than black defendants are, both when the victim is white and when the victim is black, but the white defendants hamstring themselves by mostly killing white people. Killing a white person seems to have been a sure-fire way to incur the wrath of the Florida legal system, back in the day.</p>
 </div>
@@ -837,7 +864,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

@@ -154,7 +154,7 @@ help(FakeSchool)</code></pre>
 <p>We can easily compute the true mean GPA for the students at FakeSchool by averaging the values in the fourth column of the dataset. This will be the <strong>population mean</strong>. We will call it <span class="math">\(\mu\)</span> (“mu”).</p>
 <pre class="r"><code>mu &lt;- mean(~GPA,data=FakeSchool)
 mu</code></pre>
-<pre><code>## [1] 2.766</code></pre>
+<pre><code>## [1] 2.766429</code></pre>
 <p>Again, the population parameter, <span class="math">\(\mu\)</span>, is not typically known. If it were known, there would be no reason to estimate it! However, the point of this example is to practice selecting different types of samples and to compare the performance of these different sampling techniques.</p>
 <div id="simple-random-sample" class="section level3">
 <h3>Simple Random Sample</h3>
@@ -186,7 +186,7 @@ srs</code></pre>
 <p>Let’s calculate the mean GPA for the 7 sampled students. This will be the <em>sample mean</em>, <span class="math">\(\bar{x}_{srs}\)</span>. We will use the subscript ‘srs’ to remind ourselves that this is the sample mean for the simple random sample.</p>
 <pre class="r"><code>xbar.srs &lt;- mean(~GPA,data=srs)
 xbar.srs</code></pre>
-<pre><code>## [1] 2.526</code></pre>
+<pre><code>## [1] 2.525714</code></pre>
 <p><em>Strengths</em></p>
 <ul>
 <li><p>The selection of one element does not affect the selection of others.</p></li>
@@ -222,7 +222,7 @@ start</code></pre>
 ## 20   Eliott   M    Jr 1.9     No
 ## 24     Carl   M    Sr 3.1     No
 ## 28    Grace   F    Sr 1.4     No</code></pre>
-<p>The mean GPA of the systematic sample, the <em>sample mean</em>, <span class="math">\(\bar{x}_{sys}\)</span>, is 2.7714.</p>
+<p>The mean GPA of the systematic sample, the <em>sample mean</em>, <span class="math">\(\bar{x}_{sys}\)</span>, is 2.7714286.</p>
 <p><em>Strengths</em></p>
 <ul>
 <li><p>Assures an even, random sampling of the population.</p></li>
@@ -256,7 +256,7 @@ start</code></pre>
 ##  No Yes 
 ##  16  12</code></pre>
 <p>So there are 12 Honors students at FakeSchool and 16 non-Honors students at FakeSchool.</p>
-<p>There are various ways to determine how many students to include from each stratum. For example, you could choose to select the same number of students from each stratum. Another strategy is to use a <em>proportionate stratified sample</em>. In a <em>proportionate stratified sample</em>, the number of students selected from each stratum is proportional to the representation of the strata in the population. For example, <span class="math">\(\frac{12}{28}\)</span> X 100% = 42.8571% of the population are Honors students. This means that there should be 0.4286 X 7 = 3 Honors students in the sample. So there should be 7-3=4 non-Honors students in the sample.</p>
+<p>There are various ways to determine how many students to include from each stratum. For example, you could choose to select the same number of students from each stratum. Another strategy is to use a <em>proportionate stratified sample</em>. In a <em>proportionate stratified sample</em>, the number of students selected from each stratum is proportional to the representation of the strata in the population. For example, <span class="math">\(\frac{12}{28}\)</span> X 100% = 42.8571429% of the population are Honors students. This means that there should be 0.4285714 X 7 = 3 Honors students in the sample. So there should be 7-3=4 non-Honors students in the sample.</p>
 <p>Let’s go through the coding to draw these samples. Check out the how we use the <code>subset</code> function to pull out the Honors students from the rest of the populations:</p>
 <pre class="r"><code>set.seed(1837)
 honors=subset(FakeSchool,Honors==&quot;Yes&quot;)
@@ -341,7 +341,7 @@ nonhonors.samp</code></pre>
 ## 26    Frank   M    Sr 2.00     No
 ## 27       Ed   M    Sr 1.50     No
 ## 28    Grace   F    Sr 1.40     No</code></pre>
-<p>The sample mean for the clustered sample, <span class="math">\(\bar{x}_{clust}\)</span>, is 2.7807.</p>
+<p>The sample mean for the clustered sample, <span class="math">\(\bar{x}_{clust}\)</span>, is 2.7807143.</p>
 <p><em>Strengths</em></p>
 <ul>
 <li>Makes it possible to sample if there is no list of the entire population, but there is a list of subpopulations. For example, there is not a list of <strong>all</strong> church members in the United States. However, there is a list of churches that you could sample and then acquire the members list from each of the selected churches.</li>
@@ -358,24 +358,24 @@ nonhonors.samp</code></pre>
 <p>We will compare the <em>simple random sample</em> and the <em>systematic sample</em> by determining which sample produces the <strong>least variable mean GPA estimate</strong> after repeated sampling.</p>
 <p>Putting that another way: Let’s start by taking 1000 simple random samples and 1000 systematic samples. We will compute <span class="math">\(\bar{x}_{srs}\)</span> and <span class="math">\(\bar{x}_{sys}\)</span> for each of the samples. Then, these sample means will be compared using some graphical and numerical summaries (specifically standard deviation) that you learned about in Chapter 2.</p>
 <p>We’re going to take the SRS’s and systematic samples just like did before. The only difference is that now we’ll be taking 1000 of them instead of just 1. Since we only care about the sample mean for each sample, we’ll create a boxplot of the <span class="math">\(\bar{x}_{srs}\)</span>’s and a boxplot of the <span class="math">\(\bar{x}_{sys}\)</span>’s. These two boxplots allow us to compare the amount of variation, or spread, in the estimates for the mean GPA generated from the two different sampling methods (SRS and systematic sampling). See Figure[Boxplots].</p>
-<p><img src="ch5_files/figure-html/boxplots1.png" alt="Boxplots: Compare the mean GPA estimates from the 1000 simple random samples to the mean GPA estimates from the 1000 systematic samples." /> <img src="ch5_files/figure-html/boxplots2.png" alt="Boxplots: Compare the mean GPA estimates from the 1000 simple random samples to the mean GPA estimates from the 1000 systematic samples." /></p>
+<p><img src="ch5_files/figure-html/boxplots-1.png" alt="Boxplots: Compare the mean GPA estimates from the 1000 simple random samples to the mean GPA estimates from the 1000 systematic samples." /> <img src="ch5_files/figure-html/boxplots-2.png" alt="Boxplots: Compare the mean GPA estimates from the 1000 simple random samples to the mean GPA estimates from the 1000 systematic samples." /></p>
 <p>To support this visualization of the variability of the mean estimate for GPA, let’s also look at <code>favstats</code>. For the 1000 simple random samples, the numerical summaries of the sample means is:</p>
-<pre><code>##    min    Q1 median    Q3 max  mean     sd    n missing
-##  1.786 2.556  2.765 2.986 3.7 2.769 0.3174 1000       0</code></pre>
+<pre><code>##       min       Q1 median       Q3 max     mean        sd    n missing
+##  1.785714 2.556429  2.765 2.985714 3.7 2.768701 0.3173966 1000       0</code></pre>
 <p>For the 1000 systematic samples, the numerical summaries of the sample means is:</p>
-<pre><code>##  min    Q1 median    Q3   max mean     sd    n missing
-##  2.9 3.181  3.425 3.575 3.945 3.42 0.3816 1000       0</code></pre>
-<p>Recall that the true average GPA for the population of students at FakeSchool was 2.7664. Notice that the average value for the sample means from the 1000 simple random samples is 2.7687. This is pretty close to the population parameter. (We will talk about what “pretty close” means in later chapters.) Compare this to the average value for the sample means from the 1000 systematic samples: 3.4204. On average, the SRS does a better job of producing an estimate for the mean GPA than the systematic sample.</p>
-<p>Additionally, there is less variability in the 1000 <span class="math">\(\bar{x}_{srm}\)</span>’s (0.3174) than in the 1000 <span class="math">\(\bar{x}_{sys}\)</span>’s (0.3816).</p>
+<pre><code>##  min      Q1 median    Q3   max    mean       sd    n missing
+##  2.9 3.18125  3.425 3.575 3.945 3.42042 0.381641 1000       0</code></pre>
+<p>Recall that the true average GPA for the population of students at FakeSchool was 2.7664286. Notice that the average value for the sample means from the 1000 simple random samples is 2.7687014. This is pretty close to the population parameter. (We will talk about what “pretty close” means in later chapters.) Compare this to the average value for the sample means from the 1000 systematic samples: 3.42042. On average, the SRS does a better job of producing an estimate for the mean GPA than the systematic sample.</p>
+<p>Additionally, there is less variability in the 1000 <span class="math">\(\bar{x}_{srm}\)</span>’s (0.3173966) than in the 1000 <span class="math">\(\bar{x}_{sys}\)</span>’s (0.381641).</p>
 <p>If we could only pick one of these types of samples to estimate the mean GPA, it appears the a SRS is a better choice than a systematic sample.</p>
 <p>Let’s do a similar analysis to compare the two sampling methods, <em>stratified sampling</em> or <em>cluster sampling</em>. We will compare the <em>stratified sample</em> and the <em>cluster sample</em> by determining which sample produces the <strong>least variable mean GPA estimate</strong> after repeated sampling.</p>
-<p><img src="ch5_files/figure-html/boxplots21.png" alt="Boxplots2: Compare the mean GPA estimates from the 1000 stratified samples to the mean GPA estimates from the 1000 cluster samples." /> <img src="ch5_files/figure-html/boxplots22.png" alt="Boxplots2: Compare the mean GPA estimates from the 1000 stratified samples to the mean GPA estimates from the 1000 cluster samples." /></p>
+<p><img src="ch5_files/figure-html/boxplots2-1.png" alt="Boxplots2: Compare the mean GPA estimates from the 1000 stratified samples to the mean GPA estimates from the 1000 cluster samples." /> <img src="ch5_files/figure-html/boxplots2-2.png" alt="Boxplots2: Compare the mean GPA estimates from the 1000 stratified samples to the mean GPA estimates from the 1000 cluster samples." /></p>
 <p>To support this visualization of the variability of the mean estimate for GPA, let’s also look at <code>favstats</code>. For the 1000 stratified samples, the numerical summaries of the sample means is:</p>
-<pre><code>##   min    Q1 median    Q3   max  mean     sd    n missing
-##  2.14 2.621  2.769 2.921 3.423 2.773 0.2215 1000       0</code></pre>
+<pre><code>##   min       Q1   median       Q3      max     mean        sd    n missing
+##  2.14 2.620714 2.768571 2.921429 3.422857 2.772663 0.2215186 1000       0</code></pre>
 <p>For the 1000 cluster samples, the numerical summaries of the sample means is:</p>
-<pre><code>##    min    Q1 median    Q3   max  mean     sd    n missing
-##  2.475 2.584  2.752 2.949 3.058 2.762 0.1965 1000       0</code></pre>
+<pre><code>##    min       Q1   median       Q3      max     mean        sd    n missing
+##  2.475 2.584286 2.752143 2.948571 3.057857 2.762486 0.1965341 1000       0</code></pre>
 <p>Both of these sampling methods produce an average of the sample means that is pretty close to the true mean GPA for the population. However, the sample means from the clustered samples have less variability. (This can be seen by comparing the standard deviations.) In other words, the 1000 cluster samples are closer, on average, to the true mean than the 1000 stratified samples.</p>
 <p>If we could only pick one of these types of samples to estimate the mean GPA, it appears the cluster sample is a better choice than a stratified sample.</p>
 </div>
@@ -540,7 +540,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

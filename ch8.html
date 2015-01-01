@@ -14,7 +14,7 @@
 
 <script src="ch8_files/jquery-1.11.0/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link href="ch8_files/bootstrap-2.3.2/css/bootstrap.min.css" rel="stylesheet" />
+<link href="ch8_files/bootstrap-2.3.2/css/cosmo.min.css" rel="stylesheet" />
 <link href="ch8_files/bootstrap-2.3.2/css/bootstrap-responsive.min.css" rel="stylesheet" />
 <script src="ch8_files/bootstrap-2.3.2/js/bootstrap.min.js"></script>
 
@@ -92,7 +92,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <li><a href="#inference-with-estimators">Inference With Estimators</a><ul>
 <li><a href="#we-are-not-deities">We Are Not Deities</a></li>
 <li><a href="#practice-with-estimator-and-se">Practice With Estimator and SE</a></li>
-<li><a href="#the-reverse-68-95-rule">The Reverse 68-95 Rule</a></li>
+<li><a href="#the-68-95-rule-for-estimation">The 68-95 Rule for Estimation</a></li>
 </ul></li>
 <li><a href="#summary-of-formulas">Summary of Formulas</a></li>
 <li><a href="#thoughts-on-r">Thoughts on R</a></li>
@@ -109,7 +109,7 @@ View(imagpop)
 help(imagpop)</code></pre>
 <p>Let’s examine the <em>population distribution</em> of the variable <strong>height</strong> (see Figure [Imagpop Height]): the distribution appears to be roughly normal.</p>
 <div class="figure">
-<img src="ch8_files/figure-html/imagpopheight.png" alt="Imagpop Height." /><p class="caption">Imagpop Height.</p>
+<img src="ch8_files/figure-html/imagpopheight-1.png" alt="Imagpop Height." /><p class="caption">Imagpop Height.</p>
 </div>
 <p>From the population data, we can compute a wide variety of numbers. Numbers that are computed using the entire population are called <em>parameters</em>.</p>
 <dl>
@@ -119,13 +119,13 @@ help(imagpop)</code></pre>
 </dl>
 <p>Here are a few parameters for <code>imagpop</code>:</p>
 <pre class="r"><code>favstats(~height,data=imagpop)</code></pre>
-<pre><code>##   min   Q1 median   Q3  max  mean    sd     n missing
-##  53.8 64.7   67.5 70.3 80.2 67.53 3.907 10000       0</code></pre>
+<pre><code>##   min   Q1 median   Q3  max     mean       sd     n missing
+##  53.8 64.7   67.5 70.3 80.2 67.53012 3.907014 10000       0</code></pre>
 <p>When we apply <code>favstats()</code> to a population, everything it returns is a parameter. We have such things as:</p>
 <ul>
-<li>the population mean, written <span class="math">\(\mu\)</span> or just “mu”. Its numerical value is 67.5301.</li>
+<li>the population mean, written <span class="math">\(\mu\)</span> or just “mu”. Its numerical value is 67.53012.</li>
 <li>the population median, usually just written as <span class="math">\(m\)</span>. Its numerical value is 67.5.</li>
-<li>the population standard deviation, written <span class="math">\(\sigma\)</span>, or just “sigma”. Its numerical value is 3.907.</li>
+<li>the population standard deviation, written <span class="math">\(\sigma\)</span>, or just “sigma”. Its numerical value is 3.9070139.</li>
 </ul>
 <p>Let’s look at another variable from <code>imagpop</code>, namely the categorical variable <strong>sex</strong>:</p>
 <pre class="r"><code>xtabs(~sex,data=imagpop)</code></pre>
@@ -516,7 +516,7 @@ help(attitudes)</code></pre>
 </ul>
 <p>We then plug these values into the formula for <span class="math">\(SD(\bar{x}_1-\bar{x}_2)\)</span>, using R as a calculator to do the arithmetic for us:</p>
 <pre class="r"><code>sqrt(3^2/25+2.5^2/36)</code></pre>
-<pre><code>## [1] 0.7305</code></pre>
+<pre><code>## [1] 0.7304869</code></pre>
 <p>So we expect <span class="math">\(\bar{x}_1-\bar{x}_2\)</span> to work out to about 3 inches, give or take 0.73 inches or so.</p>
 </div>
 <div id="estimating-one-proportion" class="section level2">
@@ -533,7 +533,7 @@ help(attitudes)</code></pre>
 </blockquote>
 <p><strong>Answer</strong>: The EV of <span class="math">\(\hat{p}\)</span> is <span class="math">\(p\)</span>, which in this case is 0.40. Hence the first blank should be filled in with 40 (percent). The second blank should contain the SD of <span class="math">\(\hat{p}\)</span>, multiplied by 100 to make it a percentage. Again we can just use R as a calculator:</p>
 <pre class="r"><code>sqrt(.4*(1-.4)/400)*100</code></pre>
-<pre><code>## [1] 2.449</code></pre>
+<pre><code>## [1] 2.44949</code></pre>
 <p>So we should fill in the second blank with 2.45 (percent).</p>
 </div>
 <div id="estimating-the-difference-of-two-proportions" class="section level2">
@@ -673,21 +673,21 @@ SampDist2Props(~sex+cappun,data=imagpop)</code></pre>
 <p><span class="math">\[P(\bar{x} &gt; 68.3)?\]</span></p>
 <p><strong>Solution:</strong> First of all, we use our god-like powers to find the mean <span class="math">\(\mu\)</span> and the standard deviation <span class="math">\(\sigma\)</span> of the heights in the population:</p>
 <pre class="r"><code>favstats(~height,data=imagpop)[6:7]</code></pre>
-<pre><code>##   mean    sd
-##  67.53 3.907</code></pre>
+<pre><code>##      mean       sd
+##  67.53012 3.907014</code></pre>
 <p>Now the distribution of <span class="math">\(\bar{x}\)</span> is probably very close to normal. That’s because the underlying population of heights is already pretty bell-shaped. We know this because we can use our god-like powers to draw a density plot of the entire population:</p>
 <pre class="r"><code>densityplot(~height,data=imagpop,
             xlab=&quot;Height (inches)&quot;,
             main=&quot;Imagpop Heights&quot;,
             plot.points=FALSE)</code></pre>
-<p><img src="ch8_files/figure-html/imagpoopheightdensity.png" alt="Imagpop Heights. Height in this population is roughly normall distibuted." /> The results appear in Figure [Imagpop Heights]. Indeed, the distribution of <strong>height</strong> is quite bell-shaped. Therefore, even though the intended sample size (<span class="math">\(n=25\)</span>) is a bit lower than the suggested “safe” level of 30, <span class="math">\(\bar{x}\)</span> should be quite normal, with mean 67.53 inches and SD equal to</p>
+<p><img src="ch8_files/figure-html/imagpoopheightdensity-1.png" alt="Imagpop Heights. Height in this population is roughly normall distibuted." /> The results appear in Figure [Imagpop Heights]. Indeed, the distribution of <strong>height</strong> is quite bell-shaped. Therefore, even though the intended sample size (<span class="math">\(n=25\)</span>) is a bit lower than the suggested “safe” level of 30, <span class="math">\(\bar{x}\)</span> should be quite normal, with mean 67.53 inches and SD equal to</p>
 <p><span class="math">\[\frac{\sigma}{\sqrt{n}}= \frac{3.907}{\sqrt{25}} \approx 0.78.\]</span></p>
 <p>In symbols, we might say:</p>
 <p><span class="math">\[\bar{x} \sim norm(67.53,0.78).\]</span></p>
 <p>So in order to find the probability we can just ask R to tell us the area under the appropriate normal curve after 68.3:</p>
 <pre class="r"><code>pnormGC(68.3,region=&quot;above&quot;,
         mean=67.53,sd=0.78)</code></pre>
-<pre><code>## [1] 0.1618</code></pre>
+<pre><code>## [1] 0.1617773</code></pre>
 <p>So there is about a 16.2% chance that <span class="math">\(\bar{x}\)</span> will exceed 68.3 inches.</p>
 <blockquote>
 <p><strong>Example (2):</strong> A statistician plans to take a SRS of 30 males from the population of all males in <code>imagpop</code>, and an independent SRS of 40 females from the population of all women in <code>imagpop</code>. She will then compute <span class="math">\(\bar{x}_1-\bar{x}_2\)</span>, the sample mean height of the males minus the sample mean height of the females. Approximately what is the chance that the difference of sample means will be between 4 and 6 inches?</p>
@@ -700,19 +700,19 @@ SampDist2Props(~sex+cappun,data=imagpop)</code></pre>
 </ul>
 <p>Hence we ask for:</p>
 <pre class="r"><code>favstats(height~sex,data=imagpop)[6:7]</code></pre>
-<pre><code>##    max  mean
-## 1 76.2 65.00
-## 2 80.2 70.03</code></pre>
+<pre><code>##    max     mean
+## 1 76.2 64.99624
+## 2 80.2 70.03178</code></pre>
 <p>So the EV of <span class="math">\(\bar{x}_1-\bar{x}_2\)</span> is</p>
 <p><span class="math">\[70.03-65=5.03\]</span></p>
 <p>inches, and the SD of <span class="math">\(\bar{x}_1-\bar{x}_2\)</span> is</p>
 <pre class="r"><code>sqrt(3.013^2^2/30+2.962^2/40)</code></pre>
-<pre><code>## [1] 1.722</code></pre>
+<pre><code>## [1] 1.722336</code></pre>
 <p>So <span class="math">\(\bar{x}_1-\bar{x}_2\)</span> is approximately <span class="math">\[norm(5.03,1.72).\]</span></p>
 <p>Now we can get the desired probability:</p>
 <pre class="r"><code>pnormGC(c(4,6),region=&quot;between&quot;
         ,mean=5.03,sd=1.72)</code></pre>
-<pre><code>## [1] 0.439</code></pre>
+<pre><code>## [1] 0.4389664</code></pre>
 <p>So there is about a 43.9% chance that <span class="math">\(\bar{x}_1-\bar{x}_2\)</span> will turn out to be between 4 and 6 inches. That is, there is about a 43.9% chance that the sample guys will be, on average, between 4 and 6 inches taller than the gals, on average.</p>
 <blockquote>
 <p><strong>Example (3):</strong> A certain roughly normal population has a mean height of 65 inches, with a standard deviation of 3 inches.</p>
@@ -744,7 +744,7 @@ SD(\bar{x})=3/\sqrt{16}=0.75.\]</span></p>
 <p>So we are really asking for: <span class="math">\(P(688 \le X \le 752).\)</span> We can get this with R:</p>
 <pre class="r"><code>pbinomGC(c(688,752),region=&quot;between&quot;,
          size=1600,prob=0.45)</code></pre>
-<pre><code>## [1] 0.8976</code></pre>
+<pre><code>## [1] 0.8976011</code></pre>
 <p>So there is about an 89.7% chance that the sample proportion <span class="math">\(\hat{p}\)</span> will be between 0.43 and 0.47.</p>
 <p><strong>Solution 2:</strong> This time we will use the normal approximation for <span class="math">\(\hat{p}\)</span>. It is certainly safe to do so, because for us:</p>
 <ul>
@@ -753,18 +753,18 @@ SD(\bar{x})=3/\sqrt{16}=0.75.\]</span></p>
 </ul>
 <p>Now the EV for <span class="math">\(\hat{p}\)</span> is <span class="math">\(p\)</span>, which is 0.45. As for the SD of <span class="math">\(\hat{p}\)</span>, it is:</p>
 <pre class="r"><code>sqrt(0.45*(1-0.45)/1600)</code></pre>
-<pre><code>## [1] 0.01244</code></pre>
+<pre><code>## [1] 0.01243734</code></pre>
 <p>By the normal approximation, the answer we seek is:</p>
 <pre class="r"><code>pnormGC(c(0.43,0.47),region=&quot;between&quot;,
         mean=0.45,sd=0.01243)</code></pre>
-<pre><code>## [1] 0.8924</code></pre>
+<pre><code>## [1] 0.8923859</code></pre>
 <blockquote>
 <p><strong>Example (5):</strong> 50% of all OSU students favor stricter gun laws, and 40% of all UK students favor stricter gun laws. A statistician plans to take a SRS of 400 OSU students and an independent SRS of 900 UK students, and to ask the sample students if they favor stricter gun laws. Fill in the blanks, and explain: there is about a 95% chance that the difference in sample proportions (OSU minus UK) will be between _____ and _____.</p>
 </blockquote>
 <p><strong>Solution:</strong> First we find the EV and the SD of <span class="math">\(\hat{p}_1-\hat{p}_2\)</span>. The EV is just</p>
 <p><span class="math">\[p_1-p_2=0.50-0.40=0.10,\]</span> and the SD is:</p>
 <pre class="r"><code>sqrt(0.50*(1-0.50)/400+0.40*(1-0.40)/900)</code></pre>
-<pre><code>## [1] 0.02986</code></pre>
+<pre><code>## [1] 0.02986079</code></pre>
 <p>Next, we note that the distribution of <span class="math">\(\hat{p}_1-\hat{p}_2\)</span> is approximately normal. This is because:</p>
 <ul>
 <li><span class="math">\(n_1p_1 = (400)(0.50) = 200 \ge 10;\)</span></li>
@@ -783,7 +783,7 @@ SD(\bar{x})=3/\sqrt{16}=0.75.\]</span></p>
 <li>The blank for the upper bound is:</li>
 </ul>
 <pre class="r"><code>0.10+2*0.02986</code></pre>
-<pre><code>## [1] 0.1597</code></pre>
+<pre><code>## [1] 0.15972</code></pre>
 <p>or about 15.97%.</p>
 </div>
 <div id="inference-with-estimators" class="section level1">
@@ -828,8 +828,8 @@ SD(\bar{x})=3/\sqrt{16}=0.75.\]</span></p>
 </blockquote>
 <p>We therefore want <span class="math">\(\bar{x}\)</span> and <span class="math">\(SE(\bar{x})\)</span>. For <span class="math">\(SE(\bar{x})\)</span>, we will need the SD of the sample, and we will need <span class="math">\(n\)</span>, the sample size. So we really need three things, and we can get them quickly with <strong>favstats</strong>:</p>
 <pre class="r"><code>favstats(~height,data=m111survey)[6:8]</code></pre>
-<pre><code>##   mean    sd  n
-##  67.99 5.296 71</code></pre>
+<pre><code>##      mean       sd  n
+##  67.98662 5.296414 71</code></pre>
 <p>So:</p>
 <ul>
 <li><span class="math">\(\bar{x} = 67.987\)</span>,</li>
@@ -838,7 +838,7 @@ SD(\bar{x})=3/\sqrt{16}=0.75.\]</span></p>
 </ul>
 <p>Now we can get <span class="math">\(SE(\bar{x})\)</span> by applying the formula:</p>
 <pre class="r"><code>5.296/sqrt(71)</code></pre>
-<pre><code>## [1] 0.6285</code></pre>
+<pre><code>## [1] 0.6285196</code></pre>
 <p>At last, we can answer the question that was originally asked: <em>The mean height of all GC students is about 67.99 inches, give or take 0.63 inches or so.</em></p>
 <blockquote>
 <p><strong>Example (2)</strong>: In a random sample of 2500 adults in the year 1995, 70% said they favored the death penalty. An independent random sample of 1600 adults in the year 2013 had 55% percent of them favoring the death penalty. Fill in the blanks, and explain: The difference in the proportions of adults who favor the death penalty (Year 1995 minus Year 2013) is about _______, give or take _______ or so.</p>
@@ -849,18 +849,18 @@ SD(\bar{x})=3/\sqrt{16}=0.75.\]</span></p>
 <pre><code>## [1] 0.15</code></pre>
 <p>That’s 15%. Now for the SE of <span class="math">\(\hat{p}_1-\hat{p}_2\)</span>:</p>
 <pre class="r"><code>sqrt(0.70*(1-0.70)/2500)+0.55*(1-0.55)/1600</code></pre>
-<pre><code>## [1] 0.00932</code></pre>
+<pre><code>## [1] 0.009319839</code></pre>
 <p>This is about 0.93%.</p>
 <p>Now we can fill in the blanks: <em>The difference in the percentage of adults who favor the death penalty (Year 1995 minus Year 2013) is about 15%, give or 0.93% or so.</em></p>
 </div>
-<div id="the-reverse-68-95-rule" class="section level2">
-<h2>The Reverse 68-95 Rule</h2>
+<div id="the-68-95-rule-for-estimation" class="section level2">
+<h2>The 68-95 Rule for Estimation</h2>
 <p>Say that you are about to flip a fair coin. You don’t know how it will land, but you do know that there is a 50% chance that it will land Heads. Next, imagine that a friend has flipped a coin, and he is hiding it in his fist. You don’t know whether it’s Heads or Tails, but you feel 50% <em>confident</em> that it is Heads. Why? Because <em>before</em> it was flipped there was a 50% chance that it would land heads.</p>
 <p>This idea about confidence carries over to more complicated random processes, including processes involving the random collection of data.</p>
 <p>For example, say that you are about to take a large simple random sample from a population. Statistical theory, together with the 68-95 Rule, says that there is about a 68% chance that the sample mean <span class="math">\(\bar{x}\)</span> will land within one SE of the mean <span class="math">\(\mu\)</span> of the population. Therefore, if you have already taken a sample, you are justified in feeling 68% <em>confident</em> that <span class="math">\(\bar{x}\)</span> <em>actually did</em> land within one SE of <span class="math">\(\mu\)</span>. Another way of saying the same thing is that you feel 68% confident that <span class="math">\(\mu\)</span> lies within one SE of the <span class="math">\(\bar{x}\)</span> that you got.</p>
 <p>We encapsulate this idea in the</p>
 <blockquote>
-<p><strong>Reverse 68-95 Rule</strong>: If an estimator for a population parameter has a roughly bell-shaped probability distribution, then:</p>
+<p><strong>68-95 Rule for Estimation</strong>: If an estimator for a population parameter has a roughly bell-shaped probability distribution, then:</p>
 </blockquote>
 <blockquote>
 <ul>
@@ -885,7 +885,35 @@ SD(\bar{x})=3/\sqrt{16}=0.75.\]</span></p>
 <p><span class="math">\[3/\sqrt{36} = 3/6 = 0.5\]</span></p>
 <p>inches. So, two SEs is 1 inch.</p>
 <p>Hence you can feel 95% confident that <span class="math">\(\mu\)</span>, the mean height of all people in the population, is within 1 inch of 68, that is, between 67 and 69 inches.</p>
-<p>People say that the interval of real numbers from 67 to 69 inches is a <em>95%-confidence interval for <span class="math">\(\mu\)</span>.</em> We will explore the idea of confidence intervals in much more detail in upcoming chapters.</p>
+<p>People say that the interval of real numbers from 67 to 69 inches is a <em>95%-confidence interval for <span class="math">\(\mu\)</span>.</em> Formulas for the confidence intervals we have produced using the 68-95 Rule for Estimation are often written out as follows:</p>
+<ul>
+<li>The “68” part of the Rule gives us the following approximately 68%-confidence interval for <span class="math">\(\mu\)</span>:</li>
+</ul>
+<p><span class="math">\[\bar{x} \pm 1 \times SE(\bar{x}).\]</span></p>
+<ul>
+<li>The “95” part of the Rule gives us the following approximately 95%-confidence interval for <span class="math">\(\mu\)</span>:</li>
+</ul>
+<p><span class="math">\[\bar{x} \pm 2 \times SE(\bar{x}).\]</span></p>
+<ul>
+<li>The “99.7” part of the Rule gives us the following approximately 99.7%-confidence interval for <span class="math">\(\mu\)</span>:</li>
+</ul>
+<p><span class="math">\[\bar{x} \pm 3 \times SE(\bar{x}).\]</span></p>
+<p>In each of the above formulas, the sample mean <span class="math">\(\bar{x}\)</span> — the estimator for <span class="math">\(\mu\)</span> — is smack in the middle of the confidence interval. The quantity after the <span class="math">\(\pm\)</span>-sign — the number you subtract to make the lower bound of the interval and add to make the upper bound — is called the <em>margin of error.</em> As you can see the margin of error is the product of two further numbers:</p>
+<ul>
+<li>the standard error <span class="math">\(SE(\bar{x})\)</span>, and</li>
+<li>a number — 1,2 or 3 — that determines your level of confidence that <span class="math">\(\mu\)</span> actually lies inside the interval that you are forming. This number is called a <em>multiplier.</em></li>
+</ul>
+<p>The sample estimate determines the center and the margin of error determines the width of the confidence interval. Since the margin of error is determined by the multiplier and the standard error, we can see the role that sample size and confidence level play in the width of the confidence interval:</p>
+<ul>
+<li><p>The larger the sample size, <span class="math">\(n\)</span>, the smaller the SE. So, <em>larger sample sizes produce more narrower confidence intervals</em>.</p></li>
+<li><p>The higher level of confidence we have that an interval contains the true parameter value, the bigger the multiplier will have to be. So, <em>higher confidence levels produce wider confidence intervals</em>.</p></li>
+</ul>
+<p>The confidence intervals formed by the 68-95 Rule for Estimation are somewhat “rough”, in the sense that they have only approximately the level of confidence that they advertise. This is due to two approximations:</p>
+<ul>
+<li>the 1,2 and 3 numbers give only roughly the areas under the normal curve that they claim. (For example, the area under the standard normal curve between -2 and 2 is a bit more than 0.95. If you want to capture 95% of the area, you should really look between -1.96 and 1.96.)</li>
+<li>we replaced <span class="math">\(SD(\bar{x})\)</span> — which a working statistician would likely not know – with the approximation <span class="math">\(SE(\bar{x})\)</span> that she could actually compute from her sample.</li>
+</ul>
+<p>We will explore the idea of confidence intervals in more depth in the next Chapter: in particular, we will look for ways to make them less “rough.”</p>
 </div>
 </div>
 <div id="summary-of-formulas" class="section level1">
@@ -956,7 +984,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

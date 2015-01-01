@@ -252,13 +252,13 @@ mycards</code></pre>
 ## [49] &quot;Black&quot; &quot;Black&quot; &quot;Black&quot; &quot;Black&quot;</code></pre>
 <p>Let’s again start by shuffling the deck.</p>
 <pre class="r"><code>shuffle(mycards)</code></pre>
-<pre><code>##  [1] &quot;Black&quot; &quot;Black&quot; &quot;Black&quot; &quot;Red&quot;   &quot;Red&quot;   &quot;Red&quot;   &quot;Red&quot;   &quot;Red&quot;  
-##  [9] &quot;Black&quot; &quot;Red&quot;   &quot;Red&quot;   &quot;Black&quot; &quot;Red&quot;   &quot;Black&quot; &quot;Red&quot;   &quot;Red&quot;  
-## [17] &quot;Red&quot;   &quot;Black&quot; &quot;Black&quot; &quot;Red&quot;   &quot;Black&quot; &quot;Black&quot; &quot;Red&quot;   &quot;Black&quot;
-## [25] &quot;Black&quot; &quot;Red&quot;   &quot;Black&quot; &quot;Black&quot; &quot;Black&quot; &quot;Red&quot;   &quot;Black&quot; &quot;Red&quot;  
-## [33] &quot;Red&quot;   &quot;Black&quot; &quot;Black&quot; &quot;Red&quot;   &quot;Black&quot; &quot;Red&quot;   &quot;Red&quot;   &quot;Black&quot;
-## [41] &quot;Black&quot; &quot;Black&quot; &quot;Black&quot; &quot;Red&quot;   &quot;Black&quot; &quot;Black&quot; &quot;Red&quot;   &quot;Red&quot;  
-## [49] &quot;Black&quot; &quot;Red&quot;   &quot;Red&quot;   &quot;Red&quot;</code></pre>
+<pre><code>##  [1] &quot;Red&quot;   &quot;Black&quot; &quot;Black&quot; &quot;Black&quot; &quot;Black&quot; &quot;Black&quot; &quot;Red&quot;   &quot;Red&quot;  
+##  [9] &quot;Black&quot; &quot;Red&quot;   &quot;Black&quot; &quot;Black&quot; &quot;Black&quot; &quot;Red&quot;   &quot;Red&quot;   &quot;Black&quot;
+## [17] &quot;Red&quot;   &quot;Black&quot; &quot;Red&quot;   &quot;Black&quot; &quot;Red&quot;   &quot;Black&quot; &quot;Black&quot; &quot;Red&quot;  
+## [25] &quot;Black&quot; &quot;Black&quot; &quot;Black&quot; &quot;Red&quot;   &quot;Red&quot;   &quot;Red&quot;   &quot;Black&quot; &quot;Red&quot;  
+## [33] &quot;Black&quot; &quot;Red&quot;   &quot;Red&quot;   &quot;Black&quot; &quot;Red&quot;   &quot;Black&quot; &quot;Black&quot; &quot;Red&quot;  
+## [41] &quot;Red&quot;   &quot;Red&quot;   &quot;Black&quot; &quot;Red&quot;   &quot;Red&quot;   &quot;Red&quot;   &quot;Black&quot; &quot;Red&quot;  
+## [49] &quot;Red&quot;   &quot;Red&quot;   &quot;Black&quot; &quot;Black&quot;</code></pre>
 <p>We will randomly deal 10 cards from this new deck using the <code>sample</code> function. The <code>sample</code> function takes three arguments. You need to tell is where to sample from, how many to sample, and whether or not to sample with replacement.</p>
 <pre class="r"><code>sample(mycards, size=10, replace=TRUE)</code></pre>
 <pre><code>##  [1] &quot;Black&quot; &quot;Red&quot;   &quot;Red&quot;   &quot;Red&quot;   &quot;Black&quot; &quot;Black&quot; &quot;Red&quot;   &quot;Red&quot;  
@@ -276,62 +276,65 @@ mycards</code></pre>
 <pre class="r"><code>do(3)*table(sample(mycards, size=10, replace=TRUE))</code></pre>
 <pre><code>## Loading required package: parallel</code></pre>
 <pre><code>##   Black Red
-## 1     4   6
-## 2     7   3
-## 3     4   6</code></pre>
-<p>The first row of this table represents the first game in which 4 black cards were drawn and 6 red cards were drawn. The second row of this table represents the second game in which 7 black cards were drawn and 3 red cards were drawn. The third row of this table represents the third game in which 4 black cards were drawn and 6 red cards were drawn. If you wanted to simulate more games, you could change the 3 in the line of code above. For example, suppose you wanted to simulate 20 games. You would simply type:</p>
+## 1     2   8
+## 2     5   5
+## 3     6   4</code></pre>
+<p>The first row of this table represents the first game in which 2 black cards were drawn and 8 red cards were drawn. The second row of this table represents the second game in which 5 black cards were drawn and 5 red cards were drawn. The third row of this table represents the third game in which 6 black cards were drawn and 4 red cards were drawn. If you wanted to simulate more games, you could change the 3 in the line of code above. For example, suppose you wanted to simulate 20 games. You would simply type:</p>
 <pre class="r"><code>do(20)*table(sample(mycards, size=10, replace=TRUE))</code></pre>
 <p>Let’s look at this another way by creating a table that keeps track of how many of our games result in a certain number of red cards drawn.</p>
 <pre><code>## Red
 ##  0  1  2  3  4  5  6  7  8  9 10 
-##  0  0  0  1  0  0  2  0  0  0  0</code></pre>
-<p>The first row of this table represents the number of red cards drawn. The second row gives the number of games (out of the three that we played) that resulted in drawing that many red cards. We had one game where 6 red cards were drawn, one game where 3 red cards were drawn, and one game where 6 red cards were drawn.</p>
+##  0  0  0  0  1  1  0  0  1  0  0</code></pre>
+<p>The first row of this table represents the number of red cards drawn. The second row gives the number of games (out of the three that we played) that resulted in drawing that many red cards. We had one game where 8 red cards were drawn, one game where 5 red cards were drawn, and one game where 4 red cards were drawn.</p>
 <p>We could get an even better idea of what’s going on if we could simulate the game many times, say 1000 times! We will create the same type of table we just did to keep track of these games.</p>
 <pre><code>## Red
 ##   0   1   2   3   4   5   6   7   8   9  10 
-##   0  11  44 130 209 256 173 118  50   8   1</code></pre>
+##   0  10  39 113 206 245 206 112  63   5   1</code></pre>
 <p>At this point, it’s starting to seem that drawing a high number of red cards doesn’t happen very often. It seems unlikely, but it sure would be nice to have an idea of just how unlikely it is.</p>
 <p>Perhaps having this table in terms of percents is more useful:</p>
-<pre><code>##      0     1     2     3     4     5     6     7     8     9    10 Total
-##    0.0   1.1   4.4  13.0  20.9  25.6  17.3  11.8   5.0   0.8   0.1 100.0</code></pre>
+<pre><code>##    
+## Red 0 1   2    3    4    5    6    7   8   9  10 Total
+##     0 1 3.9 11.3 20.6 24.5 20.6 11.2 6.3 0.5 0.1   100</code></pre>
 <p>Consider the following questions based on our simulation:</p>
 <p>If we draw 10 cards from a standard deck,</p>
 <ul>
 <li>What is the estimated <em>chance</em> of drawing 5 red cards?</li>
 </ul>
-<p>Answer: There is a 25.6% chance of drawing 5 red cards.</p>
+<p>Answer: There is a 24.5% chance of drawing 5 red cards.</p>
 <ul>
 <li>What is the estimated <em>probability</em> of drawing 1 red card?</li>
 </ul>
-<p>Answer: There is a 1.1% probability of drawing 1 red card.</p>
+<p>Answer: There is a 1% probability of drawing 1 red card.</p>
 <ul>
 <li>How <em>likely</em> is it that our volunteer drew their original hand, based on our simulations?</li>
 </ul>
-<p>Answer: Assuming that our volunteer drew 9 red cards, the likelihood that our volunteer drew their original hand (based on our simulations) is 0.8%.</p>
+<p>Answer: Assuming that our volunteer drew 9 red cards, the likelihood that our volunteer drew their original hand (based on our simulations) is 0.5%.</p>
 <p><strong>Based on this likelihood, does it seem reasonable to believe that the deck we used in class was a standard deck?</strong></p>
 <p>Let’s check out how RStudio can help us to visualize the data from our 1000 simulated games graphically, in the form of a histogram. We will be learning more about histograms in Chapter 2.</p>
 <p>Here is the table again followed by the graphical representation (histogram). See Figure[Histogram].</p>
-<pre><code>##      0     1     2     3     4     5     6     7     8     9    10 Total
-##    0.0   1.1   4.4  13.0  20.9  25.6  17.3  11.8   5.0   0.8   0.1 100.0</code></pre>
-<pre><code>## Warning: argument is not numeric or logical: returning NA</code></pre>
+<pre><code>##    
+## Red 0 1   2    3    4    5    6    7   8   9  10 Total
+##     0 1 3.9 11.3 20.6 24.5 20.6 11.2 6.3 0.5 0.1   100</code></pre>
+<pre><code>## Warning in mean.default(evalF$right[, 1], ...): argument is not numeric or
+## logical: returning NA</code></pre>
 <div class="figure">
-<img src="ch1_files/figure-html/cardshist.png" alt="Histogram: Graphical representation of the table of counts for the 1000 simulated games." /><p class="caption">Histogram: Graphical representation of the table of counts for the 1000 simulated games.</p>
+<img src="ch1_files/figure-html/cardshist-1.png" alt="Histogram: Graphical representation of the table of counts for the 1000 simulated games." /><p class="caption">Histogram: Graphical representation of the table of counts for the 1000 simulated games.</p>
 </div>
 <p>The horizontal axis gives us the number of red cards drawn in a hand of 10 cards from a standard deck. The vertical axis gives us the percent of times (out of the 1000 simulated games) that a particular number of red cards was drawn.</p>
 <p>Notice that the width of each bar in the histogram is 1 and the height of each bar is equal to the percent of the 1000 games that resulted in that number of red cards.</p>
 <p>We can color the bar in the histogram to mark how many red cards our volunteer drew in the class game. See Figure[Class Probablity].</p>
 <div class="figure">
-<img src="ch1_files/figure-html/classprobhist.png" alt="Class Probability: The shaded rectangle in the histogram represents the probability that the volunteer would draw 9 cards if they were drawing from a standard deck of playing cards." /><p class="caption">Class Probability: The shaded rectangle in the histogram represents the probability that the volunteer would draw 9 cards if they were drawing from a standard deck of playing cards.</p>
+<img src="ch1_files/figure-html/classprobhist-1.png" alt="Class Probability: The shaded rectangle in the histogram represents the probability that the volunteer would draw 9 cards if they were drawing from a standard deck of playing cards." /><p class="caption">Class Probability: The shaded rectangle in the histogram represents the probability that the volunteer would draw 9 cards if they were drawing from a standard deck of playing cards.</p>
 </div>
 <p>This colored part of the histogram represents the estimated <em>chance</em> of drawing our particular draw from a standard deck.</p>
 <p>We can think about how <em>likely</em> it is that our class game resulted in such a high number of red cards (or higher). This <em>likelihood</em> is called a <strong>p-value</strong>. We can compute the p-value numerically and view it graphically on the histogram.</p>
 <p>Numerically, the p-value is:</p>
 <pre><code>##     9 
-## 0.009</code></pre>
+## 0.006</code></pre>
 <p>The p-value is the estimated <em>probability</em> of drawing as many red cards or more (out of 10) as our volunteer drew if we are drawing from a standard deck of playing cards.</p>
 <p>Graphically, the P-value is the total area in the histogram that lies to the right of the vertical line in the graph. See Figure[P-Value].</p>
 <div class="figure">
-<img src="ch1_files/figure-html/pvaluehist.png" alt="P-Value: The area of the histogram that lies to the right of the vertical line is the p-value." /><p class="caption">P-Value: The area of the histogram that lies to the right of the vertical line is the p-value.</p>
+<img src="ch1_files/figure-html/pvaluehist-1.png" alt="P-Value: The area of the histogram that lies to the right of the vertical line is the p-value." /><p class="caption">P-Value: The area of the histogram that lies to the right of the vertical line is the p-value.</p>
 </div>
 </div>
 <div id="the-conclusion" class="section level2">
@@ -345,7 +348,7 @@ mycards</code></pre>
 <li><p>We calculated a P-value, the probability of getting results as extreme as ours (or more so!) from a standard deck.</p></li>
 <li><p>Finally, we need to draw a conclusion.</p></li>
 </ol>
-<p>Conclusion: If we assume that our volunteer drew 10 cards from a standard deck of cards, there is about a 0.009 (0.9 %) chance of drawing 9 red cards. Since the probability of drawing 9 (or more) red cards is so small, this should cause you to question whether the volunteer was really drawing from a standard deck.</p>
+<p>Conclusion: If we assume that our volunteer drew 10 cards from a standard deck of cards, there is about a 0.006 (0.6 %) chance of drawing 9 red cards. Since the probability of drawing 9 (or more) red cards is so small, this should cause you to question whether the volunteer was really drawing from a standard deck.</p>
 </div>
 </div>
 <div id="statistics" class="section level1">
@@ -402,7 +405,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
