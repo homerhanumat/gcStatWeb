@@ -92,7 +92,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <h1>Studying One Numerical Variable</h1>
 <p>“favstats” is short for “favorite statistics”: it will give you the some of the most popular summary statistics for numerical variables.</p>
 <p>Suppose, for example, that you want to know how fast people in the <code>m111survey</code> sample tend to drive, when they drive their fastest. The you want to study the numerical variable <strong>fastest</strong>: the fastest speed each person claims to have ever driven, measured in miles per hour. Just try <code>favstats()</code> with the usual formula-data input:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">favstats</span>(~fastest,<span class="dt">data=</span>m111survey)</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">favstats</span>(~fastest, <span class="dt">data =</span> m111survey)</code></pre>
 <pre><code>##  min   Q1 median    Q3 max     mean      sd  n missing
 ##   60 90.5    102 119.5 190 105.9014 20.8773 71       0</code></pre>
 <p>Remember what each of the statistics tells you:</p>
@@ -118,8 +118,8 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <p>In formula-data input for <code>favstats()</code> the formula always follows the format:</p>
 <p><span class="math">\[numerical \sim factor.\]</span></p>
 <p>So we run the following command:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">favstats</span>(fastest~sex,<span class="dt">data=</span>m111survey)</code></pre>
-<pre><code>##   .group min Q1 median    Q3 max     mean       sd  n missing
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">favstats</span>(fastest~sex, <span class="dt">data =</span> m111survey)</code></pre>
+<pre><code>##      sex min Q1 median    Q3 max     mean       sd  n missing
 ## 1 female  60 90     95 110.0 145 100.0500 17.60966 40       0
 ## 2   male  85 99    110 122.5 190 113.4516 22.56818 31       0</code></pre>
 <p>The first row of the output gives a summary of the conditional distribution of <strong>fastest</strong>, given that <strong>sex</strong> is female.</p>
@@ -129,21 +129,25 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <div id="limiting-the-output" class="section level1">
 <h1>Limiting the Output</h1>
 <p>Sometimes you want just a few of the numbers from <code>favstats()</code>. If you would like to display only those numbers you can do so using brackets “[&quot; and “]”, along with a list of the names of the columns you want to see. For example, to display only the means and the standard deviations for <strong>fastest</strong>, ask for:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">favstats</span>(fastest,<span class="dt">data=</span>m111survey)[<span class="kw">c</span>(<span class="st">&quot;mean&quot;</span>,<span class="st">&quot;sd&quot;</span>)]</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">favstats</span>(~fastest, <span class="dt">data=</span>m111survey)[<span class="kw">c</span>(<span class="st">&quot;mean&quot;</span>,<span class="st">&quot;sd&quot;</span>)]</code></pre>
 <pre><code>##      mean      sd
 ##  105.9014 20.8773</code></pre>
 <p>The brackets are R’s way of locating particular parts of an object. If you want to display more than one column, make sure to combine their names (in quotes) in a list with the <code>c()</code> function, as shown above.</p>
-<p>When you are breaking a numerical variable into groups, you will probably also want to see the group names: this requires the addition of the column named <code>.group</code>. Therefore, to see just the mean and the standard deviation for <strong>fastest</strong> broken down by <strong>sex</strong>, ask for:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">favstats</span>(fastest~sex,<span class="dt">data=</span>m111survey)[<span class="kw">c</span>(<span class="st">&quot;.group&quot;</span>,<span class="st">&quot;mean&quot;</span>,<span class="st">&quot;sd&quot;</span>)]</code></pre>
-<pre><code>##   .group     mean       sd
+<p>When you are breaking a numerical variable into groups, you will probably also want to see the group names: this requires the addition of the column named for the factor variable in question. Therefore, to see just the mean and the standard deviation for <strong>fastest</strong> broken down by <strong>sex</strong>, ask for:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">favstats</span>(fastest~sex, <span class="dt">data =</span> m111survey)[<span class="kw">c</span>(<span class="st">&quot;sex&quot;</span>,<span class="st">&quot;mean&quot;</span>,<span class="st">&quot;sd&quot;</span>)]</code></pre>
+<pre><code>##      sex     mean       sd
 ## 1 female 100.0500 17.60966
 ## 2   male 113.4516 22.56818</code></pre>
 </div>
 <div id="warning" class="section level1">
 <h1>Warning</h1>
-<p><code>favstats()</code> specializes in numerical variables: it won’t help you to study a factor variable by itself. If you try to use it to study the factor variable <strong>sex</strong>, like this:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">favstats</span>(~sex,<span class="dt">data=</span>m111survey)</code></pre>
-<p>then you will get an error!</p>
+<p><code>favstats()</code> specializes in numerical variables: it does not like being used to study a factor variable by itself. Look what happens if you try to use it to study the factor variable <strong>sex</strong>:</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">favstats</span>(~sex, <span class="dt">data =</span> m111survey)</code></pre>
+<pre><code>## Warning in (function (x, ..., na.rm = TRUE) : Auto-converting factor to
+## numeric.</code></pre>
+<pre><code>##  min Q1 median Q3 max    mean        sd  n missing
+##    1  1      1  2   2 1.43662 0.4994967 71       0</code></pre>
+<p><code>favstats()</code> converted the factor variable to a numeric variable and tried to give you some useful information based on that conversion, but elements of the output (especially the mean and the standard deviation) are meaningless in the context of factor variables. In order to study a factor variable you really should look instead at functions like <code>xtabs()</code>.</p>
 </div>
 
 
