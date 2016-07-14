@@ -3,4 +3,6 @@ MyProject.komodoproject
 gcStatWeb.komodoproject
 .Rproj.user
 css/.Rhistory
+.RData
+.Rhistory
 
