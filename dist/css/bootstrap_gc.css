@@ -1,0 +1,44 @@
+/*!
+ * Bootstrap v3.0.3 (http://getbootstrap.com)
+ * Copyright 2013 Twitter, Inc.
+ * Licensed under http://www.apache.org/licenses/LICENSE-2.0
+ */
+
+
+
+.navbar {
+   background-color: #ff9c00 ! important;
+}
+
+.jumbotron {
+  background: #8b88ff ! important;
+}
+
+.dropdown-header {
+  color:  black ! important;
+}
+
+.btn-primary, .btn-default, .btn-gc {
+background: #ff9c00;
+background-image: none;
+margin-bottom: 1px;
+border: 2px black;
+color: black ! important;
+letter-spacing: 1px;
+font-weight: 600;
+text-decoration: none ! important;
+text-shadow: none;
+transition: all 0.3s ease-in-out 0s;  
+-webkit-transition: all 0.3s ease-in-out 0s;  
+}
+.btn-gc:hover, .btn-primary:hover, .btn-default:hover {
+background: black ! important;
+color: #ff9c00 ! important;
+border: 2px #ff9c00;
+}
+
+/* for the main icon, to invite reader to click */
+
+#EmpRuleIcon:hover {
+   cursor:  pointer;
+}

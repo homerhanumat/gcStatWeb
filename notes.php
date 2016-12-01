@@ -17,12 +17,8 @@
                     <p class="pull-right visible-xs">
                         <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
                     </p>
-                    <div class="jumbotron">
-                        <img id="EmpRuleIcon" src="images/EmpRuleBetween68.png" style="float:  right; width: 35%;"
-                            onclick="changeImage();"/>
-                        <h1> GC Statistics</h1>
-                        <p>Course Notes in HTML Form</p>
-                    </div>
+                    
+					<?php include("includes/jumbotron.html"); ?>
           
 
                     <?php include("includes/notes_content.html"); ?>

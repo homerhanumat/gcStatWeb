@@ -50,3 +50,24 @@ footer {
   }
 }
 
+h1.maintitle,
+p.subtitle {
+	text-align: center;
+}
+
+#EmpRuleIcon {
+	width: 100%;
+}
+
+@media (max-width: 1200px) {
+	#EmpRuleIcon {
+		display: block;
+		margin-left:  auto;
+		margin-right: auto;
+		height: auto; 
+		width: auto; 
+		max-width: 200px; 
+		max-height: 200px;
+	}
+}
+
